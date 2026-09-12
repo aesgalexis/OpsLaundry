@@ -35,10 +35,14 @@ Primer bloque completado el 2026-09-11:
   configuración pública desde secretos del repositorio;
 - revisión visual realizada en portada, contacto y maquinaria de ocasión.
 
-Pendiente antes de considerar publicable este bloque:
+Verificaciones posteriores a la primera publicación:
 
-- realizar una última revisión funcional con datos reales;
-- publicar mediante el flujo habitual del propietario.
+- comprobar entregas reales de los formularios y el acceso administrativo con
+  una sesión del propietario;
+- observar tokens válidos de App Check en tráfico publicado antes de activar
+  enforcement;
+- retirar Laundry Services de Unátomo solo después de esas comprobaciones,
+  en una tarea separada.
 
 Actualización 2026-09-12: la maquinaria de ocasión se ha migrado de forma
 selectiva. Se copiaron 37 anuncios que cumplen el contrato del listado público,
@@ -51,6 +55,12 @@ registrado con clave restringida a `opslaundry.com`, sin enforcement hasta
 comprobar el cliente publicado. El remitente y los destinos de correo
 operativos de Unátomo se mantienen temporalmente por decisión del propietario;
 el encabezado HTML de los correos incluye ambos logotipos.
+
+El 2026-09-12 se publicó el sitio mediante `npm run site:publish`; el workflow
+de GitHub Pages compiló y desplegó las 148 fichas, y se activó HTTPS obligatorio
+con certificado aprobado. Las Functions `submitLaundrySpareRequest` y
+`notifyLaundryMachineSubmission` se actualizaron con el encabezado de correo de
+ambas marcas. No se ha limpiado ni alterado ningún dato de Unátomo.
 
 La configuración web del proyecto `opslaundry-2907b` ya está incorporada de
 forma local en `.env.local`, que permanece ignorado por Git. El correo público
@@ -66,8 +76,8 @@ del repositorio para el workflow de GitHub Pages. El catálogo público v7 está
 publicado con 12 fabricantes y 180 grupos de modelos; el formulario localizado
 de recambios carga sus opciones y encadena marca, tipo y modelo correctamente.
 
-Hasta completar esos puntos no se ha ejecutado `npm run site:publish`, ni se ha
-publicado o limpiado ningún recurso de Unátomo.
+El primer corte público está hecho. La limpieza del origen sigue aplazada hasta
+verificar los recorridos con entregas reales y sesión administrativa.
 
 ## Principios acordados
 

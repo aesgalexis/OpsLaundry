@@ -98,6 +98,8 @@ assert.throws(
 const internal = renderLaundrySpareEmail({...baseRequest, language: "es"});
 assert.doesNotMatch(internal.html, /Medida <script>/);
 assert.match(internal.html, /Medida &lt;script&gt;/);
+assert.match(internal.html, /logo-unatomo-round-v1\.0\.png/);
+assert.match(internal.html, /opslaundry-wordmark-email\.png/);
 
 const testDeliveryWorkflow = async () => {
   const successfulCalls = [];

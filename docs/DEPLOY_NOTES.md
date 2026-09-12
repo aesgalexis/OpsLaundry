@@ -38,3 +38,8 @@ On 2026-09-12 the 37 public used-machinery listings, six Laundry counters and
 their 180 referenced images were migrated without altering Unátomo. App Check
 registration is configured, but service and callable enforcement remains off
 until the published client can be checked against live traffic.
+
+The first `site:publish` push and the GitHub Pages build/deploy succeeded on
+2026-09-12. The custom-domain certificate is approved and HTTPS enforcement is
+enabled. The two email-producing Functions were redeployed after the site
+artifact made the OpsLaundry email wordmark available.

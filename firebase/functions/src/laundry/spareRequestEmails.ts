@@ -68,7 +68,8 @@ export const renderLaundrySpareEmail = (request: SpareRequest) => {
     html: "<!doctype html><html><body style=\"margin:0;background:#f1f5f9;" +
       "font-family:Arial,sans-serif\"><div style=\"max-width:760px;" +
       "margin:0 auto;padding:28px\"><div style=\"background:#fff;" +
-      "border-radius:14px;padding:28px\"><p style=\"margin:0 0 6px;" +
+      `border-radius:14px;padding:28px">${renderLaundryEmailBrandHeader()}` +
+      "<p style=\"margin:20px 0 6px;" +
       "color:#64748b\">" +
       `Solicitud ${reference}</p><h1 style="margin:0 0 22px;font-size:24px;` +
       "color:#0f172a\">Nueva solicitud de recambio</h1>" +

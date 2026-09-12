@@ -60,5 +60,7 @@ Deployment status through 2026-09-12:
 Transactional HTML email headers pair the Unátomo circular logo with the
 OpsLaundry text wordmark. Operational sender and destinations remain as agreed
 for the transition.
+The two email-producing Functions were updated in OpsLaundry on 2026-09-12;
+the other four deployed Laundry Functions were unchanged.
 
 No source data has been deleted or altered in Unátomo.
