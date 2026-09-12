@@ -1,0 +1,65 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isLaundryServicesAdmin() {
+      return isSignedIn()
+        && request.auth.token.laundryServicesAdmin == true;
+    }
+
+    match /email_request_limits/{limitId} {
+      allow read, write: if false;
+    }
+
+    match /laundry_machine_submissions/{submissionId} {
+      allow read, write: if false;
+    }
+
+    match /agregador_maquinaria_LS/{machineId} {
+      allow read: if true;
+      allow create, update: if isLaundryServicesAdmin();
+      allow delete: if false;
+    }
+
+    match /maquinaria_counters/{prefix} {
+      allow read, create, update: if isLaundryServicesAdmin();
+      allow delete: if false;
+    }
+
+    match /laundry_public_catalog/{catalogId} {
+      function isValidPublicCatalogDocument() {
+        return request.resource.data.publishedAt is timestamp
+          && request.resource.data.publishedBy == request.auth.uid
+          && (
+            (catalogId == "meta"
+              && request.resource.data.type == "meta"
+              && request.resource.data.version is int
+              && request.resource.data.version > 0
+              && request.resource.data.updatedAt is string
+              && request.resource.data.activeManufacturerIds is list)
+            || (catalogId == "categories"
+              && request.resource.data.type == "categories"
+              && request.resource.data.items is list)
+            || (catalogId != "meta"
+              && catalogId != "categories"
+              && request.resource.data.type == "manufacturer"
+              && request.resource.data.manufacturer is map
+              && request.resource.data.modelGroups is list
+              && request.resource.data.spareParts is list)
+          );
+      }
+
+      allow read: if true;
+      allow create, update: if isLaundryServicesAdmin()
+        && isValidPublicCatalogDocument();
+      allow delete: if false;
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

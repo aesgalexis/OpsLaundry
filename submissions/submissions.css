@@ -1,0 +1,75 @@
+/* Laundry contact-form composition; canonical controls come from ls_styles.css. */
+.submission-page { padding-top: clamp(1.5rem, 4vw, 3rem); }
+.submission-page-title {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.submission-page fieldset { border: 0; padding: 0; margin: 0 0 2rem; min-width: 0; }
+.submission-page legend { font-weight: 600; font-size: 1.1rem; margin-bottom: .5rem; }
+.submission-page .form-field--full { grid-column: 1 / -1; }
+.submission-trap { position: absolute; left: -10000px; }
+#image-preview, .submission-images { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0 0; }
+#image-preview img, .submission-images img { width: 140px; height: 105px; object-fit: cover; border-radius: .75rem; }
+.submission-upload {
+  box-sizing: border-box;
+  min-height: 8rem;
+  border: 1.5px dashed color-mix(in srgb, currentColor 28%, transparent);
+  border-radius: .75rem;
+  background: color-mix(in srgb, currentColor 3%, transparent);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: .3rem;
+  padding: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 160ms ease, background-color 160ms ease, transform 160ms ease;
+}
+.submission-upload:hover,
+.submission-upload:focus-within,
+.submission-upload.is-dragover {
+  border-color: color-mix(in srgb, currentColor 62%, transparent);
+  background: color-mix(in srgb, currentColor 6%, transparent);
+  outline: none;
+}
+.submission-upload.is-dragover { transform: translateY(-1px); }
+.submission-upload.has-files { border-style: solid; }
+.submission-upload-icon {
+  width: 2.1rem;
+  height: 2.1rem;
+  border: 1px solid color-mix(in srgb, currentColor 30%, transparent);
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Arial, sans-serif;
+  font-size: 1.3rem;
+  line-height: 1;
+}
+.submission-upload-title { font-weight: 600; }
+.submission-upload-action,
+.submission-upload-help { font-size: .88rem; opacity: .7; }
+.submission-image-input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.submission-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin: 1rem 0; }
+.submission-item { padding: 1.25rem; margin: 1rem 0; }
+.submission-item summary { cursor: pointer; font-weight: 600; }
+.submission-contact { white-space: pre-wrap; overflow-wrap: anywhere; }
+.submission-page button:disabled { opacity: .55; cursor: wait; }
+.submission-page [hidden] { display: none !important; }
+.submission-page .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.submission-page .ut-form-actions { margin-top: .75rem; }
+@media (max-width: 600px) { .submission-page .form-grid { grid-template-columns: minmax(0, 1fr); } }

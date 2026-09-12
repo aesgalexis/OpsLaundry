@@ -1,0 +1,47 @@
+{
+  "name": "opslaundry",
+  "version": "1.0.0",
+  "description": "Industrial laundry services, used machinery and spare-parts operations.",
+  "scripts": {
+    "test": "npm run check:css && npm run test:laundry && npm run test:functions && npm run lint:links && npm run scan:secrets",
+    "test:laundry": "npm run check:laundry:architecture && npm run check:laundry:locales",
+    "test:functions": "npm.cmd --prefix firebase/functions test",
+    "predev": "node scripts/generate-config.mjs",
+    "predev:static": "node scripts/generate-config.mjs",
+    "prebuild": "node scripts/generate-config.mjs",
+    "dev": "vite",
+    "dev:static": "node scripts/dev-server.mjs",
+    "build": "node scripts/build-static.mjs",
+    "stats:code": "node scripts/generate-code-stats.mjs",
+    "build:with-stats": "npm run stats:code && npm run build",
+    "preview": "vite preview",
+    "site:publish": "node scripts/site-publish.mjs",
+    "lint:links": "node scripts/lint-links.mjs",
+    "scan:secrets": "node scripts/scan-secrets.mjs",
+    "doctor": "node scripts/doctor.mjs",
+    "catalog:laundry:check": "node scripts/sync-laundry-catalog.mjs",
+    "catalog:laundry:sync": "node scripts/sync-laundry-catalog.mjs --apply",
+    "check:css": "node --test scripts/test-css-bundles.mjs",
+    "check:laundry:architecture": "node scripts/check-laundry-architecture.mjs",
+    "check:laundry:locales": "node scripts/check-laundry-locales.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aesgalexis/OpsLaundry.git"
+  },
+  "keywords": ["industrial-laundry", "machinery", "spare-parts", "operations"],
+  "author": "Alexis Santana",
+  "license": "UNLICENSED",
+  "type": "commonjs",
+  "bugs": {"url": "https://github.com/aesgalexis/OpsLaundry/issues"},
+  "homepage": "https://github.com/aesgalexis/OpsLaundry#readme",
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "^5.0.1",
+    "firebase": "^12.17.1",
+    "firebase-tools": "^15.30.0",
+    "postcss": "8.5.26",
+    "vite": "^7.3.1"
+  },
+  "volta": {"node": "22.12.0", "npm": "11.0.0"},
+  "overrides": {"qs": "6.16.0", "gaxios": {"uuid": "11.1.1"}}
+}

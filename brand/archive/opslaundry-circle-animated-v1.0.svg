@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384" role="img" aria-labelledby="title desc">
+  <title id="title">OpsLaundry</title>
+  <desc id="desc">Símbolo circular de OpsLaundry con cuatro estados de agua.</desc>
+  <defs>
+    <linearGradient id="laundry-gradient" x1="40" y1="344" x2="344" y2="40" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#f29500"/>
+      <stop offset=".18" stop-color="#efa500"/>
+      <stop offset=".48" stop-color="#29a1e2"/>
+      <stop offset=".74" stop-color="#22b573"/>
+      <stop offset="1" stop-color="#223e73"/>
+      <animateTransform
+        attributeName="gradientTransform"
+        type="rotate"
+        dur="15s"
+        repeatCount="indefinite"
+        calcMode="spline"
+        values="0 192 192;0 192 192;540 192 192;540 192 192;540 192 192;0 192 192;0 192 192"
+        keyTimes="0;.0666;.2666;.4;.55;.8;1"
+        keySplines=".4 0 .18 1;.4 0 .18 1;.22 .72 .28 1;0 0 1 1;.4 0 .18 1;.22 .72 .28 1"/>
+    </linearGradient>
+    <linearGradient id="water-fill-gradient" x1="33" y1="192" x2="351" y2="192" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#29a1e2"/>
+      <stop offset=".58" stop-color="#0092cc"/>
+      <stop offset="1" stop-color="#22b573"/>
+    </linearGradient>
+    <clipPath id="inside-ring"><circle cx="192" cy="192" r="159"/></clipPath>
+  </defs>
+  <path class="water-fill" d="M34 200c50 0 96 0 154 0s105 0 162 0L350 360H34Z" fill="url(#water-fill-gradient)" fill-opacity=".32" clip-path="url(#inside-ring)">
+    <animate attributeName="d" dur="15s" repeatCount="indefinite" calcMode="linear"
+      values="M34 200c50 0 96 0 154 0s105 0 162 0L350 360H34Z;M34 200c50 0 96 0 154 0s105 0 162 0L350 360H34Z;M34 194c50-38 96 48 154 2s105 33 162-2L350 360H34Z;M34 198c54 42 99-42 156 3s103-44 160-3L350 360H34Z;M34 200c50 0 96 0 154 0s105 0 162 0L350 360H34Z;M34 200c50 0 96 0 154 0s105 0 162 0L350 360H34Z;M34 207c52 31 98-48 154-1s106-35 162-5L350 360H34Z;M34 198c54 42 99-42 156 3s103-44 160-3L350 360H34Z;M34 200c50 0 96 0 154 0s105 0 162 0L350 360H34Z;M34 200c50 0 96 0 154 0s105 0 162 0L350 360H34Z"
+      keyTimes="0;.0666;.13;.20;.2666;.55;.67;.74;.8;1"/>
+  </path>
+  <circle class="ring" cx="192" cy="192" r="172.5" fill="none" stroke="url(#laundry-gradient)" stroke-width="27"/>
+  <path class="water-line" d="M34 200c50 0 96 0 154 0s105 0 162 0" fill="none" stroke="url(#laundry-gradient)" stroke-width="27" stroke-linecap="round" stroke-linejoin="round">
+    <animate attributeName="d" dur="15s" repeatCount="indefinite" calcMode="linear"
+      values="M34 200c50 0 96 0 154 0s105 0 162 0;M34 200c50 0 96 0 154 0s105 0 162 0;M34 194c50-38 96 48 154 2s105 33 162-2;M34 198c54 42 99-42 156 3s103-44 160-3;M34 200c50 0 96 0 154 0s105 0 162 0;M34 200c50 0 96 0 154 0s105 0 162 0;M34 207c52 31 98-48 154-1s106-35 162-5;M34 198c54 42 99-42 156 3s103-44 160-3;M34 200c50 0 96 0 154 0s105 0 162 0;M34 200c50 0 96 0 154 0s105 0 162 0"
+      keyTimes="0;.0666;.13;.20;.2666;.55;.67;.74;.8;1"/>
+  </path>
+</svg>
