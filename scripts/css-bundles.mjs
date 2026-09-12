@@ -5,7 +5,7 @@ import { build, transform } from "esbuild";
 
 // These URLs are stable public entry points. Source manifests own cascade order.
 export const CSS_BUNDLES = Object.freeze([
-  {entry: "ls_styles.css", minify: true},
+  {entry: "styles/site.css", minify: true},
 ]);
 
 function localPath(root, importer, request) {
@@ -85,7 +85,7 @@ export async function assembleCss(root, entry) {
 
 export async function renderCssBundle(root, config) {
   const assembled = await assembleCss(root, config.entry);
-  // Preserve Laundry's existing minifier; all other entries keep source rules.
+  // Preserve the established minified public stylesheet.
   const css = config.minify
     ? (await transform(assembled.css, { loader: "css", minify: true })).code
     : assembled.css;

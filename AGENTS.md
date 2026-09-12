@@ -5,12 +5,12 @@ and Greek wherever the public site supports them.
 
 ## Orientation
 
-- Start broad work with `docs/REPO_MAP.md`.
-- Read `docs/OPSLAUNDRY_ARCHITECTURE.md` before changing routes, machinery,
+- Start broad work with `docs/repository-map.md`.
+- Read `docs/architecture.md` before changing routes, machinery,
   spare-parts requests, submissions or catalogue administration.
-- Read `docs/CSS_ARCHITECTURE.md` before changing shared styles or packaging.
-- Read `docs/DEPLOY_NOTES.md` before publishing or changing the build flow.
-- Read `docs/FIREBASE_MODEL.md` before changing Firebase configuration, data,
+- Read `docs/styles.md` before changing shared styles or packaging.
+- Read `docs/deployment.md` before publishing or changing the build flow.
+- Read `docs/firebase.md` before changing Firebase configuration, data,
   rules, Functions, Storage, App Check or administrator claims.
 
 ## Working rules

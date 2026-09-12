@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Industrial laundry services, used machinery and spare-parts operations.",
   "scripts": {
-    "test": "npm run check:css && npm run test:laundry && npm run test:functions && npm run lint:links && npm run scan:secrets",
-    "test:laundry": "npm run check:laundry:architecture && npm run check:laundry:locales",
+    "test": "npm run check:css && npm run test:site && npm run test:functions && npm run lint:links && npm run scan:secrets",
+    "test:site": "npm run check:architecture && npm run check:locales",
     "test:functions": "npm.cmd --prefix firebase/functions test",
     "predev": "node scripts/generate-config.mjs",
     "predev:static": "node scripts/generate-config.mjs",
@@ -19,11 +19,11 @@
     "lint:links": "node scripts/lint-links.mjs",
     "scan:secrets": "node scripts/scan-secrets.mjs",
     "doctor": "node scripts/doctor.mjs",
-    "catalog:laundry:check": "node scripts/sync-laundry-catalog.mjs",
-    "catalog:laundry:sync": "node scripts/sync-laundry-catalog.mjs --apply",
+    "catalog:check": "node scripts/sync-catalog.mjs",
+    "catalog:sync": "node scripts/sync-catalog.mjs --apply",
     "check:css": "node --test scripts/test-css-bundles.mjs",
-    "check:laundry:architecture": "node scripts/check-laundry-architecture.mjs",
-    "check:laundry:locales": "node scripts/check-laundry-locales.mjs"
+    "check:architecture": "node scripts/check-architecture.mjs",
+    "check:locales": "node scripts/check-locales.mjs"
   },
   "repository": {
     "type": "git",

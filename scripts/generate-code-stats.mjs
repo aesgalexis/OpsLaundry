@@ -2,7 +2,7 @@ import { mkdir, readdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const ROOT = process.cwd();
-const OUTPUT = path.join(ROOT, "static", "data", "code-stats.json");
+const OUTPUT = path.join(ROOT, "site", "static", "data", "code-stats.json");
 
 const IGNORE_DIRS = new Set([
   ".backups",
@@ -16,9 +16,7 @@ const IGNORE_DIRS = new Set([
 
 const IGNORE_FILES = new Set([
   "package-lock.json",
-  path.join("static", "data", "code-stats.json"),
-  path.join("static", "data", "nfc-backup-status.json"),
-  path.join("static", "data", "nfc-backup-status-public.json")
+  "site/static/data/code-stats.json"
 ]);
 
 const CODE_EXTENSIONS = new Set([

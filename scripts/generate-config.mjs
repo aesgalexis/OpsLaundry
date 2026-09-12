@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 
 const ROOT = process.cwd();
-const CONFIG_PATH = path.join(ROOT, "static", "js", "config", "runtime-config.js");
+const CONFIG_PATH = path.join(ROOT, "site", "static", "js", "config", "runtime-config.js");
 const ENV_FILES = [".env.local", ".env"];
 
 const readEnvFile = async (filePath) => {
@@ -32,7 +32,7 @@ for (const file of ENV_FILES) {
 const readExistingConfig = async () => {
   try {
     const content = await readFile(CONFIG_PATH, "utf8");
-    const match = content.match(/window\.__UNATOMO_CONFIG__\s*=\s*(\{[\s\S]*?\})\s*;/);
+    const match = content.match(/window\.__OPSLAUNDRY_CONFIG__\s*=\s*(\{[\s\S]*?\})\s*;/);
     if (!match) return {};
     return JSON.parse(match[1]);
   } catch {
@@ -59,7 +59,7 @@ const config = {
 
 await mkdir(path.dirname(CONFIG_PATH), { recursive: true });
 const payload =
-  "window.__UNATOMO_CONFIG__ = " + JSON.stringify(config, null, 2) + ";\n";
+  "window.__OPSLAUNDRY_CONFIG__ = " + JSON.stringify(config, null, 2) + ";\n";
 await writeFile(CONFIG_PATH, payload, "utf8");
 
 console.log("runtime-config.js generado.");

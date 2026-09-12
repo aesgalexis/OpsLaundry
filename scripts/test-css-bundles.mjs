@@ -7,7 +7,7 @@ import {fileURLToPath} from "node:url";
 import {transform} from "esbuild";
 import {assembleCss, checkCssEntryCoverage, CSS_BUNDLES, renderCssBundle} from "./css-bundles.mjs";
 
-const ROOT = fileURLToPath(new URL("../", import.meta.url));
+const ROOT = fileURLToPath(new URL("../site/", import.meta.url));
 
 async function fixture(run) {
   const root = await mkdtemp(path.join(os.tmpdir(), "opslaundry-css-"));
@@ -40,9 +40,9 @@ test("rejects unregistered import-bearing entries", async () => {
 });
 
 test("OpsLaundry output matches the established minified bundle", async () => {
-  const manifest = await readFile(path.join(ROOT, "ls_styles.css"), "utf8");
+  const manifest = await readFile(path.join(ROOT, "styles/site.css"), "utf8");
   const sources = await Promise.all([...manifest.matchAll(/@import url\("([^\"]+)"\);/g)].map(async ([, file]) => {
-    const source = file.startsWith("/") ? path.join(ROOT, file.slice(1)) : path.resolve(ROOT, file);
+    const source = file.startsWith("/") ? path.join(ROOT, file.slice(1)) : path.resolve(ROOT, "styles", file);
     return `/* ${file} */\n${await readFile(source, "utf8")}`;
   }));
   const previous = await transform(sources.join("\n"), {loader: "css", minify: true});

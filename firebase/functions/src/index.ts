@@ -1,10 +1,10 @@
-export {submitLaundrySpareRequest} from "./laundry/spareRequests";
+export {submitLaundrySpareRequest} from "./spare-parts/spareRequests";
 export {
   submitLaundryMachine,
   listLaundryMachineSubmissions,
   notifyLaundryMachineSubmission,
   getLaundryMachineSubmissionImage,
-} from "./laundry/machineSubmissions";
+} from "./machinery/machineSubmissions";
 export {
   reviewLaundryMachineSubmission,
-} from "./laundry/machineSubmissionReview";
+} from "./machinery/machineSubmissionReview";

@@ -1,0 +1,23 @@
+{
+  "generatedAt": "2026-09-12T07:33:55.082Z",
+  "totalFiles": 148,
+  "totalLines": 22916,
+  "countedExtensions": [
+    ".css",
+    ".html",
+    ".js",
+    ".json",
+    ".mjs",
+    ".rules",
+    ".ts"
+  ],
+  "excludedDirectories": [
+    ".backups",
+    ".git",
+    ".github",
+    ".vscode",
+    "dist",
+    "docs",
+    "node_modules"
+  ]
+}

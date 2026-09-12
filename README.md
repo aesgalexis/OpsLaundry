@@ -1,7 +1,8 @@
 # OpsLaundry
 
-Sitio y herramientas operativas para servicios de lavandería industrial,
-maquinaria de ocasión y solicitudes de recambios.
+Sitio independiente de servicios para lavandería industrial, maquinaria de
+ocasión y solicitudes de recambios. Las páginas públicas están disponibles en
+español, inglés, italiano y griego.
 
 ## Desarrollo local
 
@@ -31,4 +32,7 @@ La publicación es una operación del propietario:
 npm.cmd run site:publish
 ```
 
-La arquitectura y el estado de la extracción están documentados en `docs/`.
+El código publicable está en `site/`; las Functions y reglas propias están en
+`firebase/`. Consulta `docs/repository-map.md` para orientarte,
+`docs/architecture.md` para las responsabilidades del sitio y `docs/email.md`
+para las plantillas y destinos de correo.

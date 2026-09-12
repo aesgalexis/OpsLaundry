@@ -2,13 +2,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 const root = process.cwd();
+const siteRoot = path.join(root, "site");
 const exts = new Set([".html", ".js", ".mjs", ".css"]);
-const ignoreDirs = new Set(["node_modules", ".git", "dist"]);
-const ignorePaths = new Set([
-  "firebase/functions/lib",
-  "scripts/check-nfc-architecture.mjs",
-  "scripts/check-studio-locales.mjs"
-]);
+const ignoreDirs = new Set(["node_modules", ".git", ".tools", ".backups", "dist"]);
+const ignorePaths = new Set(["firebase/functions/lib"]);
 
 const toPosix = (value) => value.replaceAll("\\", "/");
 
@@ -47,7 +44,7 @@ const normalizeTarget = (url) => {
 
 const rawMatches = [];
 const files = walk(root);
-const regex = /\/(?:static|assets|catalogo|solicitudes|submissions|recambios|ls_maquinaria|es|en|it|el)\/[^\s"'<>)]*/g;
+const regex = /\/(?:static|assets|styles|shared|features|catalogo|solicitudes|es|en|it|el)\/[^\s"'<>)]*/g;
 
 for (const file of files) {
   const content = fs.readFileSync(file, "utf8");
@@ -72,22 +69,7 @@ for (const file of files) {
 const missingByTarget = new Map();
 for (const { file, match, contextBefore } of rawMatches) {
   const target = normalizeTarget(match);
-  const candidates = [target];
-  const usesLocalizedResolver =
-    /\blocalizeEsPath\s*\([^)]*$/.test(contextBefore);
-  const usesDynamicBasePrefix =
-    /\$\{[^}]*\b(?:appBasePrefix|basePrefix)\b[^}]*\}/.test(contextBefore);
-
-  if (
-    /^\/(?:es|en)\//.test(target) &&
-    (usesLocalizedResolver || usesDynamicBasePrefix)
-  ) {
-    candidates.push(`/nfc${target}`);
-  }
-
-  const exists = candidates.some((candidate) =>
-    fs.existsSync(path.join(root, candidate.replace(/^\//, ""))),
-  );
+  const exists = fs.existsSync(path.join(siteRoot, target.replace(/^\//, "")));
 
   if (!exists) {
     const existing = missingByTarget.get(target) || {

@@ -23,7 +23,7 @@ const scanFile = async (relativePath) => {
 };
 
 const listTrackedFiles = async () => {
-  const { stdout } = await execFileAsync("git", ["ls-files", "-z"], {
+  const { stdout } = await execFileAsync("git", ["ls-files", "--cached", "--others", "--exclude-standard", "-z"], {
     cwd: ROOT,
     encoding: "buffer",
     maxBuffer: 20 * 1024 * 1024,

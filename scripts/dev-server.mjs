@@ -2,12 +2,12 @@ import { createServer } from "node:http";
 import { stat, readFile } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 
-const root = process.cwd();
+const root = join(process.cwd(), "site");
 const port = Number(process.env.PORT || 5174);
 const cleanDirectoryRoutes = new Map([
-  ["/sense", "/sense/index.html"],
-  ["/ssl-simulator", "/ssl-simulator.html"],
-  ["/ssl-simulator/", "/ssl-simulator.html"]
+  ["/", "/index.html"],
+  ["/catalogo", "/catalogo/index.html"],
+  ["/solicitudes", "/solicitudes/index.html"]
 ]);
 
 const mime = {
