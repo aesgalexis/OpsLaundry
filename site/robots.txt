@@ -4,3 +4,6 @@ Disallow: /catalogo/
 Disallow: /solicitudes/
 
 Sitemap: https://opslaundry.com/sitemap.xml
+
+Disallow: /catalog/
+Disallow: /requests/

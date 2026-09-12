@@ -3,8 +3,8 @@ import {
   LaundryLanguage,
   RenderedEmail,
   SpareRequest,
-} from "./spareRequestTypes";
-import {escapeHtml} from "./spareRequestValidation";
+} from "./types";
+import {escapeHtml} from "./validation";
 import {renderLaundryEmailBrandHeader} from "../email/branding";
 
 const LAUNDRY_URL = "https://opslaundry.com/";

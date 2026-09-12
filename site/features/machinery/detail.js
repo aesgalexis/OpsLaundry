@@ -94,7 +94,7 @@ const renderMachine = (machine) => {
   const state = translate(copy.stateLabels, machine.estado);
   const title = `${machine.marca || ""} ${machine.modelo || ""}`.trim();
   const heading = article.querySelector("h1");
-  const kicker = article.querySelector(".ls-machine-detail-kicker");
+  const kicker = article.querySelector(".machine-detail-kicker");
   if (heading) heading.textContent = title;
   if (kicker) kicker.textContent = `${type} · ${machine.id}`;
   document.title = `${title} | OpsLaundry`;

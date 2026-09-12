@@ -7,7 +7,7 @@ para catálogo, maquinaria de ocasión, propuestas y solicitudes de recambios.
 | --- | --- |
 | `site/` | Raíz del artefacto público. Su contenido se copia a `dist/` conservando las rutas. |
 | `site/es/`, `site/en/`, `site/it/`, `site/el/` | Páginas HTML localizadas. |
-| `site/catalogo/`, `site/solicitudes/` | Entradas privadas, sin indexación. |
+| `site/catalog/`, `site/requests/` | Entradas privadas, sin indexación. |
 | `site/features/machinery/` | Listado, fichas, editor y repositorios de maquinaria de ocasión ofrecida públicamente. |
 | `site/features/spare-parts/` | Formulario de recambios. |
 | `site/features/submissions/` | Propuesta pública de maquinaria y revisión privada. |

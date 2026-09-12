@@ -1,9 +1,9 @@
 import {
   renderLaundrySpareConfirmation,
   renderLaundrySpareEmail,
-} from "./spareRequestEmails";
+} from "./emails";
 import {REQUEST_DESTINATION, VERIFIED_SENDER} from "../email/branding";
-import {ResendPayload, SpareRequest} from "./spareRequestTypes";
+import {ResendPayload, SpareRequest} from "./types";
 
 type EmailSender = (
   payload: ResendPayload,

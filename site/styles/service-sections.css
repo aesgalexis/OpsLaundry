@@ -294,17 +294,17 @@ html {
   backdrop-filter: blur(12px);
 }
 
-body.ls-auditoria-page,
-body.ls-auditoria-page .hero-content h1,
-body.ls-auditoria-page .claim-loop-text,
-body.ls-auditoria-page .ls-upperfooter,
-body.ls-auditoria-page .ls-upperfooter *,
-body.ls-auditoria-page .service-card,
-body.ls-service-detail-page,
-body.ls-service-detail-page .hero-content h1,
-body.ls-service-detail-page .claim-loop-text,
-body.ls-service-detail-page .ls-upperfooter,
-body.ls-service-detail-page .ls-upperfooter * {
+body.audit-page,
+body.audit-page .hero-content h1,
+body.audit-page .tagline-rotation-text,
+body.audit-page .upperfooter,
+body.audit-page .upperfooter *,
+body.audit-page .service-card,
+body.service-detail-page,
+body.service-detail-page .hero-content h1,
+body.service-detail-page .tagline-rotation-text,
+body.service-detail-page .upperfooter,
+body.service-detail-page .upperfooter * {
   user-select: text;
   -webkit-user-select: text;
 }
@@ -317,15 +317,15 @@ body.ls-service-detail-page .ls-upperfooter * {
   display: flex;
   width: fit-content;
   margin: 1.35rem auto 0;
-  background: var(--ut-action-primary);
-  border-color: var(--ut-action-primary);
+  background: var(--action-primary);
+  border-color: var(--action-primary);
   color: #ffffff;
 }
 
 .audit-cta .btn-pill:hover,
 .audit-cta .btn-pill:focus-visible {
-  background: var(--ut-action-primary-hover);
-  border-color: var(--ut-action-primary-hover);
+  background: var(--action-primary-hover);
+  border-color: var(--action-primary-hover);
   color: #ffffff;
 }
 
@@ -355,7 +355,7 @@ body.ls-service-detail-page .ls-upperfooter * {
   background: transparent;
 }
 
-.claim-loop-text {
+.tagline-rotation-text {
   margin: 0;
   transition: opacity 0.34s ease, transform 0.34s ease, filter 0.34s ease;
   will-change: opacity, transform, filter;
@@ -363,7 +363,7 @@ body.ls-service-detail-page .ls-upperfooter * {
   -webkit-user-select: none;
 }
 
-.claim-loop-text.is-transitioning {
+.tagline-rotation-text.is-transitioning {
   opacity: 0.04;
   transform: translateY(6px);
   filter: blur(2px);

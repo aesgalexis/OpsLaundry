@@ -2,19 +2,19 @@ import {logger} from "firebase-functions";
 import {onCall} from "firebase-functions/v2/https";
 import {resendApiKey} from "../email/resend";
 import {sendLaundryEmail} from "../email/delivery";
-import {enforceSpareRequestRateLimit} from "./spareRequestRateLimit";
-import {deliverLaundrySpareRequest} from "./spareRequestWorkflow";
+import {enforceSpareRequestRateLimit} from "./rate-limit";
+import {deliverLaundrySpareRequest} from "./workflow";
 import {
   assertRequiredFields,
   clean,
   normalizeRequest,
   validateImages,
-} from "./spareRequestValidation";
+} from "./validation";
 
 export {
   renderLaundrySpareConfirmation,
   renderLaundrySpareEmail,
-} from "./spareRequestEmails";
+} from "./emails";
 
 const APP_CHECK_ENFORCED = process.env.ENFORCE_APP_CHECK === "true";
 

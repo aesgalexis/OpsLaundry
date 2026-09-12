@@ -1,10 +1,10 @@
-body.ls-spares-page {
+body.spares-page {
   --spares-accent: #1598b7;
   --spares-accent-dark: #08738d;
   --spares-soft: color-mix(in srgb, var(--spares-accent) 8%, var(--panel-bg));
 }
 
-body.ls-spares-page .spares-shell {
+body.spares-page .spares-shell {
   max-width: 1040px;
   padding-top: 118px;
 }
@@ -157,14 +157,14 @@ body.ls-spares-page .spares-shell {
   width: 100%;
   max-width: none;
   min-width: 0;
-  height: var(--ut-select-height);
+  height: var(--select-height);
   border-radius: 0.75rem;
-  padding: 0 var(--ut-select-padding-inline-end) 0 0.85rem;
+  padding: 0 var(--select-padding-inline-end) 0 0.85rem;
   background-color: color-mix(in srgb, var(--bg) 97%, var(--fg));
-  background-image: var(--ut-select-indicator-image);
-  background-position: right var(--ut-select-indicator-offset) center;
+  background-image: var(--select-indicator-image);
+  background-position: right var(--select-indicator-offset) center;
   background-repeat: no-repeat;
-  background-size: var(--ut-select-indicator-size);
+  background-size: var(--select-indicator-size);
   appearance: none;
   -webkit-appearance: none;
   cursor: pointer;
@@ -220,8 +220,8 @@ body.ls-spares-page .spares-shell {
 
 input.spares-input {
   box-sizing: border-box;
-  height: var(--ut-textbox-height);
-  min-height: var(--ut-textbox-height);
+  height: var(--textbox-height);
+  min-height: var(--textbox-height);
 }
 
 .spares-input:focus {
@@ -300,17 +300,17 @@ textarea.spares-input {
 .upload-button {
   box-sizing: border-box;
   display: inline-flex;
-  min-height: var(--ut-button-height-standard);
+  min-height: var(--button-height-standard);
   align-items: center;
   justify-content: center;
-  padding: 0 var(--ut-button-padding-inline);
+  padding: 0 var(--button-padding-inline);
   border: 1px solid var(--border-subtle);
-  border-radius: var(--ut-button-radius-standard);
+  border-radius: var(--button-radius-standard);
   background: transparent;
   color: var(--fg);
-  font-size: var(--ut-button-font-size-standard);
-  font-weight: var(--ut-button-font-weight-standard);
-  line-height: var(--ut-button-line-height-standard);
+  font-size: var(--button-font-size-standard);
+  font-weight: var(--button-font-weight-standard);
+  line-height: var(--button-line-height-standard);
   cursor: pointer;
 }
 
@@ -422,10 +422,10 @@ textarea.spares-input {
 }
 
 .privacy-check input {
-  width: var(--ut-checkbox-size);
-  height: var(--ut-checkbox-size);
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
   margin-top: 0.15rem;
-  accent-color: var(--ut-checkbox-accent);
+  accent-color: var(--checkbox-accent);
 }
 
 .spares-actions {
@@ -445,7 +445,7 @@ textarea.spares-input {
 
 .spares-actions .btn-pill,
 .spares-success-actions .btn-pill {
-  border-radius: var(--ut-button-radius-inline);
+  border-radius: var(--button-radius-inline);
 }
 
 .spares-back {
@@ -562,7 +562,7 @@ textarea.spares-input {
 }
 
 @media (max-width: 760px) {
-  body.ls-spares-page .spares-shell {
+  body.spares-page .spares-shell {
     padding-right: 1rem;
     padding-left: 1rem;
   }

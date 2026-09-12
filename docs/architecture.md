@@ -8,7 +8,7 @@ formularios, listados y datos operativos; no monta páginas traducidas completas
 
 El build copia `site/` a `dist/`, empaqueta `styles/site.css` y genera snapshots
 de maquinaria. Las páginas públicas usan `/{idioma}/{ruta-traducida}/`; la raíz
-redirige a `/es/`. Las rutas `/catalogo/` y `/solicitudes/` son administrativas
+redirige a `/es/`. Las rutas `/catalog/` y `/requests/` son administrativas
 y llevan `noindex`.
 
 Los módulos reutilizables están en `site/shared/`. Cada función del producto
@@ -48,3 +48,18 @@ no se renombran al ordenar carpetas.
 sus metadatos. `npm test` añade CSS, Functions, enlaces y secretos. `npm run
 build` comprueba el artefacto; los límites de tamaño del frontend están en
 `scripts/check-architecture.mjs`.
+
+## Convención de nombres internos
+
+Archivos y carpetas técnicas usan inglés, minúsculas y guiones. Dentro de cada
+área, los nombres expresan la responsabilidad: `spare-parts/validation.ts`,
+`spare-parts/workflow.ts` y `machinery/submission-review.ts`, por ejemplo.
+Los servicios de sesión, preparación de imágenes e identidad de correo se
+comparten desde `shared/auth/`, `shared/forms/` y `functions/src/email/`.
+Las rutas públicas traducidas y los identificadores desplegados de Firebase
+conservan sus nombres actuales.
+
+Las entradas administrativas fuente son `site/catalog/` y `site/requests/`.
+`scripts/admin-routes.mjs` conserva las URLs antiguas como alias tanto en
+desarrollo como en el build, para que sigan funcionando marcadores y correos
+ya enviados. Las carpetas antiguas solo se generan en `dist/`.

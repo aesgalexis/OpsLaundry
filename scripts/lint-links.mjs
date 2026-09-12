@@ -1,3 +1,4 @@
+import {cleanDirectoryRoutes} from "./admin-routes.mjs";
 import fs from "node:fs";
 import path from "node:path";
 
@@ -44,7 +45,7 @@ const normalizeTarget = (url) => {
 
 const rawMatches = [];
 const files = walk(root);
-const regex = /\/(?:static|assets|styles|shared|features|catalogo|solicitudes|es|en|it|el)\/[^\s"'<>)]*/g;
+const regex = /\/(?:static|assets|styles|shared|features|catalog|requests|catalogo|solicitudes|es|en|it|el)\/[^\s"'<>)]*/g;
 
 for (const file of files) {
   const content = fs.readFileSync(file, "utf8");
@@ -68,7 +69,8 @@ for (const file of files) {
 
 const missingByTarget = new Map();
 for (const { file, match, contextBefore } of rawMatches) {
-  const target = normalizeTarget(match);
+  const normalized = normalizeTarget(match);
+  const target = cleanDirectoryRoutes.get(normalized) || normalized;
   const exists = fs.existsSync(path.join(siteRoot, target.replace(/^\//, "")));
 
   if (!exists) {

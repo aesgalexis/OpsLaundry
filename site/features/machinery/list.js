@@ -16,7 +16,7 @@ const STATE_LABELS = Object.fromEntries(Object.entries(localizedCopy.stateLabels
 const copies = Array.from(document.querySelectorAll("article.legal-copy"));
 const requestedMachineId = new URLSearchParams(window.location.search).get("machine")?.trim() || "";
 const hasPrerenderedRows = copies.some((copy) =>
-  copy.querySelector(".ls-table tbody[data-prerendered='true']"));
+  copy.querySelector(".table tbody[data-prerendered='true']"));
 let isMachineAdmin = false;
 let currentMachines = [];
 let machineryLoaded = false;
@@ -32,8 +32,8 @@ if (copies.length) {
 
   if (requestedMachineId) {
     copies.forEach((copy) => {
-      copy.querySelector(".ls-filterbar")?.setAttribute("hidden", "");
-      copy.querySelector(".ls-pagination")?.setAttribute("hidden", "");
+      copy.querySelector(".filterbar")?.setAttribute("hidden", "");
+      copy.querySelector(".pagination")?.setAttribute("hidden", "");
     });
   }
 
@@ -173,18 +173,18 @@ if (copies.length) {
         <td data-label="${escapeHtml(labels.status)}">${state}</td>
         <td data-label="${escapeHtml(labels.location)}">${location}</td>
       </tr>
-      <tr class="ls-table-subrow${hasImages ? " ls-table-subrow-has-gallery" : ""}${galleryInitiallyOpen ? " is-gallery-open" : ""}">
+      <tr class="table-subrow${hasImages ? " table-subrow-has-gallery" : ""}${galleryInitiallyOpen ? " is-gallery-open" : ""}">
         <td colspan="7">
-          ${comments ? `<div class="ls-table-meta ls-table-comment">${comments}</div>` : ""}
-          ${heating ? `<div class="ls-table-meta"><strong>${escapeHtml(labels.heating)}</strong> ${heating}</div>` : ""}
-          <div class="ls-table-subrow-inner">
-            <div><strong>${escapeHtml(labels.price)}</strong> <span class="ls-price">${price}</span>${escapeHtml(extrasText)}${visibilityText} | <strong>${escapeHtml(labels.id)}</strong> <a class="ls-machine-link" href="${escapeHtml(machineHref)}">${machineId}</a></div>
-            <div class="ls-table-actions">
-              ${hasImages ? `<button type="button" class="ls-mini-action ls-gallery-toggle" data-gallery-id="${machineId}" aria-expanded="${String(galleryInitiallyOpen)}" aria-controls="ls-gallery-${machineId}"><span class="ls-mini-action-label">${escapeHtml(labels.photos)}</span></button>` : ""}
-              <a class="ls-mini-action" href="${escapeHtml(infoHref)}"><span class="ls-mini-action-label">${escapeHtml(requestedMachineId ? CONTACT_LABELS[lang] : labels.info)}</span></a>
+          ${comments ? `<div class="table-meta table-comment">${comments}</div>` : ""}
+          ${heating ? `<div class="table-meta"><strong>${escapeHtml(labels.heating)}</strong> ${heating}</div>` : ""}
+          <div class="table-subrow-inner">
+            <div><strong>${escapeHtml(labels.price)}</strong> <span class="price">${price}</span>${escapeHtml(extrasText)}${visibilityText} | <strong>${escapeHtml(labels.id)}</strong> <a class="machine-link" href="${escapeHtml(machineHref)}">${machineId}</a></div>
+            <div class="table-actions">
+              ${hasImages ? `<button type="button" class="mini-action gallery-toggle" data-gallery-id="${machineId}" aria-expanded="${String(galleryInitiallyOpen)}" aria-controls="gallery-${machineId}"><span class="mini-action-label">${escapeHtml(labels.photos)}</span></button>` : ""}
+              <a class="mini-action" href="${escapeHtml(infoHref)}"><span class="mini-action-label">${escapeHtml(requestedMachineId ? CONTACT_LABELS[lang] : labels.info)}</span></a>
               ${
                 isMachineAdmin
-                  ? `<button type="button" class="ls-mini-action ls-machine-edit-trigger" data-machine-id="${machineId}"><span class="ls-mini-action-label">${escapeHtml(labels.edit)}</span></button>`
+                  ? `<button type="button" class="mini-action machine-edit-trigger" data-machine-id="${machineId}"><span class="mini-action-label">${escapeHtml(labels.edit)}</span></button>`
                   : ""
               }
             </div>
@@ -193,9 +193,9 @@ if (copies.length) {
       </tr>
       ${
         hasImages
-          ? `<tr id="ls-gallery-${machineId}" class="ls-table-gallery-row" data-gallery-id="${machineId}" data-gallery-open="${String(galleryInitiallyOpen)}"${galleryInitiallyOpen ? "" : " hidden"}>
+          ? `<tr id="gallery-${machineId}" class="table-gallery-row" data-gallery-id="${machineId}" data-gallery-open="${String(galleryInitiallyOpen)}"${galleryInitiallyOpen ? "" : " hidden"}>
               <td colspan="7">
-                <div class="ls-machine-gallery" aria-label="${escapeHtml(`${labels.gallery} ${machine.id}`)}">
+                <div class="machine-gallery" aria-label="${escapeHtml(`${labels.gallery} ${machine.id}`)}">
                   ${images
                     .map(
                       (image, index) => `
@@ -214,11 +214,11 @@ if (copies.length) {
   };
 
   const renderTableState = (copy, message) => {
-    const body = copy.querySelector(".ls-table tbody");
+    const body = copy.querySelector(".table tbody");
     if (!body) return;
     body.innerHTML = `
-      <tr class="ls-table-state-row">
-        <td class="ls-table-state" colspan="7">${escapeHtml(message)}</td>
+      <tr class="table-state-row">
+        <td class="table-state" colspan="7">${escapeHtml(message)}</td>
       </tr>
     `;
     const status = copy.querySelector("[data-page-status]");
@@ -261,7 +261,7 @@ if (copies.length) {
   };
 
   const renderMachinesForCopy = (copy, machines) => {
-    const body = copy.querySelector(".ls-table tbody");
+    const body = copy.querySelector(".table tbody");
     if (!body) return;
     const visibleMachines = isMachineAdmin
       ? machines
@@ -320,7 +320,7 @@ if (copies.length) {
   });
 
   document.addEventListener("click", (event) => {
-    const editTrigger = event.target.closest(".ls-machine-edit-trigger");
+    const editTrigger = event.target.closest(".machine-edit-trigger");
     if (editTrigger) {
       const machineId = editTrigger.getAttribute("data-machine-id");
       const machine = currentMachines.find((item) => item.id === machineId);
@@ -334,20 +334,20 @@ if (copies.length) {
       return;
     }
 
-    const toggle = event.target.closest(".ls-gallery-toggle");
+    const toggle = event.target.closest(".gallery-toggle");
     if (!toggle) return;
     const galleryId = toggle.getAttribute("data-gallery-id");
     if (!galleryId) return;
     const activeCopy = copies.find((copy) => !copy.hidden);
     if (!activeCopy) return;
-    const gallery = activeCopy.querySelector(`.ls-table-gallery-row[data-gallery-id="${galleryId}"]`);
+    const gallery = activeCopy.querySelector(`.table-gallery-row[data-gallery-id="${galleryId}"]`);
     if (!gallery) return;
     const priceRow = gallery.previousElementSibling;
     const nextOpen = gallery.dataset.galleryOpen !== "true";
     gallery.dataset.galleryOpen = nextOpen ? "true" : "false";
     gallery.hidden = !nextOpen;
     toggle.setAttribute("aria-expanded", String(nextOpen));
-    if (priceRow && priceRow.classList.contains("ls-table-subrow")) {
+    if (priceRow && priceRow.classList.contains("table-subrow")) {
       priceRow.classList.toggle("is-gallery-open", nextOpen);
     }
   });

@@ -11,18 +11,18 @@
   const labels = COPY[language] || COPY.es;
   const backHref = (document.body.dataset.backHref || "").trim();
 
-  if (document.querySelector(".ls-minimal-page-nav")) return;
+  if (document.querySelector(".minimal-page-nav")) return;
   const createButton = (label, icon) => {
     const button = document.createElement("button");
     button.type = "button";
-    button.className = "ls-minimal-page-nav-button";
+    button.className = "minimal-page-nav-button";
     button.setAttribute("aria-label", label);
     button.innerHTML = icon;
     return button;
   };
 
   const nav = document.createElement("nav");
-  nav.className = "ls-minimal-page-nav";
+  nav.className = "minimal-page-nav";
   nav.setAttribute("aria-label", `${labels.back} / ${labels.top}`);
   const backButton = createButton(labels.back, BACK_ICON);
   const topButton = createButton(labels.top, TOP_ICON);

@@ -1,4 +1,4 @@
-.ls-minimal-page-nav {
+.minimal-page-nav {
   position: fixed;
   right: max(1rem, env(safe-area-inset-right));
   bottom: max(1rem, env(safe-area-inset-bottom));
@@ -7,7 +7,7 @@
   gap: 0.38rem;
 }
 
-.ls-minimal-page-nav-button {
+.minimal-page-nav-button {
   width: 2.5rem;
   height: 2.5rem;
   padding: 0;
@@ -25,22 +25,22 @@
   -webkit-tap-highlight-color: transparent;
 }
 
-.ls-minimal-page-nav-button[hidden] {
+.minimal-page-nav-button[hidden] {
   display: none;
 }
 
-.ls-minimal-page-nav-button svg {
+.minimal-page-nav-button svg {
   width: 1.15rem;
   height: 1.15rem;
   fill: currentColor;
 }
 
-.ls-minimal-page-nav-button:hover {
+.minimal-page-nav-button:hover {
   border-color: color-mix(in srgb, var(--fg) 42%, transparent);
   color: var(--fg);
 }
 
-.ls-minimal-page-nav-button:focus-visible {
+.minimal-page-nav-button:focus-visible {
   outline: 2px solid color-mix(in srgb, var(--fg) 52%, transparent);
   outline-offset: 2px;
 }

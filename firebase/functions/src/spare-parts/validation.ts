@@ -3,7 +3,7 @@ import {
   ImageInput,
   LaundryLanguage,
   SpareRequest,
-} from "./spareRequestTypes";
+} from "./types";
 
 const MAX_IMAGES = 4;
 const MAX_IMAGE_BYTES = 2.5 * 1024 * 1024;

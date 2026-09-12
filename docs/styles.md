@@ -9,11 +9,10 @@ Los CSS propios del editor, catálogo, recambios y propuestas se mantienen junto
 a sus módulos bajo `site/features/`. `npm run check:css` verifica el empaquetado,
 el orden y la compatibilidad con el resultado minificado establecido.
 
-Algunas clases e identificadores del DOM conservan prefijos `ls-` y `ut-`.
-Siguen siendo contratos entre los 40 HTML, JavaScript y CSS; cambiarlos exige
-una sustitución coordinada y una comprobación visual posterior. Ya no designan
-carpetas ni archivos nuevos del proyecto.
+Las clases, identificadores del DOM y variables CSS usan nombres descriptivos
+en inglés, sin prefijos de Laundry Services ni Unátomo. Los cambios de nombre
+se aplican conjuntamente a HTML, CSS, JavaScript y generadores de páginas.
 
 El formulario de contacto requiere `.form-grid`, los `label[for]` emparejados,
-`.form-consent-label > input + span`, `.ut-form-status` y `.ut-form-actions`.
+`.form-consent-label > input + span`, `.form-status` y `.form-actions`.
 Estas estructuras controlan la posición de campos, consentimiento y acciones.

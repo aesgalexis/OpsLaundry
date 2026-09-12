@@ -24,7 +24,7 @@
   const directBackHref = resolveDirectRoute(document.body.dataset.backHref);
   if (directBackHref) document.body.dataset.backHref = directBackHref;
 
-  if (document.getElementById("ls-claim-loop-text")) {
+  if (document.getElementById("tagline-rotation-text")) {
     const claimLoopScript = document.createElement("script");
     claimLoopScript.src = "/shared/ui/tagline-rotation.js";
     document.head.appendChild(claimLoopScript);

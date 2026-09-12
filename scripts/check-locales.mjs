@@ -96,7 +96,7 @@ for (const lang of LANGS) {
       const heading = headings[0];
       const form = bodyNodes.find((node) => node.tagName === "form" && hasClass(node, "contact-form"));
       const formNodes = form ? findAll(form, () => true) : [];
-      const card = bodyNodes.find((node) => node.tagName === "section" && hasClass(node, "contact-form-card") && hasClass(node, "ut-contact-form-container"));
+      const card = bodyNodes.find((node) => node.tagName === "section" && hasClass(node, "contact-form-card") && hasClass(node, "contact-form-container"));
       const consent = formNodes.find((node) => node.tagName === "label" && hasClass(node, "form-consent-label"));
       const consentElements = (consent?.childNodes || []).filter((node) => node.tagName);
       const textarea = formNodes.find((node) => node.tagName === "textarea" && attribute(node, "name") === "mensaje");
@@ -127,7 +127,7 @@ for (const lang of LANGS) {
       failures.push(`${route}: machinery admin editor must be loaded dynamically, not by public HTML.`);
     }
     const powered = bodyNodes.find((node) => node.tagName === "p" &&
-      (attribute(node, "class") || "").split(/\s+/u).includes("ls-footer-disclosure-powered"));
+      (attribute(node, "class") || "").split(/\s+/u).includes("footer-disclosure-powered"));
     const poweredLink = powered ? findAll(powered, (node) => node.tagName === "a")[0] : null;
     if (nodeText(powered).trim() !== "Powered by people who like machines." ||
         attribute(poweredLink, "href") !== "/") {

@@ -6,9 +6,9 @@ import {admin, db} from "../core/firebase";
 import {resendApiKey} from "../email/resend";
 import {sendLaundryEmail} from "../email/delivery";
 import {renderLaundryEmailBrandHeader, REQUEST_DESTINATION, VERIFIED_SENDER} from "../email/branding";
-import {escapeHtml} from "../spare-parts/spareRequestValidation";
-import {enforceSpareRequestRateLimit} from "../spare-parts/spareRequestRateLimit";
-import {normalizeMachineSubmission} from "./machineSubmissionPolicy";
+import {escapeHtml} from "../spare-parts/validation";
+import {enforceSpareRequestRateLimit} from "../spare-parts/rate-limit";
+import {normalizeMachineSubmission} from "./submission-policy";
 
 export const submissions = db.collection("laundry_machine_submissions");
 const options = {
@@ -64,7 +64,7 @@ export const notifyLaundryMachineSubmission = onDocumentCreated({
   const data = event.data?.data();
   if (!data) return;
   const id = event.params.submissionId;
-  const link = `https://opslaundry.com/solicitudes/?request=${encodeURIComponent(id)}`;
+  const link = `https://opslaundry.com/requests/?request=${encodeURIComponent(id)}`;
   const summary = Object.entries(data.draft).map(([k, v]) => `${k}: ${v}`).join("\n");
   const text = `Nueva propuesta ${id}\n${data.contact.name}\n${data.contact.email}\n${data.contact.phone}\n${data.contact.company}\n\n${summary}\n\nRevisar: ${link}`;
   const common = {from: VERIFIED_SENDER, tags: [{name: "category", value: "machine-submission"}]};

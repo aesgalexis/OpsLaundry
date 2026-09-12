@@ -158,18 +158,18 @@ const renderListRows = (machines, lang, copy) => machines.slice(0, PAGE_SIZE).ma
     <td data-label="${escapeHtml(labels.status)}">${escapeHtml(state)}</td>
     <td data-label="${escapeHtml(labels.location)}">${escapeHtml(machine.ubicacion || "")}</td>
   </tr>
-  <tr class="ls-table-subrow${images.length ? " ls-table-subrow-has-gallery" : ""}"><td colspan="7">
-    ${comments ? `<div class="ls-table-meta ls-table-comment">${escapeHtml(comments)}</div>` : ""}
-    ${heating ? `<div class="ls-table-meta"><strong>${escapeHtml(labels.heating)}</strong> ${escapeHtml(heating)}</div>` : ""}
-    <div class="ls-table-subrow-inner">
-      <div><strong>${escapeHtml(labels.price)}</strong> <span class="ls-price">${escapeHtml(formatPrice(machine, labels))}</span>${escapeHtml(extrasText(machine, labels))} | <strong>${escapeHtml(labels.id)}</strong> <a class="ls-machine-link" href="${escapeHtml(href)}">${escapeHtml(machine.id)}</a></div>
-      <div class="ls-table-actions">
-        ${images.length ? `<button type="button" class="ls-mini-action ls-gallery-toggle" data-gallery-id="${escapeHtml(machine.id)}" aria-expanded="false" aria-controls="ls-gallery-${escapeHtml(machine.id)}"><span class="ls-mini-action-label">${escapeHtml(labels.photos)}</span></button>` : ""}
-        <a class="ls-mini-action" href="${escapeHtml(href)}"><span class="ls-mini-action-label">${escapeHtml(labels.info)}</span></a>
+  <tr class="table-subrow${images.length ? " table-subrow-has-gallery" : ""}"><td colspan="7">
+    ${comments ? `<div class="table-meta table-comment">${escapeHtml(comments)}</div>` : ""}
+    ${heating ? `<div class="table-meta"><strong>${escapeHtml(labels.heating)}</strong> ${escapeHtml(heating)}</div>` : ""}
+    <div class="table-subrow-inner">
+      <div><strong>${escapeHtml(labels.price)}</strong> <span class="price">${escapeHtml(formatPrice(machine, labels))}</span>${escapeHtml(extrasText(machine, labels))} | <strong>${escapeHtml(labels.id)}</strong> <a class="machine-link" href="${escapeHtml(href)}">${escapeHtml(machine.id)}</a></div>
+      <div class="table-actions">
+        ${images.length ? `<button type="button" class="mini-action gallery-toggle" data-gallery-id="${escapeHtml(machine.id)}" aria-expanded="false" aria-controls="gallery-${escapeHtml(machine.id)}"><span class="mini-action-label">${escapeHtml(labels.photos)}</span></button>` : ""}
+        <a class="mini-action" href="${escapeHtml(href)}"><span class="mini-action-label">${escapeHtml(labels.info)}</span></a>
       </div>
     </div>
   </td></tr>
-  ${images.length ? `<tr id="ls-gallery-${escapeHtml(machine.id)}" class="ls-table-gallery-row" data-gallery-id="${escapeHtml(machine.id)}" data-gallery-open="false" hidden><td colspan="7"><div class="ls-machine-gallery" aria-label="${escapeHtml(`${labels.gallery} ${machine.id}`)}">${images.map((url, index) => `<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(url)}" alt="${escapeHtml(`${machine.id} ${labels.image} ${index + 1}`)}" loading="lazy"></a>`).join("")}</div></td></tr>` : ""}`;
+  ${images.length ? `<tr id="gallery-${escapeHtml(machine.id)}" class="table-gallery-row" data-gallery-id="${escapeHtml(machine.id)}" data-gallery-open="false" hidden><td colspan="7"><div class="machine-gallery" aria-label="${escapeHtml(`${labels.gallery} ${machine.id}`)}">${images.map((url, index) => `<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(url)}" alt="${escapeHtml(`${machine.id} ${labels.image} ${index + 1}`)}" loading="lazy"></a>`).join("")}</div></td></tr>` : ""}`;
 }).join("\n");
 
 const detailSchema = (machine, lang, copy) => {
@@ -237,20 +237,20 @@ const renderDetail = (machine, lang, copy) => {
     ["status", labels.status, state], ["location", labels.location, machine.ubicacion || ""],
     ["heating", labels.heating, heating],
   ].filter(([, , value]) => String(value).trim());
-  return `<article class="legal-copy ls-machine-detail" data-machine-detail data-machine-id="${escapeHtml(machine.id)}">
-    <header class="ls-machine-detail-heading">
-      <p class="ls-machine-detail-kicker">${escapeHtml(type)} · ${escapeHtml(machine.id)}</p>
+  return `<article class="legal-copy machine-detail" data-machine-detail data-machine-id="${escapeHtml(machine.id)}">
+    <header class="machine-detail-heading">
+      <p class="machine-detail-kicker">${escapeHtml(type)} · ${escapeHtml(machine.id)}</p>
       <h1>${escapeHtml(`${machine.marca} ${machine.modelo}`.trim())}</h1>
     </header>
-    <p class="ls-machine-detail-status" data-machine-status role="status" hidden></p>
-    <section class="card card--wide ls-machine-detail-card">
-      <dl class="ls-machine-specs">${specs.map(([key, label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd data-machine-field="${key}">${escapeHtml(value)}</dd></div>`).join("")}</dl>
-      <p class="ls-machine-detail-price"><strong>${escapeHtml(labels.price)}</strong> <span class="ls-price" data-machine-price>${escapeHtml(formatPrice(machine, labels))}</span><span data-machine-extras>${escapeHtml(extrasText(machine, labels))}</span></p>
-      ${machine.comentarios ? `<p class="ls-machine-detail-copy" data-machine-comments>${escapeHtml(machine.comentarios)}</p>` : '<p class="ls-machine-detail-copy" data-machine-comments hidden></p>'}
-      <div class="ls-machine-detail-gallery" data-machine-gallery>${images.map((url, index) => `<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(url)}" alt="${escapeHtml(`${machine.id} ${labels.image} ${index + 1}`)}" loading="lazy"></a>`).join("")}</div>
-      <div class="ls-machine-detail-actions">
-        <a class="ls-mini-action" data-machine-contact href="${escapeHtml(contactHref(machine, copy, type))}">${escapeHtml(LOCALES[lang].contact)}</a>
-        <a class="ls-mini-action" href="/${lang}/${LOCALES[lang].route}/">${escapeHtml(LOCALES[lang].back)}</a>
+    <p class="machine-detail-status" data-machine-status role="status" hidden></p>
+    <section class="card card--wide machine-detail-card">
+      <dl class="machine-specs">${specs.map(([key, label, value]) => `<div><dt>${escapeHtml(label)}</dt><dd data-machine-field="${key}">${escapeHtml(value)}</dd></div>`).join("")}</dl>
+      <p class="machine-detail-price"><strong>${escapeHtml(labels.price)}</strong> <span class="price" data-machine-price>${escapeHtml(formatPrice(machine, labels))}</span><span data-machine-extras>${escapeHtml(extrasText(machine, labels))}</span></p>
+      ${machine.comentarios ? `<p class="machine-detail-copy" data-machine-comments>${escapeHtml(machine.comentarios)}</p>` : '<p class="machine-detail-copy" data-machine-comments hidden></p>'}
+      <div class="machine-detail-gallery" data-machine-gallery>${images.map((url, index) => `<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(url)}" alt="${escapeHtml(`${machine.id} ${labels.image} ${index + 1}`)}" loading="lazy"></a>`).join("")}</div>
+      <div class="machine-detail-actions">
+        <a class="mini-action" data-machine-contact href="${escapeHtml(contactHref(machine, copy, type))}">${escapeHtml(LOCALES[lang].contact)}</a>
+        <a class="mini-action" href="/${lang}/${LOCALES[lang].route}/">${escapeHtml(LOCALES[lang].back)}</a>
       </div>
     </section>
   </article>`;
@@ -263,15 +263,15 @@ const generateDetailPage = (template, machine, lang, copy) => {
     html = html.replace(new RegExp(`href="${base.replaceAll("/", "\\/")}"`, "gu"), `href="${machineRoute(targetLang, machine.id)}"`);
   }
   html = html.replace(/<article class="legal-copy">[\s\S]*?<\/article>/u, renderDetail(machine, lang, copy));
-  html = html.replace('<body class="page ls-privacy-page ls-maquinaria-page"', '<body class="page ls-privacy-page ls-maquinaria-page ls-machine-detail-page"');
+  html = html.replace('<body class="page privacy-page machinery-page"', '<body class="page privacy-page machinery-page machine-detail-page"');
   html = html.replace('<script type="module" src="/features/machinery/list.js"></script>', '<script type="module" src="/features/machinery/detail.js"></script>');
   return html;
 };
 
 const injectListSnapshot = (html, rows, totalPages, copy) => html
-  .replace('<body class="page ls-privacy-page ls-maquinaria-page"', '<body data-static-machine-pages="true" class="page ls-privacy-page ls-maquinaria-page"')
+  .replace('<body class="page privacy-page machinery-page"', '<body data-static-machine-pages="true" class="page privacy-page machinery-page"')
   .replace(/<tbody(?:\s[^>]*)?>\s*<\/tbody>/u, `<tbody data-prerendered="true" aria-live="polite">${rows}</tbody>`)
-  .replace(/(<span class="ls-pagination-status"[^>]*>)[\s\S]*?(<\/span>)/u,
+  .replace(/(<span class="pagination-status"[^>]*>)[\s\S]*?(<\/span>)/u,
     `$1${escapeHtml(copy.labels.page.replace("{current}", "1").replace("{total}", String(totalPages)))}$2`);
 
 const appendSitemapUrls = async (dist, machines) => {

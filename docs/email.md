@@ -7,9 +7,9 @@ maquinaria pertenecen a **este repositorio y a las Functions de OpsLaundry**:
 | --- | --- |
 | `firebase/functions/src/email/branding.ts` | Cabecera HTML con el logo circular de Unátomo y el wordmark de OpsLaundry; remitente y destino vigentes. |
 | `firebase/functions/src/email/delivery.ts` | Entrega mediante Resend, respuesta y errores. |
-| `firebase/functions/src/spare-parts/spareRequestEmails.ts` | Aviso interno y confirmación de recambios en cuatro idiomas. |
-| `firebase/functions/src/spare-parts/spareRequestWorkflow.ts` | Destinatarios y secuencia de envío de recambios. |
-| `firebase/functions/src/machinery/machineSubmissions.ts` | Aviso interno y confirmación de nuevas propuestas de maquinaria. |
+| `firebase/functions/src/spare-parts/emails.ts` | Aviso interno y confirmación de recambios en cuatro idiomas. |
+| `firebase/functions/src/spare-parts/workflow.ts` | Destinatarios y secuencia de envío de recambios. |
+| `firebase/functions/src/machinery/submissions.ts` | Aviso interno y confirmación de nuevas propuestas de maquinaria. |
 
 La entidad responsable confirmada es **UNATOMO CORE SL**. Temporalmente, el
 remitente verificado es `Unatomo <cuenta@correo.unatomo.com>` y los avisos

@@ -46,20 +46,20 @@
   text-align: left;
 }
 
-html:has(body.ls-privacy-page),
-body.ls-privacy-page,
-html:has(body.ls-contact-page),
-body.ls-contact-page {
+html:has(body.privacy-page),
+body.privacy-page,
+html:has(body.contact-page),
+body.contact-page {
   scrollbar-gutter: auto;
 }
 
-body.ls-privacy-page .page-shell.legal-doc {
+body.privacy-page .page-shell.legal-doc {
   min-height: calc(100vh - 75px);
   display: flex;
   flex-direction: column;
 }
 
-body.ls-privacy-page .page-shell.legal-doc > .legal-copy:not([hidden]) {
+body.privacy-page .page-shell.legal-doc > .legal-copy:not([hidden]) {
   flex: 1 0 auto;
 }
 
@@ -92,11 +92,11 @@ body.ls-privacy-page .page-shell.legal-doc > .legal-copy:not([hidden]) {
   margin-top: 1.5rem;
 }
 
-body.ls-contact-page .page-shell {
+body.contact-page .page-shell {
   max-width: 800px;
 }
 
-body.ls-contact-page .contacto {
+body.contact-page .contacto {
   width: 100%;
   max-width: 600px;
   margin-inline: auto;
@@ -104,12 +104,12 @@ body.ls-contact-page .contacto {
   gap: 1.1rem;
 }
 
-body.ls-contact-page .contact-form-card {
+body.contact-page .contact-form-card {
   padding-bottom: 0;
   border-radius: 0.85rem;
 }
 
-body.ls-contact-page .contact-form-card > .contact-form {
+body.contact-page .contact-form-card > .contact-form {
   margin-top: 0;
 }
 
@@ -144,16 +144,16 @@ body.ls-contact-page .contact-form-card > .contact-form {
 }
 
 .form-field input.field {
-  height: var(--ut-textbox-height);
+  height: var(--textbox-height);
 }
 
 .form-field select.field {
-  height: var(--ut-select-height);
-  padding-right: var(--ut-select-padding-inline-end);
-  background-image: var(--ut-select-indicator-image);
-  background-position: right var(--ut-select-indicator-offset) center;
+  height: var(--select-height);
+  padding-right: var(--select-padding-inline-end);
+  background-image: var(--select-indicator-image);
+  background-position: right var(--select-indicator-offset) center;
   background-repeat: no-repeat;
-  background-size: var(--ut-select-indicator-size);
+  background-size: var(--select-indicator-size);
 }
 
 .field:focus {
@@ -191,10 +191,10 @@ textarea.field {
 }
 
 .form-consent-label input {
-  width: var(--ut-checkbox-size);
-  height: var(--ut-checkbox-size);
+  width: var(--checkbox-size);
+  height: var(--checkbox-size);
   margin: 0.12rem 0 0;
-  accent-color: var(--ut-checkbox-accent);
+  accent-color: var(--checkbox-accent);
   cursor: pointer;
 }
 

@@ -2,18 +2,18 @@ const assert = require("node:assert/strict");
 const {
   renderLaundrySpareConfirmation,
   renderLaundrySpareEmail,
-} = require("../lib/spare-parts/spareRequestEmails.js");
+} = require("../lib/spare-parts/emails.js");
 const {
   assertRequiredFields,
   normalizeRequest,
   validateImages,
-} = require("../lib/spare-parts/spareRequestValidation.js");
+} = require("../lib/spare-parts/validation.js");
 const {
   nextSpareRequestRateLimitCount,
-} = require("../lib/spare-parts/spareRequestRateLimitPolicy.js");
+} = require("../lib/spare-parts/rate-limit-policy.js");
 const {
   deliverLaundrySpareRequest,
-} = require("../lib/spare-parts/spareRequestWorkflow.js");
+} = require("../lib/spare-parts/workflow.js");
 
 const baseRequest = {
   submissionId: "request-123456789",

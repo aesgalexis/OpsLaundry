@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
 import {onCall, HttpsError} from "firebase-functions/v2/https";
 import {admin, db} from "../core/firebase";
-import {normalizeMachineDraft, prefixes, publicMachine} from "./machineSubmissionPolicy";
+import {normalizeMachineDraft, prefixes, publicMachine} from "./submission-policy";
 
 export const reviewLaundryMachineSubmission = onCall({
   enforceAppCheck: process.env.ENFORCE_APP_CHECK === "true",

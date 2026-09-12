@@ -1,6 +1,6 @@
 import {createHash} from "node:crypto";
 import {admin, db} from "../core/firebase";
-import {nextSpareRequestRateLimitCount} from "./spareRequestRateLimitPolicy";
+import {nextSpareRequestRateLimitCount} from "./rate-limit-policy";
 
 export const enforceSpareRequestRateLimit = async (ip: string) => {
   const ipHash = createHash("sha256").update(ip || "unknown").digest("hex");

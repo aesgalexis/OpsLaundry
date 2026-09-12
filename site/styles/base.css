@@ -83,13 +83,13 @@ p {
 }
 
 .page-shell
-  :is(p, li, label):not(.section-kicker):not(.contact-form-title):not(.ls-upperfooter *):not(.legal-footer *) {
+  :is(p, li, label):not(.section-kicker):not(.contact-form-title):not(.upperfooter *):not(.legal-footer *) {
   transition: color 160ms ease;
 }
 
 @media (hover: hover) {
   .page-shell
-    :is(p, li, label):not(.section-kicker):not(.contact-form-title):not(.ls-upperfooter *):not(.legal-footer *):hover {
+    :is(p, li, label):not(.section-kicker):not(.contact-form-title):not(.upperfooter *):not(.legal-footer *):hover {
     color: var(--reading-hover);
   }
 }
@@ -111,11 +111,11 @@ a:hover {
   z-index: 1;
 }
 
-.ls-home-page {
+.home-page {
   overflow-x: clip;
 }
 
-.ls-topbar {
+.topbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -129,12 +129,12 @@ a:hover {
   will-change: transform, opacity;
 }
 
-.ls-topbar.is-hidden {
+.topbar.is-hidden {
   transform: translateY(calc(-100% - 2px));
   opacity: 0.96;
 }
 
-.ls-topbar-inner {
+.topbar-inner {
   height: 100%;
   margin: 0;
   padding: 0 1.5rem;
@@ -144,7 +144,7 @@ a:hover {
   gap: 1rem;
 }
 
-.ls-topbar-brand {
+.topbar-brand {
   -webkit-tap-highlight-color: transparent;
   display: flex;
   align-items: center;
@@ -157,28 +157,28 @@ a:hover {
   text-decoration: none;
 }
 
-.ls-topbar-brand:hover {
+.topbar-brand:hover {
   opacity: 0.9;
 }
 
-.ls-topbar-name {
+.topbar-name {
   display: inline-flex;
   align-items: center;
   gap: 0.34rem;
   white-space: nowrap;
 }
 
-.ls-topbar-divider {
+.topbar-divider {
   color: color-mix(in srgb, var(--fg) 42%, transparent);
 }
 
-.ls-topbar-logo {
+.topbar-logo {
   height: 52px;
   width: auto;
   opacity: 0.9;
 }
 
-.ls-topbar-logo--wordmark {
+.topbar-logo--wordmark {
   width: 172px;
   height: 42px;
   object-fit: contain;

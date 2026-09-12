@@ -11,92 +11,92 @@ const HEATING_OPTIONS = ["", "Gas", "Vapor", "Aceite"];
 
 const createAdminWrap = () => {
   const wrap = document.createElement("div");
-  wrap.className = "ls-filterbar-admin";
+  wrap.className = "filterbar-admin";
   wrap.hidden = true;
   wrap.innerHTML = `
-    <button type="button" class="ls-machine-add-btn" data-machine-auth="add">Añadir</button>
+    <button type="button" class="machine-add-btn" data-machine-auth="add">Añadir</button>
   `;
   return wrap;
 };
 
 const createDialog = () => {
   const dialog = document.createElement("dialog");
-  dialog.className = "ls-machine-add-dialog";
+  dialog.className = "machine-add-dialog";
   dialog.innerHTML = `
-    <form method="dialog" class="ls-machine-add-sheet">
-      <div class="ls-machine-add-head">
-        <h2 id="ls-machine-dialog-title">Agregar maquinaria</h2>
-        <button type="button" class="ls-machine-add-close" aria-label="Cerrar">×</button>
+    <form method="dialog" class="machine-add-sheet">
+      <div class="machine-add-head">
+        <h2 id="machine-dialog-title">Agregar maquinaria</h2>
+        <button type="button" class="machine-add-close" aria-label="Cerrar">×</button>
       </div>
 
-      <div class="ls-machine-add-grid">
+      <div class="machine-add-grid">
         <div class="form-field">
-          <label for="ls-add-type">Tipo</label>
-          <select id="ls-add-type" class="field" required>
+          <label for="add-type">Tipo</label>
+          <select id="add-type" class="field" required>
             ${TYPE_OPTIONS.map((option) => `<option value="${option}">${option}</option>`).join("")}
           </select>
         </div>
 
         <div class="form-field">
-          <label for="ls-add-id">ID</label>
-          <input id="ls-add-id" class="field" type="text" readonly />
+          <label for="add-id">ID</label>
+          <input id="add-id" class="field" type="text" readonly />
         </div>
 
         <div class="form-field">
-          <label for="ls-add-brand">Marca</label>
-          <input id="ls-add-brand" class="field" type="text" required autocomplete="off" />
+          <label for="add-brand">Marca</label>
+          <input id="add-brand" class="field" type="text" required autocomplete="off" />
         </div>
 
         <div class="form-field">
-          <label for="ls-add-model">Modelo</label>
-          <input id="ls-add-model" class="field" type="text" autocomplete="off" />
+          <label for="add-model">Modelo</label>
+          <input id="add-model" class="field" type="text" autocomplete="off" />
         </div>
 
         <div class="form-field">
-          <label for="ls-add-capacity">Capacidad</label>
-          <input id="ls-add-capacity" class="field" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" />
+          <label for="add-capacity">Capacidad</label>
+          <input id="add-capacity" class="field" type="number" min="0" step="1" inputmode="numeric" autocomplete="off" />
         </div>
 
         <div class="form-field">
-          <label for="ls-add-year">Año</label>
-          <input id="ls-add-year" class="field" type="number" min="1900" max="2100" />
+          <label for="add-year">Año</label>
+          <input id="add-year" class="field" type="number" min="1900" max="2100" />
         </div>
 
         <div class="form-field">
-          <label for="ls-add-state">Estado</label>
-          <select id="ls-add-state" class="field" required>
+          <label for="add-state">Estado</label>
+          <select id="add-state" class="field" required>
             ${STATE_OPTIONS.map((option) => `<option value="${option}">${option}</option>`).join("")}
           </select>
         </div>
 
         <div class="form-field">
-          <label for="ls-add-location">Ubicación</label>
-          <input id="ls-add-location" class="field" type="text" required autocomplete="off" />
+          <label for="add-location">Ubicación</label>
+          <input id="add-location" class="field" type="text" required autocomplete="off" />
         </div>
 
         <div class="form-field">
-          <label for="ls-add-price">Precio</label>
-          <input id="ls-add-price" class="field" type="text" placeholder="17000 o Consultar" autocomplete="off" />
+          <label for="add-price">Precio</label>
+          <input id="add-price" class="field" type="text" placeholder="17000 o Consultar" autocomplete="off" />
         </div>
 
-        <div class="form-field" id="ls-add-heating-wrap" hidden>
-          <label for="ls-add-heating">Calefacción</label>
-          <select id="ls-add-heating" class="field">
+        <div class="form-field" id="add-heating-wrap" hidden>
+          <label for="add-heating">Calefacción</label>
+          <select id="add-heating" class="field">
             ${HEATING_OPTIONS.map((option) => `<option value="${option}">${option || "Seleccionar..."}</option>`).join("")}
           </select>
         </div>
 
         <div class="form-field form-field--full">
-          <div class="ls-machine-inline">
-            <label><input id="ls-add-shipping" type="checkbox" checked /> Envío incluido</label>
-            <label><input id="ls-add-startup" type="checkbox" checked /> Puesta en marcha incluida</label>
-            <label><input id="ls-add-visible" type="checkbox" checked /> Publicada</label>
+          <div class="machine-inline">
+            <label><input id="add-shipping" type="checkbox" checked /> Envío incluido</label>
+            <label><input id="add-startup" type="checkbox" checked /> Puesta en marcha incluida</label>
+            <label><input id="add-visible" type="checkbox" checked /> Publicada</label>
           </div>
         </div>
 
         <div class="form-field">
-          <label for="ls-add-warranty-type">Tipo de garantía</label>
-          <select id="ls-add-warranty-type" class="field">
+          <label for="add-warranty-type">Tipo de garantía</label>
+          <select id="add-warranty-type" class="field">
             <option value="">Sin garantía</option>
             <option value="piezas">Garantía de piezas</option>
             <option value="total">Garantía total</option>
@@ -104,8 +104,8 @@ const createDialog = () => {
         </div>
 
         <div class="form-field">
-          <label for="ls-add-warranty">Duración de garantía</label>
-          <select id="ls-add-warranty" class="field">
+          <label for="add-warranty">Duración de garantía</label>
+          <select id="add-warranty" class="field">
             <option value="">Seleccionar...</option>
             <option value="6">6 meses</option>
             <option value="12">12 meses</option>
@@ -114,30 +114,30 @@ const createDialog = () => {
         </div>
 
         <div class="form-field form-field--full">
-          <label for="ls-add-images">Imágenes</label>
-          <input id="ls-add-images" class="field" type="file" multiple accept="image/jpeg,image/png,image/webp" />
+          <label for="add-images">Imágenes</label>
+          <input id="add-images" class="field" type="file" multiple accept="image/jpeg,image/png,image/webp" />
         </div>
 
         <div class="form-field form-field--full">
-          <label for="ls-add-comments">Comentarios</label>
-          <textarea id="ls-add-comments" class="field" rows="4"></textarea>
+          <label for="add-comments">Comentarios</label>
+          <textarea id="add-comments" class="field" rows="4"></textarea>
         </div>
       </div>
 
-      <div class="ls-machine-add-meta">
-        <div><strong>Ruta en Storage:</strong> <span id="ls-add-folder">maquinaria/M001/</span></div>
-        <div><strong>Resumen:</strong> <span id="ls-add-summary">Completa los campos para generar la ficha.</span></div>
+      <div class="machine-add-meta">
+        <div><strong>Ruta en Storage:</strong> <span id="add-folder">maquinaria/M001/</span></div>
+        <div><strong>Resumen:</strong> <span id="add-summary">Completa los campos para generar la ficha.</span></div>
         <div><strong>Archivos seleccionados:</strong></div>
-        <ul id="ls-add-files" class="ls-machine-file-list">
+        <ul id="add-files" class="machine-file-list">
           <li>Sin imágenes seleccionadas.</li>
         </ul>
       </div>
 
-      <p id="ls-add-status" class="ls-machine-add-status" aria-live="polite"></p>
+      <p id="add-status" class="machine-add-status" aria-live="polite"></p>
 
-      <div class="ls-machine-add-actions">
-        <button type="button" class="ls-mini-action" id="ls-add-cancel">Cancelar</button>
-        <button type="submit" class="btn-pill btn-pill-solid" id="ls-add-submit">Preparar alta</button>
+      <div class="machine-add-actions">
+        <button type="button" class="mini-action" id="add-cancel">Cancelar</button>
+        <button type="submit" class="btn-pill btn-pill-solid" id="add-submit">Preparar alta</button>
       </div>
     </form>
   `;
@@ -153,30 +153,30 @@ let editingMachine = null;
 
 const dialog = createDialog();
 const form = dialog.querySelector("form");
-const titleEl = dialog.querySelector("#ls-machine-dialog-title");
-const typeField = dialog.querySelector("#ls-add-type");
-const idField = dialog.querySelector("#ls-add-id");
-const brandField = dialog.querySelector("#ls-add-brand");
-const modelField = dialog.querySelector("#ls-add-model");
-const capacityField = dialog.querySelector("#ls-add-capacity");
-const yearField = dialog.querySelector("#ls-add-year");
-const stateField = dialog.querySelector("#ls-add-state");
-const locationField = dialog.querySelector("#ls-add-location");
-const priceField = dialog.querySelector("#ls-add-price");
-const heatingWrap = dialog.querySelector("#ls-add-heating-wrap");
-const heatingField = dialog.querySelector("#ls-add-heating");
-const shippingField = dialog.querySelector("#ls-add-shipping");
-const startupField = dialog.querySelector("#ls-add-startup");
-const visibleField = dialog.querySelector("#ls-add-visible");
-const warrantyTypeField = dialog.querySelector("#ls-add-warranty-type");
-const warrantyField = dialog.querySelector("#ls-add-warranty");
-const imagesField = dialog.querySelector("#ls-add-images");
-const commentsField = dialog.querySelector("#ls-add-comments");
-const folderEl = dialog.querySelector("#ls-add-folder");
-const summaryEl = dialog.querySelector("#ls-add-summary");
-const filesEl = dialog.querySelector("#ls-add-files");
-const statusEl = dialog.querySelector("#ls-add-status");
-const submitButton = dialog.querySelector("#ls-add-submit");
+const titleEl = dialog.querySelector("#machine-dialog-title");
+const typeField = dialog.querySelector("#add-type");
+const idField = dialog.querySelector("#add-id");
+const brandField = dialog.querySelector("#add-brand");
+const modelField = dialog.querySelector("#add-model");
+const capacityField = dialog.querySelector("#add-capacity");
+const yearField = dialog.querySelector("#add-year");
+const stateField = dialog.querySelector("#add-state");
+const locationField = dialog.querySelector("#add-location");
+const priceField = dialog.querySelector("#add-price");
+const heatingWrap = dialog.querySelector("#add-heating-wrap");
+const heatingField = dialog.querySelector("#add-heating");
+const shippingField = dialog.querySelector("#add-shipping");
+const startupField = dialog.querySelector("#add-startup");
+const visibleField = dialog.querySelector("#add-visible");
+const warrantyTypeField = dialog.querySelector("#add-warranty-type");
+const warrantyField = dialog.querySelector("#add-warranty");
+const imagesField = dialog.querySelector("#add-images");
+const commentsField = dialog.querySelector("#add-comments");
+const folderEl = dialog.querySelector("#add-folder");
+const summaryEl = dialog.querySelector("#add-summary");
+const filesEl = dialog.querySelector("#add-files");
+const statusEl = dialog.querySelector("#add-status");
+const submitButton = dialog.querySelector("#add-submit");
 
 const normalizeCapacity = (value) => {
   const numeric = String(value || "").trim().replace(/[^\d]/g, "");
@@ -372,8 +372,8 @@ const syncAdminControls = async (user) => {
   );
 };
 
-dialog.querySelector(".ls-machine-add-close").addEventListener("click", () => dialog.close());
-dialog.querySelector("#ls-add-cancel").addEventListener("click", () => dialog.close());
+dialog.querySelector(".machine-add-close").addEventListener("click", () => dialog.close());
+dialog.querySelector("#add-cancel").addEventListener("click", () => dialog.close());
 
 [
   typeField,
@@ -462,7 +462,7 @@ document.addEventListener("ls:machine-edit", (event) => {
   openEditDialog(event.detail?.machine || null);
 });
 
-document.querySelectorAll(".ls-filterbar").forEach((bar) => {
+document.querySelectorAll(".filterbar").forEach((bar) => {
   const wrap = createAdminWrap();
   const addButton = wrap.querySelector('[data-machine-auth="add"]');
   addButton.addEventListener("click", openCreateDialog);

@@ -1,10 +1,10 @@
-.ut-contact-form-container {
+.contact-form-container {
   box-sizing: border-box;
   width: min(100%, 37.5rem);
   margin-inline: auto;
 }
 
-.ut-form-actions {
+.form-actions {
   box-sizing: border-box;
   width: 100%;
   min-height: 5.5rem;
@@ -15,6 +15,6 @@
   justify-content: center;
 }
 
-.ut-form-status[hidden] {
+.form-status[hidden] {
   display: none !important;
 }

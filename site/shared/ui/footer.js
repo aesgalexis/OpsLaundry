@@ -1,8 +1,8 @@
 (() => {
   const legalFooter = document.getElementById("legal-footer");
-  const control = legalFooter?.querySelector(".ls-footer-disclosure-control");
-  const toggle = control?.querySelector(".ls-footer-disclosure-toggle");
-  const panel = control?.querySelector(".ls-footer-disclosure-panel");
+  const control = legalFooter?.querySelector(".footer-disclosure-control");
+  const toggle = control?.querySelector(".footer-disclosure-toggle");
+  const panel = control?.querySelector(".footer-disclosure-panel");
   if (!legalFooter || !control || !toggle || !panel) return;
   let closeTimer = null;
   let scrollFrame = null;

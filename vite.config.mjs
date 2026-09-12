@@ -1,10 +1,4 @@
-const cleanDirectoryRoutes = new Map([
-  ["/", "/index.html"],
-  ["/catalogo", "/catalogo/index.html"],
-  ["/catalogo/", "/catalogo/index.html"],
-  ["/solicitudes", "/solicitudes/index.html"],
-  ["/solicitudes/", "/solicitudes/index.html"],
-]);
+import {cleanDirectoryRoutes} from "./scripts/admin-routes.mjs";
 
 const rewriteCleanDirectoryRoute = (request) => {
   if (!request.url) return;

@@ -54,6 +54,6 @@ test("contact pages do not reserve an unused scrollbar gutter", async () => {
   const current = await renderCssBundle(ROOT, CSS_BUNDLES[0]);
   assert.match(
     current.css,
-    /html:has\(body\.ls-contact-page\),body\.ls-contact-page\{scrollbar-gutter:auto\}/,
+    /html:has\(body\.contact-page\),body\.contact-page\{scrollbar-gutter:auto\}/,
   );
 });

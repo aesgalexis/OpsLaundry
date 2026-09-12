@@ -1,6 +1,6 @@
 const assert = require("node:assert/strict");
 const {test} = require("node:test");
-const {normalizeMachineSubmission, publicMachine} = require("../lib/machinery/machineSubmissionPolicy");
+const {normalizeMachineSubmission, publicMachine} = require("../lib/machinery/submission-policy");
 const records = new Map();
 const objects = new Map();
 let failCopy = false;
@@ -33,10 +33,10 @@ const bucket = {name: "test-bucket", file: (path) => ({path,
 function stub(path, exports) { require.cache[require.resolve(path)] = {exports}; }
 stub("../lib/core/firebase", {db, admin: {storage: () => ({bucket: () => bucket}),
   firestore: {FieldValue: {serverTimestamp: () => "timestamp"}, FieldPath: {documentId: () => "__name__"}}}});
-stub("../lib/spare-parts/spareRequestRateLimit", {enforceSpareRequestRateLimit: async () => {}});
+stub("../lib/spare-parts/rate-limit", {enforceSpareRequestRateLimit: async () => {}});
 stub("../lib/email/delivery", {sendLaundryEmail: async (payload, key) => emails.push({payload, key})});
-const {submitLaundryMachine, listLaundryMachineSubmissions, notifyLaundryMachineSubmission, getLaundryMachineSubmissionImage} = require("../lib/machinery/machineSubmissions");
-const {reviewLaundryMachineSubmission} = require("../lib/machinery/machineSubmissionReview");
+const {submitLaundryMachine, listLaundryMachineSubmissions, notifyLaundryMachineSubmission, getLaundryMachineSubmissionImage} = require("../lib/machinery/submissions");
+const {reviewLaundryMachineSubmission} = require("../lib/machinery/submission-review");
 const payload = {
   submissionId: "12345678-abcd-1234", contactName: "Test seller", email: "test@example.com",
   phone: "123456789", privacyAccepted: true, categoria: "Lavadora", marca: "Test",
@@ -99,6 +99,6 @@ test("notification uses fixed destination, escaped content and private review li
   assert.ok(emails[0].payload.html.includes("&lt;script&gt;"));
   assert.match(emails[0].payload.html, /logo-unatomo-round-v1\.0\.png/);
   assert.match(emails[1].payload.html, /opslaundry-wordmark-email\.png/);
-  assert.ok(emails[0].payload.text.includes("/solicitudes/?request="));
+  assert.ok(emails[0].payload.text.includes("/requests/?request="));
   assert.equal(emails[1].payload.to[0], "test@example.com");
 });

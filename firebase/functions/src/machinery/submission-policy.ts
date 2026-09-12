@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import {HttpsError} from "firebase-functions/v2/https";
-import {clean, normalizeRequest, validateImages} from "../spare-parts/spareRequestValidation";
+import {clean, normalizeRequest, validateImages} from "../spare-parts/validation";
 
 export const prefixes: Record<string, string> = {
   Plegadora: "P", Lavadora: "L", Tunel: "T", Secadora: "S",

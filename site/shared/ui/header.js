@@ -1,15 +1,15 @@
 (() => {
-  const topbar = document.querySelector("#ls-topbar-mount .ls-topbar");
+  const topbar = document.querySelector("#topbar-mount .topbar");
   if (!topbar) return;
   const laundryLogo =
     "/assets/brand/wordmark.svg";
-  const logo = topbar.querySelector(".ls-topbar-logo");
+  const logo = topbar.querySelector(".topbar-logo");
   if (logo) {
     logo.src = laundryLogo;
     logo.alt = "OpsLaundry";
-    logo.classList.add("ls-topbar-logo--wordmark");
+    logo.classList.add("topbar-logo--wordmark");
   }
-  const name = topbar.querySelector(".ls-topbar-name");
+  const name = topbar.querySelector(".topbar-name");
   if (name) {
     name.replaceChildren();
     name.hidden = true;

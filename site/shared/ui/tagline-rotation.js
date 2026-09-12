@@ -1,5 +1,5 @@
 (() => {
-  const target = document.getElementById("ls-claim-loop-text");
+  const target = document.getElementById("tagline-rotation-text");
   if (!target) return;
 
   const phrases = [

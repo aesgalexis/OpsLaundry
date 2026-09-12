@@ -12,20 +12,20 @@
 }
 
 @media (max-width: 600px) {
-  .ls-topbar-parent-name {
+  .topbar-parent-name {
     display: none;
   }
 
-  .ls-upperfooter {
+  .upperfooter {
     grid-template-columns: 1fr;
     gap: 0;
   }
 
-  .ls-upperfooter-col {
+  .upperfooter-col {
     padding: 0.95rem 0;
   }
 
-  .ls-upperfooter-col + .ls-upperfooter-col {
+  .upperfooter-col + .upperfooter-col {
     border-top: 1px solid var(--border-subtle);
   }
 
@@ -114,7 +114,7 @@
     top: 33px;
   }
 
-  .ls-topbar-inner {
+  .topbar-inner {
     padding: 0 0.75rem;
   }
 
@@ -127,73 +127,73 @@
     overflow-x: visible;
   }
 
-  .ls-table {
+  .table {
     min-width: 0;
     table-layout: auto;
     font-size: 0.84rem;
   }
 
-  .ls-table thead {
+  .table thead {
     display: none;
   }
 
-  .ls-table,
-  .ls-table tbody,
-  .ls-table tr,
-  .ls-table td {
+  .table,
+  .table tbody,
+  .table tr,
+  .table td {
     display: block;
     width: 100%;
   }
 
-  .ls-table tbody tr[data-machine-id] {
+  .table tbody tr[data-machine-id] {
     padding: 0.75rem 0;
     border-top: 1px solid var(--border-subtle);
   }
 
-  .ls-table tbody tr[data-machine-id]:first-child {
+  .table tbody tr[data-machine-id]:first-child {
     border-top: none;
   }
 
-  .ls-table td {
+  .table td {
     padding: 0.18rem 0;
     border-top: none !important;
     border-bottom: none !important;
   }
 
-  .ls-table tbody tr[data-machine-id] td::before {
+  .table tbody tr[data-machine-id] td::before {
     content: attr(data-label) ": ";
     font-weight: 600;
     color: var(--fg);
   }
 
-  .ls-table-gallery-row td,
-  .ls-table-subrow td {
+  .table-gallery-row td,
+  .table-subrow td {
     padding: 0.5rem 0 0;
   }
 
-  .ls-table-subrow-inner {
+  .table-subrow-inner {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.6rem;
   }
 
-  .ls-machine-gallery img {
+  .machine-gallery img {
     width: 78px;
     height: 58px;
   }
 
-  .ls-table-gallery-row td {
+  .table-gallery-row td {
     padding-bottom: 1rem;
   }
 
-  .ls-table-actions {
+  .table-actions {
     width: 100%;
     justify-content: flex-start;
     margin-bottom: 0.35rem;
   }
 
-  .ls-mini-action,
-  .ls-filter-btn {
+  .mini-action,
+  .filter-btn {
     appearance: none;
     -webkit-appearance: none;
     background-image: none;

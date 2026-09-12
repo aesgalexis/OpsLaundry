@@ -1,8 +1,8 @@
 import {logger} from "firebase-functions";
 import {HttpsError} from "firebase-functions/v2/https";
 import {resendApiKey} from "./resend";
-import {ResendPayload} from "../spare-parts/spareRequestTypes";
-import {clean} from "../spare-parts/spareRequestValidation";
+import {ResendPayload} from "../spare-parts/types";
+import {clean} from "../spare-parts/validation";
 
 export const sendLaundryEmail = async (
   payload: ResendPayload,

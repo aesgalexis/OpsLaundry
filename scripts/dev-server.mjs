@@ -4,11 +4,7 @@ import { extname, join, normalize } from "node:path";
 
 const root = join(process.cwd(), "site");
 const port = Number(process.env.PORT || 5174);
-const cleanDirectoryRoutes = new Map([
-  ["/", "/index.html"],
-  ["/catalogo", "/catalogo/index.html"],
-  ["/solicitudes", "/solicitudes/index.html"]
-]);
+import {cleanDirectoryRoutes} from "./admin-routes.mjs";
 
 const mime = {
   ".html": "text/html; charset=utf-8",

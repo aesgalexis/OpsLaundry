@@ -5,7 +5,7 @@
     "build": "node scripts/clean-build.cjs && tsc",
     "test": "npm run lint && npm run test:spare-parts && npm run test:machinery",
     "test:machinery": "npm run build && node test/machinery.test.cjs",
-    "test:spare-parts": "npm run build && node test/spareParts.test.cjs",
+    "test:spare-parts": "npm run build && node test/spare-parts.test.cjs",
     "build:watch": "tsc --watch",
     "serve": "npm run build && firebase emulators:start --only functions",
     "shell": "npm run build && firebase functions:shell",

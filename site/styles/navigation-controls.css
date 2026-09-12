@@ -121,15 +121,15 @@
 a.btn-pill,
 button.btn-pill {
   box-sizing: border-box;
-  min-height: var(--ut-button-height-standard);
+  min-height: var(--button-height-standard);
   margin-top: 0;
-  padding: 0 var(--ut-button-padding-inline);
-  border-radius: var(--ut-button-radius-standard);
+  padding: 0 var(--button-padding-inline);
+  border-radius: var(--button-radius-standard);
   border: 1px solid transparent;
   font: inherit;
-  font-size: var(--ut-button-font-size-standard);
-  font-weight: var(--ut-button-font-weight-standard);
-  line-height: var(--ut-button-line-height-standard);
+  font-size: var(--button-font-size-standard);
+  font-weight: var(--button-font-weight-standard);
+  line-height: var(--button-line-height-standard);
   cursor: pointer;
   display: inline-flex;
   align-items: center;
@@ -187,7 +187,7 @@ button.btn-pill:focus-visible,
 .icon-button {
   margin: 0;
   width: 44px;
-  height: var(--ut-button-height-utility);
+  height: var(--button-height-utility);
   padding: 0;
   border-radius: 0.75rem;
   border: 1px solid var(--border-subtle);
@@ -247,7 +247,7 @@ button.btn-pill:focus-visible,
 
 #lang-toggle svg { fill: none; }
 
-body.page .ls-topbar #lang-toggle {
+body.page .topbar #lang-toggle {
   position: static;
   top: auto;
   right: auto;
