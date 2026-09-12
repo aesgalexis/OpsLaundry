@@ -130,8 +130,10 @@ for (const lang of LANGS) {
       (attribute(node, "class") || "").split(/\s+/u).includes("footer-disclosure-powered"));
     const poweredLink = powered ? findAll(powered, (node) => node.tagName === "a")[0] : null;
     if (nodeText(powered).trim() !== "Powered by people who like machines." ||
-        attribute(poweredLink, "href") !== "/") {
-      failures.push(`${route}: winged-shoe credit must remain untranslated and link to root.`);
+        attribute(poweredLink, "href") !== "https://unatomo.com/es/nosotros/" ||
+        attribute(poweredLink, "target") !== "_blank" ||
+        attribute(poweredLink, "rel") !== "noopener") {
+      failures.push(`${route}: footer credit must link to the Unátomo team page.`);
     }
     const expectedBackHref = page === "home" ? "/" : routePath(lang, page === "submission" ? "machinery" : "home");
     if (attribute(body, "data-back-href") !== expectedBackHref) failures.push(`${route}: incorrect back destination.`);

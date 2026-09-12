@@ -1,0 +1,10 @@
+{
+  "terminal.integrated.defaultProfile.windows": "OpsLaundry Command Prompt",
+  "terminal.integrated.profiles.windows": {
+    "OpsLaundry Command Prompt": {
+      "path": "${env:windir}\\System32\\cmd.exe",
+      "args": ["/d"],
+      "icon": "terminal-cmd"
+    }
+  }
+}

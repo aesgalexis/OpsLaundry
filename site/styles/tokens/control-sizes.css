@@ -6,9 +6,11 @@
   --button-height-utility: 2.25rem;
   --button-height-standard: var(--control-height-standard);
   --button-padding-inline: 1.25rem;
-  --button-radius-standalone: 999px;
-  --button-radius-inline: 0.75rem;
-  --button-radius-standard: var(--button-radius-standalone);
+  --control-radius-standard: 0.625rem;
+  --textbox-radius: var(--control-radius-standard);
+  --select-radius: var(--control-radius-standard);
+  --button-radius-inline: var(--control-radius-standard);
+  --button-radius-standard: var(--control-radius-standard);
   --button-font-size-standard: 0.95rem;
   --button-font-weight-standard: 400;
   --button-line-height-standard: normal;

@@ -3,9 +3,9 @@
 Utiliza las versiones Node y npm declaradas en `.nvmrc` y `package.json`.
 
 ```powershell
-npm.cmd install
-npm.cmd run doctor
-npm.cmd run dev
+npm install
+npm run doctor
+npm run dev
 ```
 
 Vite sirve `site/` como raíz. `npm run dev:static` ofrece una alternativa
@@ -17,8 +17,8 @@ de ejecución bajo `site/static/js/config/`.
 Antes de entregar cambios del sitio:
 
 ```powershell
-npm.cmd test
-npm.cmd run build
+npm test
+npm run build
 ```
 
 `npm run catalog:check` valida el catálogo versionado sin escribir en Firebase.

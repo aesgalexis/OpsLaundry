@@ -1,25 +1,7 @@
-/* OpsLaundry: upper footer. */
+/* OpsLaundry: service navigation within the shared footer. */
 
 .upperfooter {
-  margin-top: 1.6rem;
-  padding-top: 1.5rem;
-  border-top: 1px solid var(--border-subtle);
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0.75rem;
-  align-items: start;
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.upperfooter * {
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.upperfooter img {
-  -webkit-user-drag: none;
-  user-drag: none;
+  display: contents;
 }
 
 .upperfooter-col {
@@ -27,64 +9,49 @@
 }
 
 .upperfooter-col-main {
-  padding-top: 0.7rem;
+  display: block;
 }
 
 .upperfooter-kicker {
   margin: 0;
   font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.4;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: color-mix(in srgb, var(--fg) 70%, transparent);
 }
 
+.upperfooter-kicker a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.upperfooter-kicker a:hover,
+.upperfooter-kicker a:focus-visible {
+  color: var(--accent-strong);
+  text-decoration: underline;
+}
+
 .upperfooter-list {
-  margin: 0.55rem 0 0;
+  margin: 0.85rem 0 0;
   padding: 0;
   list-style: none;
   display: grid;
-  gap: 0.35rem;
+  grid-template-columns: minmax(0, 1fr);
+  row-gap: 0.55rem;
 }
 
-.upperfooter-list li {
-  font-size: 0.9rem;
-  color: color-mix(in srgb, var(--fg) 88%, transparent);
-}
-
-.upperfooter-contact .contact-info {
-  margin-top: 0;
-  display: grid;
-  row-gap: 0.65rem;
-}
-
-.upperfooter-contact .contact-info-item {
-  margin: 0;
-  display: grid;
-  grid-template-columns: 18px minmax(0, 1fr);
-  column-gap: 0.5rem;
-  align-items: start;
-}
-
-.upperfooter-contact .contact-icon-link {
-  width: 18px;
-  height: 18px;
-  border-radius: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: color-mix(in srgb, var(--fg) 78%, transparent);
-  border: none;
+.upperfooter-list a {
+  display: inline-block;
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  line-height: 1.4;
   text-decoration: none;
-  flex-shrink: 0;
-  margin-top: 0.1rem;
 }
 
-.upperfooter-contact .contact-icon-link:hover,
-.upperfooter-contact .contact-icon-link:focus-visible {
-  color: var(--fg);
-  border: none;
-}
-
-.upperfooter-contact .contact-info-item p {
-  line-height: 1.35;
+.upperfooter-list a:hover,
+.upperfooter-list a:focus-visible {
+  color: var(--accent);
+  text-decoration: underline;
 }

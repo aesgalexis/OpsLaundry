@@ -14,7 +14,7 @@ son `FIREBASE_API_KEY`, `FIREBASE_AUTH_DOMAIN`, `FIREBASE_PROJECT_ID`,
 La publicación del sitio la inicia el propietario con:
 
 ```powershell
-npm.cmd run site:publish
+npm run site:publish
 ```
 
 El comando genera estadísticas y build, crea un commit si hay cambios y envía

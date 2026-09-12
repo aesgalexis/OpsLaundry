@@ -1,6 +1,6 @@
 :root {
-  --action-primary: #2da44e;
-  --action-primary-hover: #2c974b;
-  --action-primary-active: #26863f;
+  --action-primary: #2563eb;
+  --action-primary-hover: #1d4ed8;
+  --action-primary-active: #1e40af;
   --checkbox-accent: var(--action-primary);
 }

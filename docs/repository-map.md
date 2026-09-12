@@ -28,6 +28,7 @@ publicación del propietario; los cambios locales no se publican solos.
 
 ## Documentación
 
+- `editorial-guide.md`: voz, alcance de los textos públicos y registro de aprendizaje editorial; leer antes de redactar o corregir contenido explicativo.
 - `architecture.md`: rutas, límites entre código público y administración.
 - `styles.md`: entrada CSS, cascada y clases estructurales.
 - `firebase.md`: datos, seguridad y contratos desplegados.

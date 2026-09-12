@@ -36,11 +36,11 @@
 }
 
 .minimal-page-nav-button:hover {
-  border-color: color-mix(in srgb, var(--fg) 42%, transparent);
-  color: var(--fg);
+  border-color: color-mix(in srgb, var(--accent) 42%, transparent);
+  color: var(--accent-strong);
 }
 
 .minimal-page-nav-button:focus-visible {
-  outline: 2px solid color-mix(in srgb, var(--fg) 52%, transparent);
+  outline: 2px solid var(--accent);
   outline-offset: 2px;
 }

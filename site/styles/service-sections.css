@@ -1,7 +1,7 @@
 /* OpsLaundry: service and editorial section components. */
 
 .service-pillars {
-  margin-top: 5.4rem;
+  margin-top: var(--space-section);
   overflow: hidden;
   border: 1px solid #d6dbe3;
   background: #ffffff;
@@ -51,7 +51,7 @@ html {
 .service-pillar-title {
   margin: 0 0 0.65rem;
   color: #0f172a;
-  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
   line-height: 1.25;
   transition: color 220ms ease;
 }
@@ -92,7 +92,7 @@ html {
 }
 
 .service-pillar--link:focus-visible {
-  outline: 2px solid #2563eb;
+  outline: 2px solid var(--accent);
   outline-offset: -4px;
   background: #f8fafc;
 }
@@ -101,7 +101,7 @@ html {
   position: absolute;
   top: 1.2rem;
   right: 1.25rem;
-  color: #2563eb;
+  color: var(--accent);
   font-size: 1rem;
   opacity: 0.55;
   transform: translate(0, 0);
@@ -120,7 +120,7 @@ html {
 .method-section,
 .experience-section,
 .audit-cta {
-  margin-top: 5.4rem;
+  margin-top: var(--space-section);
 }
 
 .positioning-block {
@@ -163,9 +163,9 @@ html {
 
 .service-copy-section h3 {
   margin: 0 0 0.7rem;
-  font-size: clamp(1.2rem, 2.4vw, 1.55rem);
+  font-size: clamp(1.1rem, 1.8vw, 1.35rem);
   line-height: 1.25;
-  color: var(--fg);
+  color: var(--brand);
 }
 
 .service-copy-section p + p {
@@ -228,11 +228,11 @@ html {
 
 @media (hover: hover) {
   .signals-list li:hover {
-    color: var(--reading-hover);
+    color: var(--fg);
   }
 
   .signals-list li:hover::before {
-    background: #22c55e;
+    background: var(--accent);
     transform: scale(1.12);
   }
 }
@@ -261,7 +261,7 @@ html {
 
 .method-grid h3 {
   margin: 0 0 0.4rem;
-  color: var(--fg);
+  color: var(--brand);
 }
 
 .experience-grid {
@@ -277,7 +277,7 @@ html {
 
 .experience-grid h3 {
   margin: 0 0 0.55rem;
-  color: var(--fg);
+  color: var(--brand);
 }
 
 .experience-grid p + p {
@@ -329,8 +329,41 @@ body.service-detail-page .upperfooter * {
   color: #ffffff;
 }
 
+.trust-section {
+  margin-top: var(--space-section);
+  padding-top: 2rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.trust-grid {
+  margin: 1.5rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.25rem;
+}
+
+.trust-grid li {
+  padding-top: 1rem;
+  border-top: 2px solid color-mix(in srgb, var(--accent) 42%, var(--border-subtle));
+}
+
+.trust-grid strong {
+  display: block;
+  margin-bottom: 0.45rem;
+  color: var(--brand);
+  font-size: 0.95rem;
+  line-height: 1.35;
+}
+
+.trust-grid span {
+  font-size: 0.86rem;
+  line-height: 1.55;
+}
+
 .closing-claim {
-  margin-top: 5.4rem;
+  margin-top: var(--space-section);
   text-align: center;
 }
 
@@ -342,9 +375,9 @@ body.service-detail-page .upperfooter * {
 }
 
 .closing-claim h2 {
-  font-size: clamp(2.2rem, 4.6vw, 3.2rem);
-  letter-spacing: -0.03em;
-  color: var(--fg);
+  font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+  letter-spacing: -0.025em;
+  color: var(--brand);
   font-weight: 600;
   margin: 0;
 }

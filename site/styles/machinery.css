@@ -11,8 +11,8 @@
   border: 1px solid var(--border-subtle);
   background: var(--panel-bg);
   color: var(--fg);
-  border-radius: 999px;
-  height: 32px;
+  border-radius: var(--control-radius-standard);
+  height: var(--button-height-standard);
   padding: 0 0.8rem;
   cursor: pointer;
   font: inherit;
@@ -36,7 +36,7 @@
   background-repeat: no-repeat;
   background-size: var(--select-indicator-size);
   color: var(--fg);
-  border-radius: var(--button-radius-inline);
+  border-radius: var(--select-radius);
   height: var(--select-height);
   padding: 0 var(--select-padding-inline-end) 0 0.9rem;
   cursor: pointer;
@@ -86,6 +86,12 @@
 .table-wrap {
   width: 100%;
   overflow-x: auto;
+}
+
+.pagination .mini-action {
+  height: var(--button-height-compact);
+  padding-inline: 0.75rem;
+  border-radius: 0.5rem;
 }
 
 .filterbar[hidden],
@@ -272,7 +278,7 @@
 }
 
 .machine-link {
-  color: inherit;
+  color: var(--accent-strong);
   font-weight: 600;
   text-decoration: none;
   text-decoration-thickness: 1px;
@@ -286,7 +292,7 @@
 
 .machine-link:focus-visible {
   border-radius: 0.15rem;
-  outline: 2px solid var(--fg);
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 

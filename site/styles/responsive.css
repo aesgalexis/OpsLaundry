@@ -5,28 +5,21 @@
     grid-template-columns: 1fr;
   }
 
-  .laundry-textile-hero {
-    display: none;
-  }
 
 }
 
 @media (max-width: 600px) {
+  :root {
+    --space-section: 3.5rem;
+    --space-footer: 3.5rem;
+  }
+
   .topbar-parent-name {
     display: none;
   }
 
-  .upperfooter {
+  .upperfooter-list {
     grid-template-columns: 1fr;
-    gap: 0;
-  }
-
-  .upperfooter-col {
-    padding: 0.95rem 0;
-  }
-
-  .upperfooter-col + .upperfooter-col {
-    border-top: 1px solid var(--border-subtle);
   }
 
   .page-shell {
@@ -34,7 +27,7 @@
   }
 
   .service-pillars {
-    margin-top: 4.5rem;
+    margin-top: var(--space-section);
   }
 
   .service-pillars-grid {
@@ -98,7 +91,8 @@
 
   .signals-list,
   .method-grid,
-  .experience-grid {
+  .experience-grid,
+  .trust-grid {
     grid-template-columns: 1fr;
   }
 

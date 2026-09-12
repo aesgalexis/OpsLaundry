@@ -1,72 +1,113 @@
 (() => {
+  const footerNavigation = {
+    es: {
+      home: "/es/",
+      title: "Servicios",
+      items: [
+        ["Auditoría técnica", "/es/auditoria/"],
+        ["Contadores y automatización", "/es/automatizacion/"],
+        ["Inversiones y proyectos", "/es/inversiones/"],
+        ["Maquinaria y equipamiento", "/es/maquinaria-ocasion/"],
+        ["Recambios y componentes", "/es/recambios/"],
+        ["Asistencia técnica", "/es/asistencia-tecnica/"]
+      ]
+    },
+    en: {
+      home: "/en/",
+      title: "Services",
+      items: [
+        ["Technical audit", "/en/technical-audit/"],
+        ["Counters and automation", "/en/automation/"],
+        ["Investments and projects", "/en/investments/"],
+        ["Machinery and equipment", "/en/used-machinery/"],
+        ["Spare parts and components", "/en/spare-parts/"],
+        ["Technical support", "/en/technical-support/"]
+      ]
+    },
+    it: {
+      home: "/it/",
+      title: "Servizi",
+      items: [
+        ["Audit tecnico", "/it/audit-tecnico/"],
+        ["Contatori e automazione", "/it/automazione/"],
+        ["Investimenti e progetti", "/it/investimenti/"],
+        ["Macchinari e attrezzature", "/it/macchinari-usati/"],
+        ["Ricambi e componenti", "/it/ricambi/"],
+        ["Assistenza tecnica", "/it/assistenza-tecnica/"]
+      ]
+    },
+    el: {
+      home: "/el/",
+      title: "Υπηρεσίες",
+      items: [
+        ["Τεχνικός έλεγχος", "/el/technikos-elegchos/"],
+        ["Μετρητές και αυτοματισμοί", "/el/aftomatismoi/"],
+        ["Επενδύσεις και έργα", "/el/ependyseis/"],
+        ["Μηχανήματα και εξοπλισμός", "/el/metacheirismena-michanimata/"],
+        ["Ανταλλακτικά και εξαρτήματα", "/el/antallaktika/"],
+        ["Τεχνική υποστήριξη", "/el/techniki-ypostirixi/"]
+      ]
+    }
+  };
+
   const legalFooter = document.getElementById("legal-footer");
   const control = legalFooter?.querySelector(".footer-disclosure-control");
   const toggle = control?.querySelector(".footer-disclosure-toggle");
   const panel = control?.querySelector(".footer-disclosure-panel");
-  if (!legalFooter || !control || !toggle || !panel) return;
-  let closeTimer = null;
-  let scrollFrame = null;
+  if (!legalFooter || !control || !panel) return;
 
-  const scrollToDocumentEnd = () => {
-    const documentHeight = Math.max(document.documentElement?.scrollHeight || 0, document.body?.scrollHeight || 0);
-    window.scrollTo({top: documentHeight, left: 0, behavior: "auto"});
-  };
-  const followExpansion = (until) => {
-    if (!control.classList.contains("is-open")) {
-      scrollFrame = null;
-      return;
-    }
-    scrollToDocumentEnd();
-    if (performance.now() < until) {
-      scrollFrame = window.requestAnimationFrame(() => followExpansion(until));
-    } else {
-      scrollFrame = window.requestAnimationFrame(() => {
-        scrollToDocumentEnd();
-        scrollFrame = null;
-      });
-    }
-  };
-  const close = ({restoreFocus = false} = {}) => {
-    if (panel.hidden) return;
-    if (closeTimer !== null) window.clearTimeout(closeTimer);
-    if (scrollFrame !== null) window.cancelAnimationFrame(scrollFrame);
-    scrollFrame = null;
-    control.classList.remove("is-open");
-    control.classList.add("is-closing");
-    toggle.setAttribute("aria-expanded", "false");
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    closeTimer = window.setTimeout(() => {
-      panel.hidden = true;
-      control.classList.remove("is-closing");
-      closeTimer = null;
-    }, reducedMotion ? 0 : 180);
-    if (restoreFocus) toggle.focus();
-  };
-  toggle.addEventListener("click", (event) => {
-    event.preventDefault();
-    event.stopPropagation();
-    const opening = toggle.getAttribute("aria-expanded") !== "true";
-    if (!opening) {
-      close();
-      return;
-    }
-    if (closeTimer !== null) window.clearTimeout(closeTimer);
-    panel.hidden = false;
-    control.classList.remove("is-closing");
-    toggle.setAttribute("aria-expanded", "true");
-    window.requestAnimationFrame(() => {
-      control.classList.add("is-open");
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      followExpansion(performance.now() + (reducedMotion ? 0 : 420));
-    });
-  });
-  document.addEventListener("click", (event) => {
-    if (!legalFooter.contains(event.target)) close();
-  });
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && !panel.hidden) {
-      event.preventDefault();
-      close({restoreFocus: true});
-    }
-  });
+  const label = panel.getAttribute("aria-label");
+  legalFooter.setAttribute("role", "contentinfo");
+  if (label) legalFooter.setAttribute("aria-label", label);
+
+  const lang = document.documentElement.lang.slice(0, 2);
+  const navigation = footerNavigation[lang] || footerNavigation.es;
+  const upperFooterMount = document.getElementById("upperfooter-mount");
+  const upperFooter = upperFooterMount?.querySelector(".upperfooter") || document.createElement("section");
+  const brandLink = document.createElement("a");
+  const brandLogo = document.createElement("img");
+  const column = document.createElement("div");
+  const kicker = document.createElement("p");
+  const list = document.createElement("ul");
+
+  upperFooter.className = "upperfooter";
+  upperFooter.setAttribute("aria-label", "OpsLaundry");
+  brandLink.className = "footer-brand";
+  brandLink.href = navigation.home;
+  brandLogo.src = "/assets/brand/wordmark.svg";
+  brandLogo.alt = "OpsLaundry";
+  brandLogo.width = 760;
+  brandLogo.height = 180;
+  brandLogo.loading = "lazy";
+  brandLogo.decoding = "async";
+  brandLink.append(brandLogo);
+  column.className = "upperfooter-col upperfooter-col-main";
+  kicker.className = "upperfooter-kicker";
+  kicker.textContent = navigation.title;
+  list.className = "upperfooter-list";
+
+  for (const [text, href] of navigation.items) {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = href;
+    link.textContent = text;
+    item.append(link);
+    list.append(item);
+  }
+
+  column.append(kicker, list);
+  upperFooter.replaceChildren(column);
+  const identityColumn = panel.querySelector(".footer-disclosure-identity");
+  if (identityColumn) identityColumn.prepend(brandLink);
+  else panel.prepend(brandLink);
+  const contactColumn = panel.querySelector(".footer-disclosure-meta");
+  if (contactColumn) panel.insertBefore(upperFooter, contactColumn);
+  else panel.append(upperFooter);
+  upperFooterMount?.remove();
+
+  toggle?.remove();
+  panel.hidden = false;
+  panel.removeAttribute("role");
+  panel.removeAttribute("aria-label");
+  control.classList.remove("is-open", "is-closing");
 })();

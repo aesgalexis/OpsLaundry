@@ -55,6 +55,8 @@ for (const file of files) {
 
     const contextStart = Math.max(0, result.index - 120);
     const contextBefore = content.slice(contextStart, result.index);
+    const belongsToExternalOrigin = /https?:\/\/[^/\s"'<>)]*$/u.test(contextBefore);
+    if (belongsToExternalOrigin) continue;
     const usesPathPredicate =
       /\.(?:startsWith|endsWith|includes)\s*\([^)]*$/.test(contextBefore);
     if (usesPathPredicate) continue;
