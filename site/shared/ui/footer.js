@@ -95,12 +95,37 @@
     list.append(item);
   }
 
+  const about = document.createElement("p");
+  about.className = "footer-about-title footer-disclosure-contact-title";
+  const aboutLink = document.createElement("a");
+  aboutLink.className = "footer-disclosure-contact-form-link";
+  const aboutIcon = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  aboutIcon.setAttribute("viewBox", "0 0 24 24");
+  aboutIcon.setAttribute("fill", "none");
+  aboutIcon.setAttribute("stroke", "currentColor");
+  aboutIcon.setAttribute("stroke-width", "1.7");
+  aboutIcon.setAttribute("stroke-linecap", "round");
+  aboutIcon.setAttribute("stroke-linejoin", "round");
+  aboutIcon.setAttribute("aria-hidden", "true");
+  aboutIcon.setAttribute("focusable", "false");
+  const aboutIconPath = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  aboutIconPath.setAttribute("d", "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0");
+  aboutIcon.append(aboutIconPath);
+  const aboutLabel = document.createElement("span");
+  aboutLabel.textContent = {es: "Nosotros", en: "About us", it: "Chi siamo", el: "Ποιοι είμαστε"}[lang] || "About us";
+  aboutLink.append(aboutIcon);
+  aboutLink.setAttribute("aria-label", {es: "Conocer OpsLaundry", en: "About OpsLaundry", it: "Scopri OpsLaundry", el: "Γνώρισε την OpsLaundry"}[lang] || "About OpsLaundry");
+  about.append(aboutLabel, aboutLink);
+  const aboutRoutes = {es: "/es/nosotros/", en: "/en/about-us/", it: "/it/chi-siamo/", el: "/el/poioi-eimaste/"};
+  aboutLink.href = aboutRoutes[lang] || aboutRoutes.en;
+  if (window.location.pathname === aboutLink.getAttribute("href")) aboutLink.setAttribute("aria-current", "page");
   column.append(kicker, list);
   upperFooter.replaceChildren(column);
   const identityColumn = panel.querySelector(".footer-disclosure-identity");
   if (identityColumn) identityColumn.prepend(brandLink);
   else panel.prepend(brandLink);
   const contactColumn = panel.querySelector(".footer-disclosure-meta");
+  if (contactColumn) contactColumn.prepend(about);
   if (contactColumn) panel.insertBefore(upperFooter, contactColumn);
   else panel.append(upperFooter);
   upperFooterMount?.remove();

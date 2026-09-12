@@ -16,3 +16,8 @@ se aplican conjuntamente a HTML, CSS, JavaScript y generadores de páginas.
 El formulario de contacto requiere `.form-grid`, los `label[for]` emparejados,
 `.form-consent-label > input + span`, `.form-status` y `.form-actions`.
 Estas estructuras controlan la posición de campos, consentimiento y acciones.
+
+Nosotros y las cuatro páginas de servicios explicativos comparten
+`.editorial-story`, `.editorial-intro` y `.editorial-section` en `editorial.css`:
+título a la izquierda y texto a la derecha, una columna por debajo de 640px.
+El H1 se mantiene entre 1.5 y 2rem. Inicio conserva las tarjetas de servicios.

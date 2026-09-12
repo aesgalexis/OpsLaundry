@@ -55,3 +55,6 @@
   color: var(--accent);
   text-decoration: underline;
 }
+.footer-about-title.footer-disclosure-contact-title {
+  margin-bottom: 1.25rem;
+}

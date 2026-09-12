@@ -86,7 +86,6 @@
   line-height: 1.4;
 }
 
-.footer-disclosure-powered,
 .footer-disclosure-privacy-row,
 .footer-disclosure-legal {
   margin: 0.45rem 0 0;
@@ -95,8 +94,41 @@
   line-height: 1.5;
 }
 
-.footer-disclosure-powered {
+.footer-studio-credit {
+  display: grid;
+  grid-template-columns: 2.5rem minmax(0, 1fr);
+  column-gap: 0.5rem;
+  align-items: center;
   margin-top: 1.15rem;
+  max-width: 42ch;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.footer-studio-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+}
+
+.footer-studio-logo {
+  display: block;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex: 0 0 auto;
+}
+
+.footer-studio-heading {
+  margin: 0;
+  color: var(--brand);
+  font-weight: 600;
+}
+
+.footer-studio-description {
+  grid-column: 1 / -1;
+  margin: 0.35rem 0 0.85rem;
+  color: color-mix(in srgb, var(--fg) 72%, transparent);
 }
 
 .footer-disclosure-contact-title {
@@ -174,14 +206,15 @@ a.footer-disclosure-contact-item {
   fill: currentColor;
 }
 
-.footer-disclosure-powered a,
+
+.footer-studio-link,
 .footer-disclosure-privacy {
   color: var(--accent-strong);
   text-decoration: none;
 }
 
-.footer-disclosure-powered a:hover,
-.footer-disclosure-powered a:focus-visible,
+.footer-studio-link:hover,
+.footer-studio-link:focus-visible,
 .footer-disclosure-privacy:hover,
 .footer-disclosure-privacy:focus-visible,
 a.footer-disclosure-contact-item:hover,

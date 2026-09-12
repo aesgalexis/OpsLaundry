@@ -38,6 +38,7 @@ No rellenar una sección para que tenga la misma longitud que otra.
 | Página | Pregunta que debe responder | Contenido propio |
 | --- | --- | --- |
 | Inicio | ¿Qué puedo resolver con OpsLaundry? | Presentación breve y entradas a los servicios. |
+| Nosotros | ¿Qué experiencia hay detrás y cómo trabajáis? | Trayectoria de campo, forma de resolver problemas y relación directa, sin bloque de IA ni claim de cierre. |
 | Auditoría técnica | ¿Qué frena mi lavandería y qué conviene abordar? | Producción, equipos, mantenimiento e informe de actuaciones. |
 | Asistencia técnica | ¿Podéis revisar esta avería o poner el equipo en marcha? | Diagnóstico, reparación, ajustes y pruebas. |
 | Controles y automatización | ¿Podéis cambiar el control, conectar equipos o registrar datos? | Controles, señales, programación, contadores y documentación. |
@@ -133,4 +134,121 @@ el documento en las siguientes revisiones.
   La preferencia por brevedad y naturalidad es explícita; las frases concretas
   de esta versión no se consideran aprobadas individualmente.
 - **Alcance preservado:** claims y footer, incluidas sus denominaciones previas,
-  permanecen fuera de esta revisión. Su posible armonización es un trabajo futuro.
+  permanecen fuera de esta revisión. La exclusión del crédito del footer queda
+  superada por la autorización específica registrada a continuación.
+
+### 2026-09-12 — Crédito de creación y evolución con IA
+
+- **Petición del propietario:** explicar que la IA creó los textos y seguirá
+  desarrollándolos bajo dirección humana. El sitio es un trabajo en evolución.
+- **Aplicado:** sustituir «Powered by people who like machines» y su enlace a
+  «nosotros» por Unátomo Studio y un crédito en inglés en los cuatro idiomas.
+  Marcar el bloque con `lang="en"` para accesibilidad.
+- **Texto:** «Built with AI, shaped by real industry experience.» seguido de
+  «AI created this site’s content and continues to develop its content, structure
+  and communication under human direction.»
+- **Criterio:** presentar Studio como crédito del sitio, sin confundirlo con el
+  proveedor de servicios de lavandería. Reconocer la continuidad del trabajo
+  con IA sin afirmar que el sitio se modifica solo o sin dirección humana.
+- **Estado:** prueba aplicada, pendiente de valoración. El enlace es tipográfico;
+  el logo oficial no se pudo obtener en la primera prueba. Una sección propia «nosotros» queda para
+  un encargo posterior; no se crea en esta revisión.
+
+### 2026-09-12 — Prueba con el logo oficial de Studio
+
+- **Petición del propietario:** añadir el logo de Unátomo Studio al crédito.
+- **Aplicado:** símbolo oficial junto al nombre enlazado en los 40 pies,
+  conservando el texto en inglés. SVG local en
+  `site/assets/brand/unatomo-studio.svg`, obtenido de
+  `https://unatomo.com/static/img/logo-unatomo-studio-v1.0.svg`.
+- **Estado:** prueba aplicada. Sustituye la presentación solo tipográfica;
+  no modifica la identidad principal de OpsLaundry.
+
+### 2026-09-12 — Logo junto a la frase del crédito
+
+- **Petición del propietario:** logo a la izquierda de «Built with AI…» y
+  eliminar el nombre visible «Unátomo Studio».
+- **Aplicado:** logo y frase en una misma fila; explicación debajo. El enlace
+  conserva «Unátomo Studio» como nombre accesible, sin texto visible adicional.
+- **Sustituye:** disposición del logo junto al nombre de la prueba anterior.
+
+### 2026-09-12 — Columna de identidad del pie en inglés
+
+- **Petición del propietario:** toda la columna izquierda en inglés para los
+  cuatro idiomas, incluyendo frase de marca, crédito, privacidad y copyright.
+- **Aplicado:** usar los textos de la versión inglesa y `lang="en"` en la
+  columna. El enlace de privacidad mantiene el destino del idioma de la página.
+- **Criterio:** esta columna es una excepción explícita a la localización del
+  sitio. Las columnas de servicios y contacto siguen traducidas.
+
+### 2026-09-12 — Ubicación del futuro enlace «Nosotros»
+
+- **Corrección del propietario:** debajo de los servicios parece otro servicio,
+  incluso con separación. Mover encima de «Contacto», con dos personas
+  superpuestas como icono.
+- **Aplicado:** acceso traducido en la columna derecha, aún deshabilitado hasta
+  crear la página. No añadirlo al catálogo de servicios.
+
+### 2026-09-12 — Jerarquía de «Nosotros» y «Contacto»
+
+- **Petición del propietario:** recuperar el tamaño anterior de los iconos de
+  datos de contacto y probar «NOSOTROS» con el estilo de «CONTACTO» y el icono
+  a la derecha, como el acceso al formulario.
+- **Aplicado:** misma tipografía de encabezado y separación entre texto e icono;
+  correo, teléfono, horario y ubicación vuelven a 1rem. Sustituye la presentación
+  de «Nosotros» con el icono delante.
+
+### 2026-09-12 — Página «Nosotros»
+
+- **Petición del propietario:** crear la página tomando su referencia como
+  orientación, con libertad editorial. Priorizar lavandería, experiencia técnica
+  y trato directo; IA secundaria, sin exagerar autonomía ni inventar cifras.
+- **Aplicado:** páginas ES/EN/IT/EL con introducción, experiencia de campo,
+  diagnóstico, relación con las lavanderías y una nota breve de herramientas e IA.
+  Cierre fijo en inglés con el claim; no usar aquí el carrusel de claims.
+- **Criterio:** transmitir experiencia con situaciones de trabajo, sin superlativos
+  ni presentar conocimiento absoluto de cada máquina. IA en torno al 10–15 % del
+  texto principal, bajo dirección y responsabilidad humanas. Este reparto y el
+  cierre quedan superados por la corrección siguiente.
+- **Navegación:** enlace activo encima de Contacto. Rutas `/es/nosotros/`,
+  `/en/about-us/`, `/it/chi-siamo/`, `/el/poioi-eimaste/`.
+- **Estado:** primera versión aplicada, pendiente de valoración. Sustituye la
+  decisión anterior de mantener el enlace deshabilitado y posponer la página.
+
+### 2026-09-12 — Recorte final de «Nosotros» y escala del título
+
+- **Valoración del propietario:** gusta el contenido de experiencia y forma de
+  trabajar. Sobran «Cómo estamos construyendo OpsLaundry» y el claim de cierre.
+  El título principal vuelve a resultar demasiado grande.
+- **Aplicado:** eliminar ambos bloques del contenido principal en los cuatro
+  idiomas. Reducir el H1 a 1.5–2rem; conservar la jerarquía sin un título de gran
+  formato. El crédito de IA del footer permanece como elemento compartido.
+- **Criterio aprendido:** «Nosotros» debe centrarse en el trabajo de lavandería;
+  no añadir un epílogo sobre la web ni repetir el claim. Preferir títulos contenidos
+  en páginas de lectura. Sustituye la nota de IA y cierre de la versión inicial.
+
+### 2026-09-12 — Solo el icono de «Nosotros» navega
+
+- **Petición del propietario:** el texto «Nosotros» no debe ser enlace; solo el
+  botón de icono, con flecha y el mismo tratamiento hover que el formulario.
+- **Aplicado:** título de texto y enlace de icono separado, reutilizando el
+  componente visual del botón de contacto, incluido su fondo al pasar el cursor
+  y al recibir foco. Sustituye el enlace que abarcaba toda la fila.
+
+### 2026-09-12 — Icono de «Nosotros» sin flecha
+
+- **Corrección del propietario:** añadir la flecha compacta demasiado las
+  personas. Eliminarla y recuperar el símbolo original, conservando el enlace
+  solo en el botón y su efecto hover. Sustituye la petición de flecha anterior.
+
+### 2026-09-12 — Formato editorial común
+
+- **Preferencia del propietario:** gusta la organización de «Nosotros» y autoriza
+  extenderla a las páginas explicativas.
+- **Aplicado:** auditoría, inversiones, asistencia técnica y automatización en
+  los cuatro idiomas usan título lateral, texto a la derecha y separadores.
+  En móvil se apilan. H1 contenido y cierre de contacto con el mismo formato.
+- **Criterio:** compartir estructura sin imponer igual longitud o cantidad de
+  apartados. Quitar encabezados intermedios genéricos que no aportan información.
+  Conservar el contenido técnico; usar listas solo cuando faciliten la lectura.
+  Inicio mantiene sus tarjetas. Claims y footer no forman parte del cambio.

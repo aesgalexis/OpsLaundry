@@ -44,7 +44,7 @@ no se renombran al ordenar carpetas.
 
 ## Comprobaciones
 
-`npm run test:site` verifica límites del frontend, las 40 páginas localizadas y
+`npm run test:site` verifica límites del frontend, las 44 páginas localizadas y
 sus metadatos. `npm test` añade CSS, Functions, enlaces y secretos. `npm run
 build` comprueba el artefacto; los límites de tamaño del frontend están en
 `scripts/check-architecture.mjs`.

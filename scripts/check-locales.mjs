@@ -5,16 +5,16 @@ import parse5 from "parse5";
 const SITE = "https://opslaundry.com";
 const LANGS = ["es", "en", "it", "el"];
 const ROUTES = {
-  es: {submission: "enviar-maquina", home: "", audit: "auditoria", support: "asistencia-tecnica", investments: "inversiones", automation: "automatizacion", machinery: "maquinaria-ocasion", spares: "recambios", contact: "contacto", privacy: "privacidad"},
-  en: {submission: "submit-machine", home: "", audit: "technical-audit", support: "technical-support", investments: "investments", automation: "automation", machinery: "used-machinery", spares: "spare-parts", contact: "contact", privacy: "privacy"},
-  it: {submission: "invia-macchina", home: "", audit: "audit-tecnico", support: "assistenza-tecnica", investments: "investimenti", automation: "automazione", machinery: "macchinari-usati", spares: "ricambi", contact: "contatto", privacy: "privacy"},
-  el: {submission: "ypovoli-michanimatos", home: "", audit: "technikos-elegchos", support: "techniki-ypostirixi", investments: "ependyseis", automation: "aftomatismoi", machinery: "metacheirismena-michanimata", spares: "antallaktika", contact: "epikoinonia", privacy: "aporrito"},
+  es: {about: "nosotros", submission: "enviar-maquina", home: "", audit: "auditoria", support: "asistencia-tecnica", investments: "inversiones", automation: "automatizacion", machinery: "maquinaria-ocasion", spares: "recambios", contact: "contacto", privacy: "privacidad"},
+  en: {about: "about-us", submission: "submit-machine", home: "", audit: "technical-audit", support: "technical-support", investments: "investments", automation: "automation", machinery: "used-machinery", spares: "spare-parts", contact: "contact", privacy: "privacy"},
+  it: {about: "chi-siamo", submission: "invia-macchina", home: "", audit: "audit-tecnico", support: "assistenza-tecnica", investments: "investimenti", automation: "automazione", machinery: "macchinari-usati", spares: "ricambi", contact: "contatto", privacy: "privacy"},
+  el: {about: "poioi-eimaste", submission: "ypovoli-michanimatos", home: "", audit: "technikos-elegchos", support: "techniki-ypostirixi", investments: "ependyseis", automation: "aftomatismoi", machinery: "metacheirismena-michanimata", spares: "antallaktika", contact: "epikoinonia", privacy: "aporrito"},
 };
 const SECTION_LABELS = {
-  es: {submission: "Enviar máquina", audit: "Auditoría", support: "Asistencia técnica", investments: "Inversiones", automation: "Automatización", machinery: "Maquinaria de ocasión", spares: "Recambios", contact: "Contacto", privacy: "Privacidad"},
-  en: {submission: "Submit machine", audit: "Technical audit", support: "Technical support", investments: "Investments", automation: "Automation", machinery: "Used machinery", spares: "Spare parts", contact: "Contact", privacy: "Privacy"},
-  it: {submission: "Invia macchina", audit: "Audit tecnico", support: "Assistenza tecnica", investments: "Investimenti", automation: "Automazione", machinery: "Macchinari usati", spares: "Ricambi", contact: "Contatto", privacy: "Privacy"},
-  el: {submission: "Υποβολή μηχανήματος", audit: "Τεχνικός έλεγχος", support: "Τεχνική υποστήριξη", investments: "Επενδύσεις", automation: "Αυτοματισμοί", machinery: "Μεταχειρισμένα μηχανήματα", spares: "Ανταλλακτικά", contact: "Επικοινωνία", privacy: "Απόρρητο"},
+  es: {about: "Nosotros", submission: "Enviar máquina", audit: "Auditoría", support: "Asistencia técnica", investments: "Inversiones", automation: "Automatización", machinery: "Maquinaria de ocasión", spares: "Recambios", contact: "Contacto", privacy: "Privacidad"},
+  en: {about: "About us", submission: "Submit machine", audit: "Technical audit", support: "Technical support", investments: "Investments", automation: "Automation", machinery: "Used machinery", spares: "Spare parts", contact: "Contact", privacy: "Privacy"},
+  it: {about: "Chi siamo", submission: "Invia macchina", audit: "Audit tecnico", support: "Assistenza tecnica", investments: "Investimenti", automation: "Automazione", machinery: "Macchinari usati", spares: "Ricambi", contact: "Contatto", privacy: "Privacy"},
+  el: {about: "Ποιοι είμαστε", submission: "Υποβολή μηχανήματος", audit: "Τεχνικός έλεγχος", support: "Τεχνική υποστήριξη", investments: "Επενδύσεις", automation: "Αυτοματισμοί", machinery: "Μεταχειρισμένα μηχανήματα", spares: "Ανταλλακτικά", contact: "Επικοινωνία", privacy: "Απόρρητο"},
 };
 const routePath = (lang, page) => `/${lang}/${ROUTES[lang][page] ? `${ROUTES[lang][page]}/` : ""}`;
 const failures = [];
@@ -126,14 +126,17 @@ for (const lang of LANGS) {
       (attribute(node, "src") || "").includes("/features/machinery/editor.js"))) {
       failures.push(`${route}: machinery admin editor must be loaded dynamically, not by public HTML.`);
     }
-    const powered = bodyNodes.find((node) => node.tagName === "p" &&
-      (attribute(node, "class") || "").split(/\s+/u).includes("footer-disclosure-powered"));
+    const powered = bodyNodes.find((node) => node.tagName === "div" &&
+      (attribute(node, "class") || "").split(/\s+/u).includes("footer-studio-credit"));
     const poweredLink = powered ? findAll(powered, (node) => node.tagName === "a")[0] : null;
-    if (nodeText(powered).trim() !== "Powered by people who like machines." ||
-        attribute(poweredLink, "href") !== "https://unatomo.com/es/nosotros/" ||
+    if (attribute(powered, "lang") !== "en" ||
+        attribute(poweredLink, "aria-label") !== "Unátomo Studio" ||
+        !nodeText(powered).includes("Built with AI, shaped by real industry experience.") ||
+        !nodeText(powered).includes("AI created this site’s content and continues to develop its content, structure and communication under human direction.") ||
+        attribute(poweredLink, "href") !== "https://unatomo.com/studio/" ||
         attribute(poweredLink, "target") !== "_blank" ||
         attribute(poweredLink, "rel") !== "noopener") {
-      failures.push(`${route}: footer credit must link to the Unátomo team page.`);
+      failures.push(`${route}: footer must include the English AI credit and link to Unátomo Studio.`);
     }
     const expectedBackHref = page === "home" ? "/" : routePath(lang, page === "submission" ? "machinery" : "home");
     if (attribute(body, "data-back-href") !== expectedBackHref) failures.push(`${route}: incorrect back destination.`);
@@ -152,4 +155,4 @@ if (failures.length) {
   failures.forEach((failure) => console.error(`- ${failure}`));
   process.exit(1);
 }
-console.log("OK: 40 localized OpsLaundry pages, translated routes, shell and SEO alternates verified.");
+console.log("OK: 44 localized OpsLaundry pages, translated routes, shell and SEO alternates verified.");
