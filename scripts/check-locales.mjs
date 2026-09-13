@@ -90,8 +90,17 @@ for (const lang of LANGS) {
     if (pageNavScripts.length !== 1) failures.push(`${route}: expected one page navigation script, found ${pageNavScripts.length}.`);
     const pageScripts = bodyNodes.filter((node) => node.tagName === "script" && attribute(node, "src") === "/shared/ui/page.js");
     if (pageScripts.length !== 1) failures.push(`${route}: expected one direct-navigation script, found ${pageScripts.length}.`);
-    const topbarScripts = bodyNodes.filter((node) => node.tagName === "script" && attribute(node, "src") === "/shared/ui/header.js");
-    if (topbarScripts.length !== 1) failures.push(`${route}: expected one shared topbar script, found ${topbarScripts.length}.`);
+    const topbarScripts = bodyNodes.filter((node) => node.tagName === "script" &&
+      ["header.js", "footer.js"].some((name) => attribute(node, "src") === `/shared/ui/${name}`));
+    if (topbarScripts.length) failures.push(`${route}: topbar must be rendered in HTML, not built at runtime.`);
+    if (!bodyNodes.some((node) => hasClass(node, "topbar-logo--wordmark"))) failures.push(`${route}: missing static wordmark class.`);
+    if (!bodyNodes.some((node) => hasClass(node, "footer-brand")) ||
+        !bodyNodes.some((node) => node.tagName === "a" && attribute(node, "href") === routePath(lang, "about"))) {
+      failures.push(`${route}: missing static footer links.`);
+    }
+    if (Buffer.byteLength(html.slice(0, html.indexOf('<meta charset="UTF-8">') + 22)) > 1024) {
+      failures.push(`${route}: UTF-8 declaration must be within the first 1024 bytes.`);
+    }
     if (page === "contact") {
       const heading = headings[0];
       const form = bodyNodes.find((node) => node.tagName === "form" && hasClass(node, "contact-form"));

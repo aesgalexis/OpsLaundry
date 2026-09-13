@@ -3,6 +3,7 @@ dist/
 .vite/
 .tools/
 .backups/
+.cache/
 codex-memory/
 ssl-simulator/_private/
 site/static/js/config/runtime-config.js

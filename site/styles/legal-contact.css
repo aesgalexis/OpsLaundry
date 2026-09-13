@@ -149,7 +149,9 @@ body.contact-page .contact-form-card > .contact-form {
 
 .form-field select.field {
   height: var(--select-height);
+  padding-block: 0;
   padding-right: var(--select-padding-inline-end);
+  line-height: normal;
   background-image: var(--select-indicator-image);
   background-position: right var(--select-indicator-offset) center;
   background-repeat: no-repeat;

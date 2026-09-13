@@ -206,7 +206,7 @@ function showStep(step, shouldFocus = true) {
       heading.tabIndex = -1;
       heading.focus({ preventScroll: true });
     }
-    form.scrollIntoView({ behavior: "smooth", block: "start" });
+    window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   }
 }
 

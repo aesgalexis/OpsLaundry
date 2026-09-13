@@ -6,6 +6,7 @@ import { build, transform } from "esbuild";
 // These URLs are stable public entry points. Source manifests own cascade order.
 export const CSS_BUNDLES = Object.freeze([
   {entry: "styles/site.css", minify: true},
+  {entry: "styles/site-public.css", minify: true},
 ]);
 
 function localPath(root, importer, request) {

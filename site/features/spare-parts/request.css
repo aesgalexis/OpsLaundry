@@ -253,6 +253,7 @@ textarea.spares-input {
 }
 
 .upload-card {
+  position: relative;
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 1rem;
@@ -262,6 +263,28 @@ textarea.spares-input {
   border: 1px dashed color-mix(in srgb, var(--spares-accent) 55%, var(--border-subtle));
   border-radius: 1rem;
   background: var(--spares-soft);
+}
+
+.upload-card:hover,
+.upload-card:focus-within {
+  border-color: var(--spares-accent-dark);
+}
+
+.upload-card:focus-within {
+  outline: 2px solid var(--spares-accent-dark);
+  outline-offset: 3px;
+}
+
+.upload-card .upload-input {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+  cursor: pointer;
 }
 
 .upload-card--compact {
@@ -306,8 +329,8 @@ textarea.spares-input {
   padding: 0 var(--button-padding-inline);
   border: 1px solid var(--border-subtle);
   border-radius: var(--button-radius-standard);
-  background: transparent;
-  color: var(--fg);
+  background: var(--spares-accent-dark);
+  color: #fff;
   font-size: var(--button-font-size-standard);
   font-weight: var(--button-font-weight-standard);
   line-height: var(--button-line-height-standard);

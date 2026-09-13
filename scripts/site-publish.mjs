@@ -12,7 +12,9 @@ const msg =
   process.argv.slice(2).join(" ").trim() ||
   `Update site (${new Date().toISOString().slice(0, 19).replace("T", " ")})`;
 
+run("npm test");
 run("npm run build:with-stats");
+run("npm run check:publish");
 
 const status = runQuiet("git status --porcelain");
 if (status) {

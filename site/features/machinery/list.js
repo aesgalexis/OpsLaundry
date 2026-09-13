@@ -1,4 +1,6 @@
 import { subscribeMachines } from "/features/machinery/public-repository.js";
+import {escapeHtml, normalizeKey, translate, formatPrice as presentPrice,
+  capacity as getCapacityValue, buildExtras as presentExtras, contactHref} from "./presentation.mjs";
 
 const LANGS = ["es", "en", "it", "el"];
 const PAGE_SIZE = 20;
@@ -10,8 +12,6 @@ const lang = normalizeLang(document.documentElement.lang);
 const copyElement = document.querySelector("#laundry-machinery-copy");
 const localizedCopy = copyElement ? JSON.parse(copyElement.textContent) : {labels: {}, typeLabels: {}, stateLabels: {}};
 const META = {[lang]: localizedCopy};
-const TYPE_LABELS = Object.fromEntries(Object.entries(localizedCopy.typeLabels).map(([key, value]) => [key, {[lang]: value}]));
-const STATE_LABELS = Object.fromEntries(Object.entries(localizedCopy.stateLabels).map(([key, value]) => [key, {[lang]: value}]));
 
 const copies = Array.from(document.querySelectorAll("article.legal-copy"));
 const requestedMachineId = new URLSearchParams(window.location.search).get("machine")?.trim() || "";
@@ -37,99 +37,12 @@ if (copies.length) {
     });
   }
 
-  const normalizeKey = (value) =>
-    String(value || "")
-      .trim()
-      .toLowerCase()
-      .normalize("NFD")
-      .replace(/[\u0300-\u036f]/g, "")
-      .replace(/[^a-z0-9]+/g, "_")
-      .replace(/^_+|_+$/g, "");
-
-  const escapeHtml = (value) =>
-    String(value ?? "")
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#39;");
-
-  const formatPrice = (machine, lang) => {
-    if (typeof machine.precioAmount === "number" && Number.isFinite(machine.precioAmount)) {
-      const amount = Math.round(machine.precioAmount).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-      return `${amount} EUR`;
-    }
-    if (String(machine.precioTexto || "").trim().toLowerCase() === "consultar") {
-      return META[lang].labels.consult;
-    }
-    return machine.precioTexto || "";
-  };
-
-  const translateType = (value, lang) => {
-    const normalized = normalizeKey(value);
-    return TYPE_LABELS[normalized]?.[lang] || value || "";
-  };
-
-  const translateState = (value, lang) => {
-    const normalized = normalizeKey(value);
-    return STATE_LABELS[normalized]?.[lang] || value || "";
-  };
-
-  const getWarrantyText = (machine, lang) => {
-    const labels = META[lang].labels;
-    const months = Number.parseInt(machine.garantiaMeses, 10);
-    const years = Number.parseInt(machine.garantiaPiezasAnos, 10);
-    const warrantyType = String(machine.garantiaTipo || "").trim();
-    if (Number.isFinite(months) && months > 0) {
-      if (warrantyType === "total") {
-        return labels.fullWarrantyMonths.replace("{n}", months);
-      }
-      return labels.partsWarrantyMonths.replace("{n}", months);
-    }
-    if (Number.isFinite(years) && years > 0) {
-      if (warrantyType === "total") {
-        return years === 1 ? labels.fullWarrantyOne : labels.fullWarrantyMany.replace("{n}", years);
-      }
-      return years === 1 ? labels.partsWarrantyOne : labels.partsWarrantyMany.replace("{n}", years);
-    }
-    return machine.garantiaTexto || "";
-  };
-
-  const translateHeating = (value, lang) => {
-    const normalized = normalizeKey(value);
-    return localizedCopy.heatingLabels?.[normalized] || value || "";
-  };
-
-  const getCapacityValue = (machine) => {
-    if (machine.capacidad) return String(machine.capacidad);
-    const model = String(machine.modelo || "").trim();
-    const match = model.match(/\b\d+(?:[.,]\d+)?\s*(?:kg|kgs|l|lt|lts)\b/i);
-    return match ? match[0] : "";
-  };
-
-  const buildExtras = (machine, lang) => {
-    const labels = META[lang].labels;
-    const extras = [];
-    if (machine.envioIncluido && machine.puestaEnMarchaIncluida) extras.push(labels.shippingStartup);
-    else if (machine.envioIncluido) extras.push(labels.shippingOnly);
-    else if (machine.puestaEnMarchaIncluida) extras.push(labels.startupOnly);
-
-    const warranty = getWarrantyText(machine, lang);
-    if (warranty) extras.push(warranty);
-    return extras;
-  };
-
-  const buildContactHref = (machine, lang) => {
-    const params = new URLSearchParams({
-      subject: "investment",
-      type: translateType(machine.categoria, lang),
-      brand: machine.marca || "",
-      model: machine.modelo || "",
-      year: machine.anio != null ? String(machine.anio) : "",
-      id: machine.id || "",
-    });
-    return `${localizedCopy.contactPath}?${params.toString()}`;
-  };
+  const formatPrice = (machine, lang) => presentPrice(machine, META[lang].labels);
+  const translateType = (value) => translate(localizedCopy.typeLabels, value);
+  const translateState = (value) => translate(localizedCopy.stateLabels, value);
+  const translateHeating = (value) => translate(localizedCopy.heatingLabels, value);
+  const buildExtras = (machine, lang) => presentExtras(machine, META[lang].labels);
+  const buildContactHref = (machine) => contactHref(machine, localizedCopy, translateType(machine.categoria));
 
   const buildMachineHref = (machine) => {
     const id = encodeURIComponent(machine.id || "");

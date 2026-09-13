@@ -1,0 +1,36 @@
+.lab { padding-top: 3rem; }
+.lab-heading { margin-bottom: 2rem; }
+.lab-heading > p:first-child { text-transform: uppercase; letter-spacing: .12em; font-size: .75rem; }
+.lab-heading h1 { font-size: clamp(1.8rem, 4vw, 3rem); }
+.lab-controls { display: flex; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem; }
+.lab-controls label { display: grid; gap: .4rem; font-size: .85rem; }
+.lab-controls select { padding: .65rem 1rem; border: 1px solid #a8b8c8; border-radius: .5rem; background: white; color: #17324d; font: inherit; }
+.lab-note { font-size: .85rem; color: #526477; }
+.lab-variants { display: flex; flex-wrap: wrap; justify-content: center; gap: 0; margin-top: -1rem; }
+.lab-dot { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 50%; background: transparent; cursor: pointer; }
+.lab-dot::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: #9aaabd; }
+.lab-dot:hover::before { background: #526477; }
+.lab-dot[aria-pressed="true"]::before { background: #17324d; box-shadow: 0 0 0 4px #dbe6f2; }
+.lab-dot:focus-visible { outline: 2px solid #17324d; outline-offset: -4px; }
+.home-page .hero[data-light] { background: #eaf3ff; --sky: linear-gradient(135deg, #f7fbff, #eaf3ff 52%, #dfeeff); --cloud-opacity: .7; --cloud-tone: 1; }
+.home-page .hero[data-light="dawn"] { --sky: radial-gradient(ellipse at 88% 100%, #f6c6a2, transparent 65%), linear-gradient(140deg, #e4e9f7, #f5e3df); }
+.home-page .hero[data-light="sunset"] { --sky: radial-gradient(ellipse at 90% 85%, #efa77d, transparent 60%), linear-gradient(130deg, #eee5f3, #d5bddc 60%, #f3c3a0); }
+.home-page .hero[data-light="night"] { --sky: radial-gradient(ellipse at 85% 20%, #344e74, transparent 60%), linear-gradient(135deg, #101c32, #1b2e4b); --cloud-tone: .55; }
+.atmosphere-light, .atmosphere-weather, .atmosphere-veil { display: none; position: absolute; inset: 0; pointer-events: none; }
+[data-light] .atmosphere-light { display: block; z-index: -1; background: var(--sky); }
+.home-page .hero[data-light]::before, .home-page .hero[data-light]::after { opacity: var(--cloud-opacity); filter: blur(8px) brightness(var(--cloud-tone)); animation-direction: alternate; }
+.home-page .hero[data-weather="clear"] { --cloud-opacity: .25; }
+.home-page .hero[data-weather="cloudy"] { --cloud-opacity: .9; --cloud-tone: .85; }
+.home-page .hero[data-weather="rain"] { --cloud-opacity: .85; --cloud-tone: .7; }
+.home-page .hero[data-weather="storm"] { --cloud-opacity: .95; --cloud-tone: .5; }
+[data-light] .atmosphere-veil { display: block; z-index: 1; background: linear-gradient(90deg, rgba(248,250,255,.96), rgba(248,250,255,.88) 55%, rgba(248,250,255,.2)); }
+[data-light="night"] .atmosphere-veil { background: linear-gradient(90deg, rgba(12,23,42,.97), rgba(12,23,42,.9) 55%, rgba(12,23,42,.3)); }
+.home-page .hero[data-light="night"] h1 { color: #f5f8ff; }
+.home-page .hero[data-light="night"] .hero-lead { color: #dce6f3; }
+.home-page .hero[data-light="night"] .btn-pill-solid { background: #f1f6ff; color: #142b47; border-color: #f1f6ff; }
+.home-page .hero[data-light="night"] a:focus-visible { outline: 3px solid #fff; outline-offset: 4px; }
+[data-weather="rain"] .atmosphere-weather, [data-weather="storm"] .atmosphere-weather { display: block; z-index: 0; opacity: .2; background: repeating-linear-gradient(105deg, transparent 0 35px, #afc6df 36px, transparent 37px 65px); background-size: 90px 180px; animation: atmosphere-rain 2s linear infinite; }
+[data-weather="fog"] .atmosphere-weather { display: block; z-index: 0; background: linear-gradient(0deg, #c5cfddcc, #dce3eb33); }
+@keyframes atmosphere-rain { to { background-position: -48px 180px; } }
+@media (max-width: 640px) { .lab { padding-top: 1.5rem; } .lab-controls label { flex: 1 1 140px; } }
+@media (prefers-reduced-motion: reduce) { .home-page .hero[data-light]::before, .home-page .hero[data-light]::after, [data-light] .atmosphere-weather { animation: none; } }

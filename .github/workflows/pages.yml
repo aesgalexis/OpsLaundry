@@ -15,7 +15,20 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  functions-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: firebase/functions/package-lock.json
+      - run: npm ci --prefix firebase/functions
+      - run: npm run test:functions
+
   build:
+    needs: functions-check
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -46,8 +59,31 @@ jobs:
       - name: Install
         run: npm ci
 
+      - name: Verify source
+        run: |
+          npm run check:css
+          npm run test:site
+          npm run lint:links
+          npm run scan:secrets
+
+      - name: Restore public machinery snapshot
+        uses: actions/cache/restore@v5
+        with:
+          path: .cache/machinery-snapshot.json
+          key: public-machinery-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: public-machinery-v1-
+
       - name: Build
         run: npm run build:with-stats
+
+      - name: Verify publishable artifact
+        run: npm run check:publish
+
+      - name: Save public machinery snapshot
+        uses: actions/cache/save@v5
+        with:
+          path: .cache/machinery-snapshot.json
+          key: public-machinery-v1-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

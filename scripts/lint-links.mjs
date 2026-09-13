@@ -5,7 +5,7 @@ import path from "node:path";
 const root = process.cwd();
 const siteRoot = path.join(root, "site");
 const exts = new Set([".html", ".js", ".mjs", ".css"]);
-const ignoreDirs = new Set(["node_modules", ".git", ".tools", ".backups", "dist"]);
+const ignoreDirs = new Set(["node_modules", ".git", ".tools", ".backups", ".cache", "dist"]);
 const ignorePaths = new Set(["firebase/functions/lib"]);
 
 const toPosix = (value) => value.replaceAll("\\", "/");

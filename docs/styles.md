@@ -5,6 +5,14 @@ de cascada: tokens, componentes, base, secciones, navegación, pie, maquinaria,
 contacto, responsive y editorial. El build expande los imports y publica un
 único `styles/site.css` minificado sin cambiar las URLs de recursos.
 
+Las 36 páginas localizadas que no usan los controles de maquinaria cargan
+`styles/site-public.css`: conserva las mismas importaciones y orden, excepto
+`machinery.css`. Maquinaria, sus fichas, Recambios (que comparte `filter-select`)
+y las entradas administrativas conservan el manifiesto completo. No se han
+cambiado selectores, declaraciones ni puntos de ruptura para esta separación.
+Las pruebas comparan las reglas comunes y detectan si una página que carga el
+CSS reducido introduce clases que necesitan el archivo de maquinaria.
+
 Los CSS propios del editor, catálogo, recambios y propuestas se mantienen junto
 a sus módulos bajo `site/features/`. `npm run check:css` verifica el empaquetado,
 el orden y la compatibilidad con el resultado minificado establecido.

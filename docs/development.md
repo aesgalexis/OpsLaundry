@@ -19,6 +19,7 @@ Antes de entregar cambios del sitio:
 ```powershell
 npm test
 npm run build
+npm run check:publish
 ```
 
 `npm run catalog:check` valida el catálogo versionado sin escribir en Firebase.
@@ -27,3 +28,7 @@ administrativa distinta de la comprobación local.
 
 La verificación comienza por código, tests y resultado del build. Las reglas
 de acceso visual y publicación están en `AGENTS.md`.
+
+Las pruebas de snapshots utilizan anuncios ficticios y directorios temporales;
+no necesitan Firestore. El build sí intenta una lectura de los anuncios públicos
+y aplica la recuperación descrita en `deployment.md`.

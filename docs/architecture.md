@@ -8,8 +8,16 @@ formularios, listados y datos operativos; no monta páginas traducidas completas
 
 El build copia `site/` a `dist/`, empaqueta `styles/site.css` y genera snapshots
 de maquinaria. Las páginas públicas usan `/{idioma}/{ruta-traducida}/`; la raíz
-redirige a `/es/`. Las rutas `/catalog/` y `/requests/` son administrativas
+elige el primer idioma compatible de `navigator.languages` (es, en, it, el),
+con `/es/` como respaldo. Los enlaces localizados conservan su idioma; la
+redirección de entrada conserva parámetros y fragmento. Las rutas `/catalog/` y `/requests/` son administrativas
 y llevan `noindex`.
+
+La cabecera y el pie están completos en el HTML de cada idioma. El generador
+`scripts/render-shell.mjs` mantiene su estructura y enlaces a partir de
+`scripts/shell-navigation.mjs`, sin reconstruirlos en el navegador. El build lo
+aplica también a las fichas generadas; JavaScript conserva los controles de
+navegación e idioma.
 
 Los módulos reutilizables están en `site/shared/`. Cada función del producto
 tiene su código en `site/features/`. Las páginas HTML pueden permanecer en la
@@ -26,8 +34,21 @@ permisos, no un simple cambio de nombre de archivo.
 
 Firestore es la fuente de verdad. El build puede prerenderizar las primeras 20
 máquinas visibles del listado y las fichas localizadas. La falta de acceso a
-Firestore no debe bloquear el build. Los snapshots solo se escriben en `dist/`.
+Firestore no debe bloquear el build local. Las páginas se escriben en `dist/`.
+Una copia de los campos públicos usados para presentarlas se conserva en
+`.cache/machinery-snapshot.json`, ignorada por Git y fuera del artefacto público.
+Se valida su proyecto, integridad y antigüedad máxima de siete días. Ante un
+fallo de lectura se reconstruyen las fichas con esa copia y las plantillas
+actuales, mostrando un aviso. Una respuesta vacía válida sí retira las fichas;
+no se confunde con un fallo de conexión. Si no hay datos actuales ni copia
+válida, el build local termina pero `check:publish` impide la publicación.
 No se incrusta el catálogo operativo en JavaScript o JSON público.
+
+`features/machinery/presentation.mjs` comparte precios, capacidad, garantías,
+traducciones y destinos entre build, listado y ficha. `seo.mjs` comparte los
+metadatos de las fichas entre build y actualización en vivo. Al retirar una
+máquina se elimina su JSON-LD y se marca `noindex`; al reactivarla se restauran.
+Las máquinas con precio a consultar no declaran ofertas sin precio.
 
 ## Formularios y backend
 
@@ -44,9 +65,11 @@ no se renombran al ordenar carpetas.
 
 ## Comprobaciones
 
-`npm run test:site` verifica límites del frontend, las 44 páginas localizadas y
-sus metadatos. `npm test` añade CSS, Functions, enlaces y secretos. `npm run
-build` comprueba el artefacto; los límites de tamaño del frontend están en
+`npm run test:site` verifica límites del frontend, las 44 páginas localizadas,
+sus metadatos, la cabecera y el pie estáticos, la equivalencia del CSS común y
+la recuperación de snapshots. `npm test` añade CSS, Functions, enlaces y
+secretos. `npm run build` comprueba destinos locales, sitemap y metadatos del
+artefacto; los límites de tamaño del frontend están en
 `scripts/check-architecture.mjs`.
 
 ## Convención de nombres internos

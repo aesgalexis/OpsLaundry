@@ -1,9 +1,7 @@
 User-agent: *
 Allow: /
-Disallow: /catalogo/
-Disallow: /solicitudes/
 
 Sitemap: https://opslaundry.com/sitemap.xml
 
-Disallow: /catalog/
-Disallow: /requests/
+# Administrative HTML uses noindex. Allow crawling so crawlers can read it.
+# Data access remains protected by Firebase authentication and rules.

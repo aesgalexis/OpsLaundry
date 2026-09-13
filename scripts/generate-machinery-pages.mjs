@@ -1,23 +1,14 @@
 import {mkdir, readFile, writeFile} from "node:fs/promises";
 import path from "node:path";
 
-const SITE = "https://opslaundry.com";
+import {SITE, LOCALES, escapeHtml, normalizeKey, publicImageUrl, capacity, formatPrice,
+  extrasText, machineRoute, contactHref} from "../site/features/machinery/presentation.mjs";
+import {machineMetadata, serializeSchema} from "../site/features/machinery/seo.mjs";
+import {loadSnapshot, saveSnapshot, publicMachines} from "./machinery-snapshot.mjs";
+
 const COLLECTION = "agregador_maquinaria_LS";
 const PAGE_SIZE = 20;
 const PREFIX_ORDER = ["P", "T", "L", "S", "C", "R", "M"];
-const LOCALES = {
-  es: {route: "maquinaria-ocasion", locale: "es_ES", back: "Volver al listado", contact: "Contactar", description: "Maquinaria de ocasión disponible en OpsLaundry."},
-  en: {route: "used-machinery", locale: "en_GB", back: "Back to the list", contact: "Contact", description: "Used machinery available from OpsLaundry."},
-  it: {route: "macchinari-usati", locale: "it_IT", back: "Torna all'elenco", contact: "Contatta", description: "Macchinario usato disponibile presso OpsLaundry."},
-  el: {route: "metacheirismena-michanimata", locale: "el_GR", back: "Επιστροφή στη λίστα", contact: "Επικοινωνία", description: "Μεταχειρισμένο μηχάνημα διαθέσιμο από την OpsLaundry."},
-};
-
-const escapeHtml = (value) => String(value ?? "")
-  .replaceAll("&", "&amp;")
-  .replaceAll("<", "&lt;")
-  .replaceAll(">", "&gt;")
-  .replaceAll('"', "&quot;")
-  .replaceAll("'", "&#39;");
 
 const decodeFirestoreValue = (value = {}) => {
   if ("nullValue" in value) return null;
@@ -74,47 +65,6 @@ const fetchMachines = async ({projectId, apiKey}) => {
 };
 
 const safeMachineId = (value) => /^[A-Za-z0-9_-]+$/u.test(value) ? value : "";
-const normalizeKey = (value) => String(value || "").trim().toLowerCase()
-  .normalize("NFD").replace(/[\u0300-\u036f]/gu, "").replace(/[^a-z0-9]+/gu, "_").replace(/^_+|_+$/gu, "");
-const imageUrl = (image) => typeof image === "string" ? image : image?.url || "";
-const publicImageUrl = (image) => {
-  const url = imageUrl(image);
-  return /^https?:\/\//iu.test(url) ? url : "";
-};
-const capacity = (machine) => machine.capacidad || String(machine.modelo || "").match(/\b\d+(?:[.,]\d+)?\s*(?:kg|kgs|l|lt|lts)\b/iu)?.[0] || "";
-const formatPrice = (machine, labels) => {
-  if (typeof machine.precioAmount === "number" && Number.isFinite(machine.precioAmount)) {
-    return `${Math.round(machine.precioAmount).toString().replace(/\B(?=(\d{3})+(?!\d))/gu, ".")} EUR`;
-  }
-  return String(machine.precioTexto || "").trim().toLowerCase() === "consultar"
-    ? labels.consult
-    : machine.precioTexto || "";
-};
-
-const warrantyText = (machine, labels) => {
-  const months = Number.parseInt(machine.garantiaMeses, 10);
-  const years = Number.parseInt(machine.garantiaPiezasAnos, 10);
-  const total = String(machine.garantiaTipo || "").trim() === "total";
-  if (Number.isFinite(months) && months > 0) {
-    return (total ? labels.fullWarrantyMonths : labels.partsWarrantyMonths).replace("{n}", months);
-  }
-  if (Number.isFinite(years) && years > 0) {
-    if (total) return years === 1 ? labels.fullWarrantyOne : labels.fullWarrantyMany.replace("{n}", years);
-    return years === 1 ? labels.partsWarrantyOne : labels.partsWarrantyMany.replace("{n}", years);
-  }
-  return machine.garantiaTexto || "";
-};
-
-const extrasText = (machine, labels) => {
-  const extras = [];
-  if (machine.envioIncluido && machine.puestaEnMarchaIncluida) extras.push(labels.shippingStartup);
-  else if (machine.envioIncluido) extras.push(labels.shippingOnly);
-  else if (machine.puestaEnMarchaIncluida) extras.push(labels.startupOnly);
-  const warranty = warrantyText(machine, labels);
-  if (warranty) extras.push(warranty);
-  return extras.length ? ` · ${extras.join(" · ")}` : "";
-};
-
 const sortMachines = (machines) => [...machines].sort((a, b) => {
   const prefixA = PREFIX_ORDER.indexOf(a.id.charAt(0).toUpperCase());
   const prefixB = PREFIX_ORDER.indexOf(b.id.charAt(0).toUpperCase());
@@ -128,15 +78,6 @@ const sortMachines = (machines) => [...machines].sort((a, b) => {
 const parseCopy = (html) => {
   const match = html.match(/<script type="application\/json" id="laundry-machinery-copy">([\s\S]*?)<\/script>/u);
   return match ? JSON.parse(match[1]) : null;
-};
-
-const machineRoute = (lang, id) => `/${lang}/${LOCALES[lang].route}/${encodeURIComponent(id)}/`;
-const contactHref = (machine, copy, type) => {
-  const params = new URLSearchParams({
-    subject: "investment", type, brand: machine.marca || "", model: machine.modelo || "",
-    year: machine.anio == null ? "" : String(machine.anio), id: machine.id,
-  });
-  return `${copy.contactPath}?${params.toString()}`;
 };
 
 const renderListRows = (machines, lang, copy) => machines.slice(0, PAGE_SIZE).map((machine) => {
@@ -172,54 +113,29 @@ const renderListRows = (machines, lang, copy) => machines.slice(0, PAGE_SIZE).ma
   ${images.length ? `<tr id="gallery-${escapeHtml(machine.id)}" class="table-gallery-row" data-gallery-id="${escapeHtml(machine.id)}" data-gallery-open="false" hidden><td colspan="7"><div class="machine-gallery" aria-label="${escapeHtml(`${labels.gallery} ${machine.id}`)}">${images.map((url, index) => `<a href="${escapeHtml(url)}" target="_blank" rel="noreferrer"><img src="${escapeHtml(url)}" alt="${escapeHtml(`${machine.id} ${labels.image} ${index + 1}`)}" loading="lazy"></a>`).join("")}</div></td></tr>` : ""}`;
 }).join("\n");
 
-const detailSchema = (machine, lang, copy) => {
-  const url = `${SITE}${machineRoute(lang, machine.id)}`;
-  const images = (Array.isArray(machine.imagenes) ? machine.imagenes : []).map(publicImageUrl).filter(Boolean);
-  const schema = {
-    "@context": "https://schema.org", "@type": "Product", "@id": `${url}#product`,
-    name: `${machine.marca} ${machine.modelo}`.trim(), url, sku: machine.id,
-    description: machine.comentarios || LOCALES[lang].description,
-    category: copy.typeLabels[normalizeKey(machine.categoria)] || machine.categoria,
-    itemCondition: "https://schema.org/UsedCondition",
-    brand: {"@type": "Brand", name: machine.marca},
-  };
-  if (machine.modelo) schema.model = machine.modelo;
-  if (images.length) schema.image = images;
-  schema.offers = {
-    "@type": "Offer", availability: "https://schema.org/InStock", priceCurrency: "EUR",
-    url,
-  };
-  if (typeof machine.precioAmount === "number" && machine.precioAmount >= 0) {
-    schema.offers.price = String(machine.precioAmount);
-  }
-  return JSON.stringify(schema).replaceAll("<", "\\u003c");
-};
-
 const replaceHeadMetadata = (html, machine, lang, copy) => {
-  const title = `${machine.marca} ${machine.modelo} | OpsLaundry`.trim();
-  const description = String(machine.comentarios || `${LOCALES[lang].description} ${machine.marca} ${machine.modelo}.`).slice(0, 160);
-  const canonical = `${SITE}${machineRoute(lang, machine.id)}`;
-  const images = (Array.isArray(machine.imagenes) ? machine.imagenes : []).map(publicImageUrl).filter(Boolean);
-  html = html.replace(/<title>[\s\S]*?<\/title>/u, `<title>${escapeHtml(title)}</title>`);
-  html = html.replace(/<meta name="description" content="[^"]*">/u, `<meta name="description" content="${escapeHtml(description)}">`);
-  html = html.replace(/<link rel="canonical" href="[^"]*">/u, `<link rel="canonical" href="${escapeHtml(canonical)}">`);
+  const metadata = machineMetadata(machine, lang, copy);
+  const {title, description, url: canonical} = metadata;
+  html = html.replace(/<title>[\s\S]*?<\/title>/u, () => `<title>${escapeHtml(title)}</title>`);
+  html = html.replace(/<meta name="description" content="[^"]*">/u, () => `<meta name="description" content="${escapeHtml(description)}">`);
+  html = html.replace(/<link rel="canonical" href="[^"]*">/u, () => `<link rel="canonical" href="${escapeHtml(canonical)}">`);
   html = html.replace(/<meta property="og:type" content="[^"]*">/u, '<meta property="og:type" content="product">');
-  html = html.replace(/<meta property="og:title" content="[^"]*">/u, `<meta property="og:title" content="${escapeHtml(title)}">`);
-  html = html.replace(/<meta property="og:description" content="[^"]*">/u, `<meta property="og:description" content="${escapeHtml(description)}">`);
-  html = html.replace(/<meta property="og:url" content="[^"]*">/u, `<meta property="og:url" content="${escapeHtml(canonical)}">`);
-  if (images[0]) {
-    html = html.replace(/<meta property="og:image" content="[^"]*">/u, `<meta property="og:image" content="${escapeHtml(images[0])}">`);
-    html = html.replace(/<meta property="og:image:alt" content="[^"]*">/u, `<meta property="og:image:alt" content="${escapeHtml(`${machine.marca} ${machine.modelo}`.trim())}">`);
+  html = html.replace(/<meta property="og:title" content="[^"]*">/u, () => `<meta property="og:title" content="${escapeHtml(title)}">`);
+  html = html.replace(/<meta property="og:description" content="[^"]*">/u, () => `<meta property="og:description" content="${escapeHtml(description)}">`);
+  html = html.replace(/<meta property="og:url" content="[^"]*">/u, () => `<meta property="og:url" content="${escapeHtml(canonical)}">`);
+  html = html.replace(/<meta property="og:image(?::(?:width|height|alt))?" content="[^"]*">/gu, "");
+  if (metadata.image) {
+    html = html.replace("</head>", () => `<meta property="og:image" content="${escapeHtml(metadata.image)}"><meta property="og:image:alt" content="${escapeHtml(metadata.imageAlt)}"></head>`);
   }
-  html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/u, `<script type="application/ld+json">${detailSchema(machine, lang, copy)}</script>`);
+  html = html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/u, () => `<script type="application/ld+json">${serializeSchema(metadata.schema)}</script>`);
   for (const targetLang of Object.keys(LOCALES)) {
     html = html.replace(
       new RegExp(`<link rel="alternate" hreflang="${targetLang}" href="[^"]*">`, "u"),
-      `<link rel="alternate" hreflang="${targetLang}" href="${SITE}${machineRoute(targetLang, machine.id)}">`
+      () => `<link rel="alternate" hreflang="${targetLang}" href="${SITE}${machineRoute(targetLang, machine.id)}">`
     );
   }
   html = html.replace(/<link rel="alternate" hreflang="x-default" href="[^"]*">/u,
-    `<link rel="alternate" hreflang="x-default" href="${SITE}${machineRoute("es", machine.id)}">`);
+    () => `<link rel="alternate" hreflang="x-default" href="${SITE}${machineRoute("es", machine.id)}">`);
   return html;
 };
 
@@ -258,21 +174,26 @@ const renderDetail = (machine, lang, copy) => {
 
 const generateDetailPage = (template, machine, lang, copy) => {
   let html = replaceHeadMetadata(template, machine, lang, copy);
-  for (const targetLang of Object.keys(LOCALES)) {
-    const base = `/${targetLang}/${LOCALES[targetLang].route}/`;
-    html = html.replace(new RegExp(`href="${base.replaceAll("/", "\\/")}"`, "gu"), `href="${machineRoute(targetLang, machine.id)}"`);
-  }
-  html = html.replace(/<article class="legal-copy">[\s\S]*?<\/article>/u, renderDetail(machine, lang, copy));
-  html = html.replace('<body class="page privacy-page machinery-page"', '<body class="page privacy-page machinery-page machine-detail-page"');
+  // Only language-picker destinations refer to the equivalent detail page.
+  // Footer service links must continue to point to the machinery listing.
+  html = html.replace(/<nav\b[^>]*id="lang-menu"[^>]*>[\s\S]*?<\/nav>/u, (menu) => {
+    for (const targetLang of Object.keys(LOCALES)) {
+      const base = `/${targetLang}/${LOCALES[targetLang].route}/`;
+      menu = menu.replace(`href="${base}"`, `href="${machineRoute(targetLang, machine.id)}"`);
+    }
+    return menu;
+  });
+  html = html.replace(/<article class="legal-copy">[\s\S]*?<\/article>/u, () => renderDetail(machine, lang, copy));
+  html = html.replace(/<body\b[^>]*>/u, (body) => body.replace("machinery-page", "machinery-page machine-detail-page"));
   html = html.replace('<script type="module" src="/features/machinery/list.js"></script>', '<script type="module" src="/features/machinery/detail.js"></script>');
   return html;
 };
 
 const injectListSnapshot = (html, rows, totalPages, copy) => html
-  .replace('<body class="page privacy-page machinery-page"', '<body data-static-machine-pages="true" class="page privacy-page machinery-page"')
-  .replace(/<tbody(?:\s[^>]*)?>\s*<\/tbody>/u, `<tbody data-prerendered="true" aria-live="polite">${rows}</tbody>`)
+  .replace(/<body\b/u, '<body data-static-machine-pages="true"')
+  .replace(/<tbody(?:\s[^>]*)?>\s*<\/tbody>/u, () => `<tbody data-prerendered="true" aria-live="polite">${rows}</tbody>`)
   .replace(/(<span class="pagination-status"[^>]*>)[\s\S]*?(<\/span>)/u,
-    `$1${escapeHtml(copy.labels.page.replace("{current}", "1").replace("{total}", String(totalPages)))}$2`);
+    (_, start, end) => `${start}${escapeHtml(copy.labels.page.replace("{current}", "1").replace("{total}", String(totalPages)))}${end}`);
 
 const appendSitemapUrls = async (dist, machines) => {
   const filename = path.join(dist, "sitemap.xml");
@@ -282,30 +203,34 @@ const appendSitemapUrls = async (dist, machines) => {
   await writeFile(filename, sitemap, "utf8");
 };
 
-export const generateMachineryPages = async ({root, dist}) => {
+export const generateMachineryPages = async ({root, dist, cacheFile, fetcher = fetchMachines, now = Date.now()}) => {
   let config;
   try {
     config = await loadRuntimeConfig(root);
   } catch {
     console.warn("Snapshot de OpsLaundry omitido: no se pudo leer runtime-config.js.");
-    return {generated: 0, machines: 0};
+    return {status: "unavailable", generated: 0, machines: 0};
   }
   if (!config.FIREBASE_PROJECT_ID || /your_project/iu.test(config.FIREBASE_PROJECT_ID)) {
     console.warn("Snapshot de OpsLaundry omitido: FIREBASE_PROJECT_ID no está configurado.");
-    return {generated: 0, machines: 0};
+    return {status: "unavailable", generated: 0, machines: 0};
   }
   let machines;
+  let snapshot;
   try {
-    machines = await fetchMachines({projectId: config.FIREBASE_PROJECT_ID, apiKey: config.FIREBASE_API_KEY});
-  } catch (error) {
-    console.warn(`Snapshot de OpsLaundry omitido sin interrumpir el build: ${error.message}`);
-    return {generated: 0, machines: 0};
+    machines = publicMachines(await fetcher({projectId: config.FIREBASE_PROJECT_ID, apiKey: config.FIREBASE_API_KEY}));
+    snapshot = {status: "fresh", fetchedAt: now};
+  } catch {
+    const cached = await loadSnapshot(cacheFile, config.FIREBASE_PROJECT_ID, now);
+    if (!cached) {
+      console.warn("Snapshot no disponible: Firestore falló y no hay una copia pública válida. Publicación bloqueada.");
+      return {status: "unavailable", generated: 0, machines: 0};
+    }
+    machines = cached.machines;
+    snapshot = {status: "cached", fetchedAt: cached.fetchedAt};
+    console.warn(`AVISO: se reconstruyen las fichas desde la copia pública de ${new Date(cached.fetchedAt).toISOString()}.`);
   }
   machines = sortMachines(machines.filter((machine) => safeMachineId(machine.id)));
-  if (!machines.length) {
-    console.warn("Snapshot de OpsLaundry omitido: Firestore no devolvió máquinas públicas visibles.");
-    return {generated: 0, machines: 0};
-  }
   let generated = 0;
   for (const [lang, locale] of Object.entries(LOCALES)) {
     const listPath = path.join(dist, lang, locale.route, "index.html");
@@ -336,5 +261,8 @@ export const generateMachineryPages = async ({root, dist}) => {
   }
   await appendSitemapUrls(dist, machines);
   console.log(`OpsLaundry snapshot: ${machines.length} máquinas visibles y ${generated} fichas HTML.`);
-  return {generated, machines: machines.length};
+  if (snapshot.status === "fresh") {
+    await saveSnapshot(cacheFile, config.FIREBASE_PROJECT_ID, machines, snapshot.fetchedAt);
+  }
+  return {...snapshot, generated, machines: machines.length};
 };

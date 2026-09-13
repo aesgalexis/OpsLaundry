@@ -1,4 +1,6 @@
 import {subscribeMachine} from "/features/machinery/public-repository.js";
+import {translate, capacity, formatPrice, extrasText, contactHref} from "./presentation.mjs";
+import {updateMachineMetadata} from "./seo.mjs";
 
 const article = document.querySelector("[data-machine-detail]");
 const copyElement = document.querySelector("#laundry-machinery-copy");
@@ -13,64 +15,11 @@ const messages = {
   el: {unavailable: "Αυτό το μηχάνημα δεν είναι πλέον διαθέσιμο.", error: "Δεν ήταν δυνατός ο έλεγχος της τρέχουσας διαθεσιμότητας."},
 };
 
-const normalizeKey = (value) => String(value || "").trim().toLowerCase()
-  .normalize("NFD").replace(/[\u0300-\u036f]/gu, "").replace(/[^a-z0-9]+/gu, "_").replace(/^_+|_+$/gu, "");
-const translate = (dictionary, value) => dictionary[normalizeKey(value)] || value || "";
-const capacity = (machine) => machine.capacidad || String(machine.modelo || "")
-  .match(/\b\d+(?:[.,]\d+)?\s*(?:kg|kgs|l|lt|lts)\b/iu)?.[0] || "";
-const formatPrice = (machine) => {
-  if (typeof machine.precioAmount === "number" && Number.isFinite(machine.precioAmount)) {
-    return `${Math.round(machine.precioAmount).toString().replace(/\B(?=(\d{3})+(?!\d))/gu, ".")} EUR`;
-  }
-  return String(machine.precioTexto || "").trim().toLowerCase() === "consultar"
-    ? copy.labels.consult
-    : machine.precioTexto || "";
-};
-const warrantyText = (machine) => {
-  const labels = copy.labels;
-  const months = Number.parseInt(machine.garantiaMeses, 10);
-  const years = Number.parseInt(machine.garantiaPiezasAnos, 10);
-  const total = String(machine.garantiaTipo || "").trim() === "total";
-  if (Number.isFinite(months) && months > 0) {
-    return (total ? labels.fullWarrantyMonths : labels.partsWarrantyMonths).replace("{n}", months);
-  }
-  if (Number.isFinite(years) && years > 0) {
-    if (total) return years === 1 ? labels.fullWarrantyOne : labels.fullWarrantyMany.replace("{n}", years);
-    return years === 1 ? labels.partsWarrantyOne : labels.partsWarrantyMany.replace("{n}", years);
-  }
-  return machine.garantiaTexto || "";
-};
-const extrasText = (machine) => {
-  const labels = copy.labels;
-  const extras = [];
-  if (machine.envioIncluido && machine.puestaEnMarchaIncluida) extras.push(labels.shippingStartup);
-  else if (machine.envioIncluido) extras.push(labels.shippingOnly);
-  else if (machine.puestaEnMarchaIncluida) extras.push(labels.startupOnly);
-  const warranty = warrantyText(machine);
-  if (warranty) extras.push(warranty);
-  return extras.length ? ` · ${extras.join(" · ")}` : "";
-};
 const setField = (key, value) => {
   const field = article?.querySelector(`[data-machine-field="${key}"]`);
   const row = field?.closest("div");
   if (field) field.textContent = value == null ? "" : String(value);
   if (row) row.hidden = !String(value ?? "").trim();
-};
-const contactHref = (machine, type) => {
-  const params = new URLSearchParams({
-    subject: "investment", type, brand: machine.marca || "", model: machine.modelo || "",
-    year: machine.anio == null ? "" : String(machine.anio), id: machine.id || "",
-  });
-  return `${copy.contactPath}?${params.toString()}`;
-};
-const setRobots = (content) => {
-  let meta = document.querySelector('meta[name="robots"]');
-  if (!meta) {
-    meta = document.createElement("meta");
-    meta.name = "robots";
-    document.head.append(meta);
-  }
-  meta.content = content;
 };
 const showStatus = (message, unavailable = false) => {
   const status = article?.querySelector("[data-machine-status]");
@@ -82,14 +31,16 @@ const showStatus = (message, unavailable = false) => {
 
 const renderMachine = (machine) => {
   if (!article) return;
+  updateMachineMetadata(document, machine, lang, copy);
   if (!machine || machine.visible === false) {
     article.dataset.machineAvailable = "false";
     showStatus(messages[lang].unavailable, true);
     article.querySelector("[data-machine-contact]")?.setAttribute("hidden", "");
-    setRobots("noindex, follow");
     return;
   }
   article.dataset.machineAvailable = "true";
+  const status = article.querySelector("[data-machine-status]");
+  if (status) status.hidden = true;
   const type = translate(copy.typeLabels, machine.categoria);
   const state = translate(copy.stateLabels, machine.estado);
   const title = `${machine.marca || ""} ${machine.modelo || ""}`.trim();
@@ -107,9 +58,9 @@ const renderMachine = (machine) => {
   setField("location", machine.ubicacion);
   setField("heating", translate(copy.heatingLabels || {}, machine.calefaccion));
   const price = article.querySelector("[data-machine-price]");
-  if (price) price.textContent = formatPrice(machine);
+  if (price) price.textContent = formatPrice(machine, copy.labels);
   const extras = article.querySelector("[data-machine-extras]");
-  if (extras) extras.textContent = extrasText(machine);
+  if (extras) extras.textContent = extrasText(machine, copy.labels);
   const comments = article.querySelector("[data-machine-comments]");
   if (comments) {
     comments.textContent = machine.comentarios || "";
@@ -135,7 +86,7 @@ const renderMachine = (machine) => {
   }
   const contact = article.querySelector("[data-machine-contact]");
   if (contact) {
-    contact.href = contactHref(machine, type);
+    contact.href = contactHref(machine, copy, type);
     contact.hidden = false;
   }
 };

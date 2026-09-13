@@ -29,11 +29,11 @@ if (relativeFiles.has("features/spare-parts/catalogo-maquinas.json")) {
 if (relativeFiles.has("features/machinery/imagenes")) {
   failures.push("Repository-only machinery images must remain outside site/.");
 }
-for (const file of files.filter((item) => item.endsWith(".js") || item.endsWith(".css"))) {
+for (const file of files.filter((item) => /\.(?:m?js|css)$/u.test(item))) {
   const relativePath = relative(site, file).split(sep).join("/");
   const source = await readFile(file, "utf8");
   const bytes = (await stat(file)).size;
-  if (file.endsWith(".js")) {
+  if (/\.m?js$/u.test(file)) {
     for (const match of source.matchAll(/firebasejs\/(\d+\.\d+\.\d+)/g)) {
       if (match[1] !== FIREBASE_BROWSER_VERSION) {
         failures.push(`${relativePath}: Firebase ${match[1]} differs from ${FIREBASE_BROWSER_VERSION}.`);

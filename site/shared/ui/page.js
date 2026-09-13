@@ -33,21 +33,72 @@
   const toggle = document.getElementById("lang-toggle");
   const menu = document.getElementById("lang-menu");
   if (!toggle || !menu) return;
-  const closeMenu = () => {
+  const languageLabels = {
+    es: ["Cambiar idioma, actual: español", "Seleccionar idioma"],
+    en: ["Change language, current: English", "Select language"],
+    it: ["Cambia lingua, attuale: italiano", "Seleziona lingua"],
+    el: ["Αλλαγή γλώσσας, τρέχουσα: ελληνικά", "Επιλογή γλώσσας"],
+  }[localizedLanguage];
+  toggle.setAttribute("aria-label", languageLabels[0]);
+  toggle.setAttribute("aria-haspopup", "menu");
+  menu.setAttribute("aria-label", languageLabels[1]);
+  const options = Array.from(menu.querySelectorAll(".lang-option"));
+  options.forEach((option) => { option.tabIndex = -1; });
+  const closeMenu = (restoreFocus = false) => {
     menu.hidden = true;
     toggle.setAttribute("aria-expanded", "false");
+    if (restoreFocus) toggle.focus();
+  };
+  const openMenu = (index = 0) => {
+    menu.hidden = false;
+    toggle.setAttribute("aria-expanded", "true");
+    options[index]?.focus();
   };
   toggle.addEventListener("click", (event) => {
     event.stopPropagation();
-    const opening = menu.hidden;
-    menu.hidden = !opening;
-    toggle.setAttribute("aria-expanded", String(opening));
+    if (menu.hidden) openMenu();
+    else closeMenu(true);
   });
-  menu.addEventListener("click", closeMenu);
+  toggle.addEventListener("keydown", (event) => {
+    if (event.key !== "ArrowDown" && event.key !== "ArrowUp") return;
+    event.preventDefault();
+    openMenu(event.key === "ArrowUp" ? options.length - 1 : 0);
+  });
+  menu.addEventListener("keydown", (event) => {
+    const index = options.indexOf(document.activeElement);
+    let next;
+    if (event.key === "ArrowDown") next = (index + 1) % options.length;
+    else if (event.key === "ArrowUp") next = (index - 1 + options.length) % options.length;
+    else if (event.key === "Home") next = 0;
+    else if (event.key === "End") next = options.length - 1;
+    else if (event.key === "Tab") {
+      // Let native Tab move beyond the trigger once the menu is closed.
+      closeMenu(true);
+      return;
+    } else if (event.key === " ") {
+      event.preventDefault();
+      options[index]?.click();
+      return;
+    } else if (event.key.length === 1 && !event.ctrlKey && !event.metaKey && !event.altKey) {
+      const letter = event.key.toLocaleLowerCase(localizedLanguage);
+      next = options.findIndex((option, candidate) => candidate > index && option.textContent.trim().toLocaleLowerCase(localizedLanguage).startsWith(letter));
+      if (next < 0) next = options.findIndex((option) => option.textContent.trim().toLocaleLowerCase(localizedLanguage).startsWith(letter));
+      if (next < 0) return;
+    } else return;
+    event.preventDefault();
+    options[next]?.focus();
+  });
+  menu.addEventListener("click", () => closeMenu(true));
   document.addEventListener("click", (event) => {
     if (!menu.hidden && !menu.contains(event.target) && !toggle.contains(event.target)) closeMenu();
   });
+  document.addEventListener("focusin", (event) => {
+    if (!menu.hidden && !menu.contains(event.target) && !toggle.contains(event.target)) closeMenu();
+  });
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") closeMenu();
+    if (event.key === "Escape" && !menu.hidden) {
+      event.preventDefault();
+      closeMenu(true);
+    }
   });
 })();

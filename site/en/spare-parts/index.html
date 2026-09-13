@@ -1,5 +1,5 @@
-<!DOCTYPE html><html lang="en"><head>
-  <meta charset="UTF-8">
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <script src="/static/js/config/runtime-config.js"></script>
   <title>Request a spare part | OpsLaundry</title>
@@ -19,7 +19,7 @@
 <body data-section-label="Spare parts" class="page spares-page" data-back-href="/en/"><div id="topbar-mount"><header class="topbar">
     <div class="topbar-inner">
       <a class="topbar-brand" href="/en/">
-        <img src="/assets/brand/wordmark.svg" alt="OpsLaundry" class="topbar-logo" loading="lazy">
+        <img loading="lazy" src="/assets/brand/wordmark.svg" alt="OpsLaundry" class="topbar-logo topbar-logo--wordmark">
       </a>
       <div class="utility-controls" aria-label="Preferences">
         <div class="lang-picker">
@@ -111,9 +111,9 @@
           <p>Photograph the full data plate and make sure every detail is clearly readable.</p>
         </div></div>
         <div class="upload-card">
-          <div class="upload-copy"><span class="upload-icon" aria-hidden="true">＋</span><div><h3><span>Data plate photos</span> <span aria-hidden="true">*</span></h3><p>Add up to 4 clear images. JPG, PNG or WEBP; maximum 8 MB each.</p></div></div>
+          <div class="upload-copy"><span class="upload-icon" aria-hidden="true">＋</span><div><h3><span>Data plate photos</span> <span aria-hidden="true">*</span></h3><p id="plate-upload-help">Add up to 4 clear images. JPG, PNG or WEBP; maximum 8 MB each.</p></div></div>
           <label class="upload-button" for="plate-images">Add images</label>
-          <input id="plate-images" name="fotos_placa" type="file" accept="image/jpeg,image/png,image/webp" multiple="" hidden="">
+          <input class="upload-input" aria-describedby="plate-upload-help" id="plate-images" name="fotos_placa" type="file" accept="image/jpeg,image/png,image/webp" multiple="">
           <div class="image-previews" id="plate-previews" aria-live="polite"></div>
           <p class="field-error" id="plate-error" role="alert" hidden=""></p>
         </div>
@@ -182,16 +182,16 @@
       </div>
     </section>
 
-    <div id="legal-footer" class="legal-footer footer-disclosure"><div class="footer-disclosure-control">
-    <button type="button" class="footer-disclosure-toggle" aria-expanded="false" aria-controls="footer-disclosure-panel" aria-label="Open footer"><span class="footer-disclosure-icon" aria-hidden="true"></span></button>
-    <div id="footer-disclosure-panel" class="footer-disclosure-panel" role="region" aria-label="OpsLaundry footer" hidden="">
-      <div class="footer-disclosure-identity" lang="en">
+    <div id="legal-footer" class="legal-footer footer-disclosure" role="contentinfo" aria-label="OpsLaundry footer"><div class="footer-disclosure-control">
+
+    <div id="footer-disclosure-panel" class="footer-disclosure-panel">
+      <div class="footer-disclosure-identity" lang="en"><a class="footer-brand" href="/en/"><img src="/assets/brand/wordmark.svg" alt="OpsLaundry" width="760" height="180" loading="lazy" decoding="async"></a>
         <p class="footer-disclosure-tagline">You know your laundry. We know what makes it better.</p>
         <div class="footer-studio-credit" lang="en"><a class="footer-studio-link" aria-label="Unátomo Studio" href="https://unatomo.com/studio/" target="_blank" rel="noopener"><img class="footer-studio-logo" src="/assets/brand/unatomo-studio.svg" alt="" width="384" height="384" loading="lazy" decoding="async"></a><p class="footer-studio-heading">Built with AI, shaped by real industry experience.</p><p class="footer-studio-description">AI created this site’s content and continues to develop its content, structure and communication under human direction.</p></div>
         <p class="footer-disclosure-privacy-row"><a class="footer-disclosure-privacy" href="/en/privacy/">Privacy and cookies policy</a></p>
         <p class="footer-disclosure-legal">© 2026 UNATOMO CORE SL · All rights reserved.</p>
       </div>
-      <div class="footer-disclosure-meta">
+      <section class="upperfooter" aria-label="OpsLaundry"><div class="upperfooter-col upperfooter-col-main"><p class="upperfooter-kicker">Services</p><ul class="upperfooter-list"><li><a href="/en/technical-audit/">Technical audit</a></li><li><a href="/en/automation/">Counters and automation</a></li><li><a href="/en/investments/">Investments and projects</a></li><li><a href="/en/used-machinery/">Machinery and equipment</a></li><li><a href="/en/spare-parts/">Spare parts and components</a></li><li><a href="/en/technical-support/">Technical support</a></li></ul></div></section><div class="footer-disclosure-meta"><p class="footer-about-title footer-disclosure-contact-title"><span>About us</span><a class="footer-disclosure-contact-form-link" aria-label="About OpsLaundry" href="/en/about-us/"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75M13 7a4 4 0 1 1-8 0 4 4 0 0 1 8 0"></path></svg></a></p>
         <p class="footer-disclosure-contact-title">Contact<a class="footer-disclosure-contact-form-link" href="/en/contact/?subject=opslaundry" aria-label="Go to the contact form"><svg viewBox="0 0 28 24" fill="none" stroke="url(#footer-contact-form-gradient)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><defs><linearGradient id="footer-contact-form-gradient" x1="2" y1="22" x2="25" y2="1" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#f29500"></stop><stop offset=".18" stop-color="#efa500"></stop><stop offset=".48" stop-color="#29a1e2"></stop><stop offset=".74" stop-color="#22b573"></stop><stop offset="1" stop-color="#223e73"></stop></linearGradient></defs><rect x="2.5" y="3" width="14" height="18" rx="2"></rect><path d="M6 8h7M6 12h7M6 16h5M19 12h6m-3-3 3 3-3 3"></path></svg></a></p>
         <div class="footer-disclosure-contact-list">
           <a class="footer-disclosure-contact-item" href="mailto:info@opslaundry.com" aria-label="Email"><span class="footer-disclosure-contact-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2zm0 2v.01L12 13 20 6.01V6H4zm0 12h16V8l-8 7-8-7v10z"></path></svg></span><span>info@opslaundry.com</span></a>
@@ -205,11 +205,11 @@
 
   </main>
 
-  <script src="/shared/ui/header.js"></script>
+
 
   <script src="/shared/ui/page.js"></script>
   <script type="module" src="/features/spare-parts/request.js"></script>
-  <script src="/shared/ui/footer.js"></script>
+
 
 
 <script type="application/json" id="laundry-spares-copy">{"page_title":"Request a spare part | OpsLaundry","eyebrow":"Spare parts and components","title":"Let's identify your machine","intro":"Tell us which equipment you have and describe the spare part you need. If you do not know the model, a photo of the data plate will help us identify it.","progress_label":"Request progress","progress_machine":"Machine","progress_identification":"Identification","progress_spare":"Spare part","progress_contact":"Contact","machine_title":"Which machine do you have?","machine_help":"Choose the brand, equipment type and model. If it is not listed, you can enter it exactly as shown on the data plate.","manufacturer_label":"Brand","choose_manufacturer":"Choose a brand…","manufacturer_error":"Choose a brand.","alliance_label":"Alliance brand","alliance_help":"Choose the name shown on the machine.","choose_alliance_brand":"Choose a brand…","alliance_error":"Choose an Alliance brand.","category_label":"Machine type","choose_category":"Choose a type…","category_error":"Choose the machine type.","model_label":"Model or family","choose_model":"Choose a model…","unknown_model":"Not listed / I don't know","model_error":"Choose a model or indicate that it is not listed.","manual_model_label":"Model shown on the data plate","model_placeholder":"E.g. HS-6024","manual_model_help":"Enter it exactly as shown, even if the text is incomplete.","identification_title":"Help us identify it","identification_help":"Photograph the full data plate and make sure every detail is clearly readable.","plate_title":"Data plate photos","plate_help":"Add up to 4 clear images. JPG, PNG or WEBP; maximum 8 MB each.","choose_images":"Add images","spare_title":"Which spare part do you need?","spare_help":"Name it in your own words. You do not need to know the technical term.","spare_name_label":"Spare part name","spare_name_placeholder":"E.g. door seal, display, bearing…","reference_label":"Part reference","reference_placeholder":"If shown on the part","quantity_label":"Quantity","description_label":"More details (optional)","description_placeholder":"Add any additional details.","plate_required":"Add at least one photo of the data plate.","contact_title":"Where should we reply?","contact_help":"We will review the information and contact you to confirm the spare part.","name_label":"Name","email_label":"Email","phone_label":"Phone","country_label":"Country","fiscal_title":"Quotation and billing details","fiscal_help":"We will use these details to prepare the quotation and, where applicable, the invoice.","legal_name_label":"Legal company name","tax_id_label":"Tax ID / VAT number","fiscal_address_label":"Billing address","postal_code_label":"Postal code","city_label":"City","province_label":"Province / region","summary_title":"Request summary","edit_machine":"Edit machine","privacy_prefix":"I have read and accept the","privacy_link":"privacy policy","back":"Back","continue":"Continue","send":"Send request","other_manufacturer":"Other / I don't know","unknown_brand":"I don't know","images_too_many":"You can add a maximum of 4 images.","image_too_large":"Each image must be smaller than 8 MB.","image_wrong_type":"Only JPG, PNG or WEBP images are accepted.","images_processing":"Preparing the images…","images_payload_too_large":"The images are too large. Try photos with a lower resolution.","sending":"Sending request…","success":"Request sent successfully. Reference: {reference}. We will review the information and contact you.","success_reference":"Request {reference}","success_title":"We have received your request","success_body":"We will review the information and the data-plate photographs to identify the correct spare part.","success_email_notice":"We have also sent you a confirmation email containing the request reference.","success_home":"Back to OpsLaundry","success_another":"Request another spare part","send_error":"We could not send the request. Please try again in a few minutes.","catalog_error":"The catalogue is temporarily unavailable. Please try again in a few minutes.","summary_manufacturer":"Manufacturer","summary_brand":"Brand","summary_category":"Machine","summary_model":"Model","summary_spare":"Spare part","summary_reference":"Reference","summary_images":"Images","summary_legal_name":"Legal name","summary_tax_id":"Tax ID / VAT","summary_fiscal_address":"Billing address","not_indicated":"Not provided","images_count":"{count} attached"}</script>

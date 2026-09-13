@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>OpsLaundry · Laboratorio del hero</title>
+  <link rel="stylesheet" href="../../site/styles/site.css">
+  <link rel="stylesheet" href="atmosphere.css">
+  <script defer src="atmosphere.js"></script>
+  <script defer src="copy.js"></script>
+  <script defer src="preview.js"></script>
+</head>
+<body class="page home-page">
+  <main class="page-shell lab">
+    <header class="lab-heading"><p>OpsLaundry / Exploración 01</p><h1>Un cielo que acompaña.</h1><p>Luz y atmósfera, sin datos meteorológicos en la portada.</p></header>
+    <form class="lab-controls" aria-label="Controles de la exploración">
+      <label>Luz<select id="light"><option value="auto">Hora del dispositivo</option><option value="original">Hero actual</option><option value="dawn">Amanecer</option><option value="day">Día</option><option value="sunset">Atardecer</option><option value="night">Noche</option></select></label>
+      <label>Atmósfera<select id="weather"><option value="clear">Despejado</option><option value="cloudy">Nublado</option><option value="rain">Lluvia suave</option><option value="storm">Tormenta sin destellos</option><option value="fog">Niebla</option></select></label>
+      <label>Idioma del hero<select id="locale"><option value="es">Español</option><option value="en">English</option><option value="it">Italiano</option><option value="el">Ελληνικά</option></select></label>
+    </form>
+    <section class="hero" aria-label="Vista de la propuesta">
+      <div class="atmosphere-light" aria-hidden="true"></div>
+      <div class="atmosphere-weather" aria-hidden="true"></div>
+      <div class="atmosphere-veil" aria-hidden="true"></div>
+      <div class="hero-content"></div>
+    </section>
+    <div id="variants" class="lab-variants" role="group" aria-label="Las 20 combinaciones de luz y atmósfera"></div>
+    <p id="state" class="lab-note" role="status"></p>
+    <p class="lab-note">Prototipo local. Horarios de luz aproximados; meteorología simulada. Sin GPS ni consultas externas.</p>
+  </main>
+</body>
+</html>
