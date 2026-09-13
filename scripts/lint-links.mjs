@@ -45,7 +45,8 @@ const normalizeTarget = (url) => {
 
 const rawMatches = [];
 const files = walk(root);
-const regex = /\/(?:static|assets|styles|shared|features|catalog|requests|catalogo|solicitudes|es|en|it|el)\/[^\s"'<>)]*/g;
+// A backslash ends a source-code URL before an escaped quote (\" or \').
+const regex = /\/(?:static|assets|styles|shared|features|catalog|requests|catalogo|solicitudes|es|en|it|el)\/[^\s\\"'<>)]*/g;
 
 for (const file of files) {
   const content = fs.readFileSync(file, "utf8");
