@@ -5,6 +5,11 @@ import {SITE} from "../site/features/machinery/presentation.mjs";
 
 export async function checkArtifact(dist, report) {
   const root = path.resolve(dist);
+  const runtimeSource = await readFile(path.join(root, "static/js/config/runtime-config.js"), "utf8");
+  const runtime = JSON.parse(runtimeSource.match(/window\.__OPSLAUNDRY_CONFIG__\s*=\s*(\{[\s\S]*?\})\s*;/u)?.[1] || "null");
+  if (!runtime || runtime.FIREBASE_APP_CHECK_DEBUG_TOKEN || runtime.FIREBASE_BUILD_ACCESS_TOKEN) {
+    throw new Error("Publication blocked: invalid runtime config or private/debug build credentials in public config");
+  }
   const sitemap = await readFile(path.join(root, "sitemap.xml"), "utf8");
   const urls = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/gu)].map((match) => match[1]);
   const unique = new Set(urls);

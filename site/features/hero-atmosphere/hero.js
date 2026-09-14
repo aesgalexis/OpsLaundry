@@ -56,7 +56,7 @@
   async function updateWeather() {
     if (!started || stopped || document.hidden || !weatherClient) return;
     const condition = await weatherClient.get();
-    if (stopped) return;
+    if (stopped || document.hidden) return;
     currentWeather = condition;
     updateClock();
   }
@@ -70,18 +70,24 @@
     stopped = false;
     clearInterval(timer);
     clearTimeout(startTimer);
+    if (document.hidden) { updateClock(); return; }
     tick();
     // Give the initial HTML and CSS a chance to paint before contacting the provider.
     startTimer = setTimeout(() => { started = true; void updateWeather(); }, 1200);
     timer = setInterval(tick, 60000);
   }
-  document.addEventListener('visibilitychange', tick);
-  window.addEventListener('pagehide', () => {
+  function pause() {
     stopped = true;
     clearInterval(timer);
     clearTimeout(startTimer);
     weatherClient?.cancel();
+    updateClock();
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) pause();
+    else resume();
   });
+  window.addEventListener('pagehide', pause);
   window.addEventListener('pageshow', resume);
   resume();
 })();

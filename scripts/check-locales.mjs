@@ -1,22 +1,16 @@
+import {ROUTES, routePath} from "../site/shared/routes.mjs";
 import {access, readFile} from "node:fs/promises";
 import path from "node:path";
 import parse5 from "parse5";
 
 const SITE = "https://opslaundry.com";
 const LANGS = ["es", "en", "it", "el"];
-const ROUTES = {
-  es: {about: "nosotros", submission: "enviar-maquina", home: "", audit: "auditoria", support: "asistencia-tecnica", investments: "inversiones", automation: "automatizacion", machinery: "maquinaria-ocasion", spares: "recambios", contact: "contacto", privacy: "privacidad"},
-  en: {about: "about-us", submission: "submit-machine", home: "", audit: "technical-audit", support: "technical-support", investments: "investments", automation: "automation", machinery: "used-machinery", spares: "spare-parts", contact: "contact", privacy: "privacy"},
-  it: {about: "chi-siamo", submission: "invia-macchina", home: "", audit: "audit-tecnico", support: "assistenza-tecnica", investments: "investimenti", automation: "automazione", machinery: "macchinari-usati", spares: "ricambi", contact: "contatto", privacy: "privacy"},
-  el: {about: "poioi-eimaste", submission: "ypovoli-michanimatos", home: "", audit: "technikos-elegchos", support: "techniki-ypostirixi", investments: "ependyseis", automation: "aftomatismoi", machinery: "metacheirismena-michanimata", spares: "antallaktika", contact: "epikoinonia", privacy: "aporrito"},
-};
 const SECTION_LABELS = {
   es: {about: "Nosotros", submission: "Enviar máquina", audit: "Auditoría", support: "Asistencia técnica", investments: "Inversiones", automation: "Automatización", machinery: "Maquinaria de ocasión", spares: "Recambios", contact: "Contacto", privacy: "Privacidad"},
   en: {about: "About us", submission: "Submit machine", audit: "Technical audit", support: "Technical support", investments: "Investments", automation: "Automation", machinery: "Used machinery", spares: "Spare parts", contact: "Contact", privacy: "Privacy"},
   it: {about: "Chi siamo", submission: "Invia macchina", audit: "Audit tecnico", support: "Assistenza tecnica", investments: "Investimenti", automation: "Automazione", machinery: "Macchinari usati", spares: "Ricambi", contact: "Contatto", privacy: "Privacy"},
   el: {about: "Ποιοι είμαστε", submission: "Υποβολή μηχανήματος", audit: "Τεχνικός έλεγχος", support: "Τεχνική υποστήριξη", investments: "Επενδύσεις", automation: "Αυτοματισμοί", machinery: "Μεταχειρισμένα μηχανήματα", spares: "Ανταλλακτικά", contact: "Επικοινωνία", privacy: "Απόρρητο"},
 };
-const routePath = (lang, page) => `/${lang}/${ROUTES[lang][page] ? `${ROUTES[lang][page]}/` : ""}`;
 const failures = [];
 const titles = new Set();
 const walk = (node, callback) => {

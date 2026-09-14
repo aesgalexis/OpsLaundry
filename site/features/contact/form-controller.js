@@ -101,8 +101,10 @@ export const initContactForm = (form, options = {}) => {
     else delete status.dataset.state;
   };
 
+  let submitting = false;
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    if (submitting) return;
     if (honeypot?.value) return;
     fields.forEach(validateField);
     if (!form.checkValidity()) {
@@ -110,6 +112,7 @@ export const initContactForm = (form, options = {}) => {
       return;
     }
 
+    submitting = true;
     setStatus(messages.sending);
     if (submitButton) submitButton.disabled = true;
 
@@ -130,6 +133,7 @@ export const initContactForm = (form, options = {}) => {
     } catch {
       setStatus(messages.networkError, "error");
     } finally {
+      submitting = false;
       if (submitButton) submitButton.disabled = false;
     }
   });

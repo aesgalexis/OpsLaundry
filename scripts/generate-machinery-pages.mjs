@@ -37,7 +37,7 @@ const loadRuntimeConfig = async (root) => {
   return match ? JSON.parse(match[1]) : {};
 };
 
-const fetchMachines = async ({projectId, apiKey}) => {
+export const fetchMachines = async ({projectId, apiKey, accessToken = process.env.FIREBASE_BUILD_ACCESS_TOKEN}) => {
   const machines = [];
   let pageToken = "";
   do {
@@ -47,7 +47,11 @@ const fetchMachines = async ({projectId, apiKey}) => {
     endpoint.searchParams.set("pageSize", "1000");
     if (apiKey) endpoint.searchParams.set("key", apiKey);
     if (pageToken) endpoint.searchParams.set("pageToken", pageToken);
-    const response = await fetch(endpoint, {signal: AbortSignal.timeout(12000)});
+    // Optional short-lived OAuth token for a trusted build identity, never runtime config.
+    const response = await fetch(endpoint, {
+      signal: AbortSignal.timeout(12000),
+      headers: accessToken ? {Authorization: `Bearer ${accessToken}`} : {},
+    });
     if (!response.ok) throw new Error(`Firestore respondió ${response.status}`);
     const payload = await response.json();
     machines.push(...(payload.documents || []).map(decodeDocument));

@@ -1,50 +1,51 @@
+import {routePath} from "../site/shared/routes.mjs";
 export const footerNavigation = {
   es: {
-    home: "/es/",
+    home: routePath("es", "home"),
     title: "Servicios",
     items: [
-      ["Auditoría técnica", "/es/auditoria/"],
-      ["Contadores y automatización", "/es/automatizacion/"],
-      ["Inversiones y proyectos", "/es/inversiones/"],
-      ["Maquinaria y equipamiento", "/es/maquinaria-ocasion/"],
-      ["Recambios y componentes", "/es/recambios/"],
-      ["Asistencia técnica", "/es/asistencia-tecnica/"]
+      ["Auditoría técnica", routePath("es", "audit")],
+      ["Contadores y automatización", routePath("es", "automation")],
+      ["Inversiones y proyectos", routePath("es", "investments")],
+      ["Maquinaria y equipamiento", routePath("es", "machinery")],
+      ["Recambios y componentes", routePath("es", "spares")],
+      ["Asistencia técnica", routePath("es", "support")]
     ]
   },
   en: {
-    home: "/en/",
+    home: routePath("en", "home"),
     title: "Services",
     items: [
-      ["Technical audit", "/en/technical-audit/"],
-      ["Counters and automation", "/en/automation/"],
-      ["Investments and projects", "/en/investments/"],
-      ["Machinery and equipment", "/en/used-machinery/"],
-      ["Spare parts and components", "/en/spare-parts/"],
-      ["Technical support", "/en/technical-support/"]
+      ["Technical audit", routePath("en", "audit")],
+      ["Counters and automation", routePath("en", "automation")],
+      ["Investments and projects", routePath("en", "investments")],
+      ["Machinery and equipment", routePath("en", "machinery")],
+      ["Spare parts and components", routePath("en", "spares")],
+      ["Technical support", routePath("en", "support")]
     ]
   },
   it: {
-    home: "/it/",
+    home: routePath("it", "home"),
     title: "Servizi",
     items: [
-      ["Audit tecnico", "/it/audit-tecnico/"],
-      ["Contatori e automazione", "/it/automazione/"],
-      ["Investimenti e progetti", "/it/investimenti/"],
-      ["Macchinari e attrezzature", "/it/macchinari-usati/"],
-      ["Ricambi e componenti", "/it/ricambi/"],
-      ["Assistenza tecnica", "/it/assistenza-tecnica/"]
+      ["Audit tecnico", routePath("it", "audit")],
+      ["Contatori e automazione", routePath("it", "automation")],
+      ["Investimenti e progetti", routePath("it", "investments")],
+      ["Macchinari e attrezzature", routePath("it", "machinery")],
+      ["Ricambi e componenti", routePath("it", "spares")],
+      ["Assistenza tecnica", routePath("it", "support")]
     ]
   },
   el: {
-    home: "/el/",
+    home: routePath("el", "home"),
     title: "Υπηρεσίες",
     items: [
-      ["Τεχνικός έλεγχος", "/el/technikos-elegchos/"],
-      ["Μετρητές και αυτοματισμοί", "/el/aftomatismoi/"],
-      ["Επενδύσεις και έργα", "/el/ependyseis/"],
-      ["Μηχανήματα και εξοπλισμός", "/el/metacheirismena-michanimata/"],
-      ["Ανταλλακτικά και εξαρτήματα", "/el/antallaktika/"],
-      ["Τεχνική υποστήριξη", "/el/techniki-ypostirixi/"]
+      ["Τεχνικός έλεγχος", routePath("el", "audit")],
+      ["Μετρητές και αυτοματισμοί", routePath("el", "automation")],
+      ["Επενδύσεις και έργα", routePath("el", "investments")],
+      ["Μηχανήματα και εξοπλισμός", routePath("el", "machinery")],
+      ["Ανταλλακτικά και εξαρτήματα", routePath("el", "spares")],
+      ["Τεχνική υποστήριξη", routePath("el", "support")]
     ]
   }
 };

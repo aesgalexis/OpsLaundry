@@ -36,3 +36,4 @@ publicación del propietario; los cambios locales no se publican solos.
 - `development.md`: comandos locales y verificación.
 - `deployment.md`: build y publicación.
 - `migration-status.md`: datos trasladados y comprobaciones pendientes.
+- `site-review-2026-09-13.md`: revisión estructural, verificaciones de producción y decisiones pendientes.

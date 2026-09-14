@@ -1,10 +1,11 @@
+import {ROUTES} from "../../shared/routes.mjs";
 // Pure presentation rules shared by the static build and the live views.
 export const SITE = "https://opslaundry.com";
 export const LOCALES = {
-  es: {route: "maquinaria-ocasion", locale: "es_ES", back: "Volver al listado", contact: "Contactar", description: "Maquinaria de ocasión disponible en OpsLaundry."},
-  en: {route: "used-machinery", locale: "en_GB", back: "Back to the list", contact: "Contact", description: "Used machinery available from OpsLaundry."},
-  it: {route: "macchinari-usati", locale: "it_IT", back: "Torna all'elenco", contact: "Contatta", description: "Macchinario usato disponibile presso OpsLaundry."},
-  el: {route: "metacheirismena-michanimata", locale: "el_GR", back: "Επιστροφή στη λίστα", contact: "Επικοινωνία", description: "Μεταχειρισμένο μηχάνημα διαθέσιμο από την OpsLaundry."},
+  es: {route: ROUTES.es.machinery, locale: "es_ES", back: "Volver al listado", contact: "Contactar", description: "Maquinaria de ocasión disponible en OpsLaundry."},
+  en: {route: ROUTES.en.machinery, locale: "en_GB", back: "Back to the list", contact: "Contact", description: "Used machinery available from OpsLaundry."},
+  it: {route: ROUTES.it.machinery, locale: "it_IT", back: "Torna all'elenco", contact: "Contatta", description: "Macchinario usato disponibile presso OpsLaundry."},
+  el: {route: ROUTES.el.machinery, locale: "el_GR", back: "Επιστροφή στη λίστα", contact: "Επικοινωνία", description: "Μεταχειρισμένο μηχάνημα διαθέσιμο από την OpsLaundry."},
 };
 export const escapeHtml = (value) => String(value ?? "")
   .replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;")

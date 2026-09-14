@@ -2,7 +2,6 @@ import {logger} from "firebase-functions";
 import {HttpsError} from "firebase-functions/v2/https";
 import {resendApiKey} from "./resend";
 import {ResendPayload} from "../spare-parts/types";
-import {clean} from "../spare-parts/validation";
 
 export const sendLaundryEmail = async (
   payload: ResendPayload,
@@ -19,20 +18,23 @@ export const sendLaundryEmail = async (
         "Idempotency-Key": idempotencyKey,
       },
       body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(15000),
     });
-  } catch (error) {
-    logger.error(`${logLabel} network error`, {error});
+  } catch {
+    logger.error(`${logLabel} network error`, {
+      event: "email_transport_failed", channel: logLabel,
+    });
     throw new HttpsError("unavailable", "email-send-failed");
   }
-  const body = await response.json().catch(() => ({})) as {
-    id?: unknown;
-    message?: unknown;
-  };
+  await response.body?.cancel().catch(() => undefined);
   if (!response.ok) {
     logger.error(`${logLabel} rejected by Resend`, {
+      event: "email_provider_rejected", channel: logLabel,
       status: response.status,
-      message: clean(body.message, 500),
     });
     throw new HttpsError("unavailable", "email-send-failed");
   }
+  logger.info(`${logLabel} accepted by Resend`, {
+    event: "email_provider_accepted", channel: logLabel,
+  });
 };

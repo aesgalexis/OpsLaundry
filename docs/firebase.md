@@ -41,5 +41,12 @@ cliente publicado. La lectura REST del build para snapshots tampoco usa un
 token App Check, por lo que activar enforcement global de Firestore requiere
 resolver antes ese acceso.
 
+La preparación local del 13/09 permite pasar al build un token OAuth temporal
+mediante `FIREBASE_BUILD_ACCESS_TOKEN`, exclusivamente en el entorno del
+proceso. No genera identidad ni activa enforcement. El artefacto rechaza
+credenciales de build y tokens debug en la configuración pública. La colección
+de maquinaria todavía permite lecturas completas en las reglas versionadas:
+ver la migración de datos públicos/administrativos en `site-review-2026-09-13.md`.
+
 `RESEND_API_KEY` vive en Secret Manager de Functions. El remitente y los
 destinos vigentes se explican en `email.md`.

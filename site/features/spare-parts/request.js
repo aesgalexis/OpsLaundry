@@ -25,7 +25,8 @@ let currentStep = 1;
 let selectedManufacturer = "";
 let selectedAllianceBrand = "";
 let selectedCategory = "";
-const submissionId = crypto.randomUUID();
+let submissionId = crypto.randomUUID();
+let attemptedPayload = null;
 
 function normalizeLanguage(value) {
   const normalized = String(value || "es").slice(0, 2).toLowerCase();
@@ -329,25 +330,35 @@ nextButton.addEventListener("click", () => {
 backButton.addEventListener("click", () => showStep(currentStep - 1));
 document.querySelectorAll("[data-go-step]").forEach((button) => button.addEventListener("click", () => showStep(Number(button.dataset.goStep))));
 
+let submitting = false;
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (submitting) return;
   if (!validateStep(4)) return;
+  submitting = true;
   statusElement.hidden = false;
   statusElement.dataset.state = "";
   statusElement.textContent = t("images_processing");
   submitButton.disabled = true;
   syncCatalogModel();
   try {
-    const images = await prepareImages(document.querySelector("#plate-images"));
+    const data = buildSubmission([]);
+    data.images = await prepareImages(document.querySelector("#plate-images"));
+    delete data.submissionId;
+    const payload = data;
+    const serialized = JSON.stringify(payload);
+    if (attemptedPayload && attemptedPayload !== serialized) submissionId = crypto.randomUUID();
+    attemptedPayload = serialized;
     statusElement.textContent = t("sending");
-    const response = await submitSpareRequest(buildSubmission(images));
-    if (!response?.data?.ok) throw new Error("submission-rejected");
+    const response = await submitSpareRequest({...payload, submissionId});
+    if (!response?.data?.ok || response.data.accepted === false) throw new Error("submission-rejected");
     statusElement.dataset.state = "success";
     showSuccess(response.data.requestId, response.data.confirmationSent !== false);
   } catch (error) {
     console.error(error);
     statusElement.dataset.state = "error";
     statusElement.textContent = error?.message === "images-too-large" ? t("images_payload_too_large") : t("send_error");
+    submitting = false;
     submitButton.disabled = false;
   }
 });

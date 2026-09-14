@@ -5,6 +5,7 @@ import {
   query,
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import { db } from "/shared/firebase/public-db.js";
+import {subscribeWhileVisible} from "/shared/page-subscription.mjs";
 
 const MACHINES_COLLECTION = "agregador_maquinaria_LS";
 const PREFIX_ORDER = ["P", "T", "L", "S", "C", "R", "M"];
@@ -59,7 +60,7 @@ const mapMachine = (item) => {
 };
 
 export const subscribeMachines = (onData, onError) =>
-  onSnapshot(
+  subscribeWhileVisible(() => onSnapshot(
     query(collection(db, MACHINES_COLLECTION)),
     (snapshot) => {
       const machines = snapshot.docs
@@ -69,11 +70,11 @@ export const subscribeMachines = (onData, onError) =>
       onData(sortMachines(machines));
     },
     onError
-  );
+  ));
 
 export const subscribeMachine = (machineId, onData, onError) =>
-  onSnapshot(
+  subscribeWhileVisible(() => onSnapshot(
     doc(db, MACHINES_COLLECTION, machineId),
     (snapshot) => onData(snapshot.exists() ? mapMachine(snapshot) : null),
     onError
-  );
+  ));

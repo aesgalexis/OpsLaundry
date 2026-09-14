@@ -4,7 +4,7 @@
   "description": "Industrial laundry services, used machinery and spare-parts operations.",
   "scripts": {
     "test": "npm run check:css && npm run test:site && npm run test:functions && npm run lint:links && npm run scan:secrets",
-    "test:site": "npm run check:architecture && npm run check:locales && node --test scripts/test-hero-weather.cjs scripts/test-language-entry.cjs scripts/test-machinery-pages.mjs scripts/test-static-site.mjs",
+    "test:site": "npm run check:architecture && npm run check:locales && node --test scripts/test-hero-weather.cjs scripts/test-language-entry.cjs scripts/test-machinery-pages.mjs scripts/test-static-site.mjs scripts/test-form-lifecycle.mjs",
     "test:functions": "npm --prefix firebase/functions test",
     "predev": "node scripts/generate-config.mjs",
     "predev:static": "node scripts/generate-config.mjs",
@@ -23,6 +23,7 @@
     "catalog:sync": "node scripts/sync-catalog.mjs --apply",
     "check:css": "node --test scripts/test-css-bundles.mjs",
     "check:architecture": "node scripts/check-architecture.mjs",
+    "check:production": "node scripts/check-production.mjs",
     "check:publish": "node scripts/check-publish.mjs",
     "check:locales": "node scripts/check-locales.mjs"
   },

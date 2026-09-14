@@ -63,9 +63,12 @@ upload?.addEventListener("drop", (event) => {
   input.files = transfer.files;
   updateImages();
 });
+let submitting = false;
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  if (submitting) return;
   if (!form.reportValidity()) return;
+  submitting = true;
   button.disabled = true;
   status.textContent = copy.sending;
   try {
@@ -84,6 +87,7 @@ form.addEventListener("submit", async (event) => {
     form.querySelectorAll("input, select, textarea, button").forEach((el) => { el.disabled = true; });
   } catch {
     status.textContent = copy.error;
+    submitting = false;
     button.disabled = false;
   }
 });

@@ -51,3 +51,14 @@ Tras resolver una incidencia de Firestore, basta repetir `npm run build` y
 
 El dominio dispone de certificado y HTTPS obligatorio. El estado de los datos
 y las comprobaciones posteriores se mantiene en `migration-status.md`.
+
+`npm run check:production` ejecuta una muestra pública limitada y compara el
+sitemap con los anuncios visibles actuales, sin escribir en producción. Su
+informe queda en `.cache/production-check.json`. No se añade a cada build ni
+se programa automáticamente. La revisión y los límites de esta comprobación
+están en `site-review-2026-09-13.md`.
+
+El disparo manual `workflow_dispatch` existente permite regenerar el HTML de
+`main` sin push de código. Sigue siendo una publicación que debe iniciar el
+propietario. El puente desde administración está definido en la revisión,
+pero no está implementado ni desplegado.

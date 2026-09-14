@@ -19,6 +19,9 @@ La cabecera y el pie están completos en el HTML de cada idioma. El generador
 aplica también a las fichas generadas; JavaScript conserva los controles de
 navegación e idioma.
 
+`site/shared/routes.mjs` centraliza las rutas traducidas usadas por estos
+generadores, la presentación de maquinaria y la comprobación de idiomas.
+
 Los módulos reutilizables están en `site/shared/`. Cada función del producto
 tiene su código en `site/features/`. Las páginas HTML pueden permanecer en la
 ruta que reciben los visitantes sin dispersar el JavaScript por idioma.
@@ -49,6 +52,10 @@ traducciones y destinos entre build, listado y ficha. `seo.mjs` comparte los
 metadatos de las fichas entre build y actualización en vivo. Al retirar una
 máquina se elimina su JSON-LD y se marca `noindex`; al reactivarla se restauran.
 Las máquinas con precio a consultar no declaran ofertas sin precio.
+
+Las suscripciones públicas se suspenden mientras la página está oculta o fuera
+de la navegación y se restablecen al volver. `shared/page-subscription.mjs`
+gestiona también la restauración desde la caché de navegación.
 
 ## Formularios y backend
 

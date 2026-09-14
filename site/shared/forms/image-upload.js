@@ -97,7 +97,18 @@ function blobToBase64(blob) {
 
 export async function prepareImages(input) {
   const files = Array.from(input.files || []);
-  const prepared = await Promise.all(files.map(prepareImage));
+  if (files.length > 4) throw new Error("images-too-many");
+  if (files.some((file) => file.size > MAX_FILE_BYTES)) throw new Error("images-too-large");
+  if (files.some((file) => !ACCEPTED_TYPES.has(file.type))) throw new Error("image-wrong-type");
+  // Bound decoded image/canvas memory: prepare one large image at a time.
+  const prepared = [];
+  let preparedBytes = 0;
+  for (const [index, file] of files.entries()) {
+    const image = await prepareImage(file, index);
+    preparedBytes += image.blob.size;
+    if (preparedBytes > MAX_TOTAL_PREPARED_BYTES) throw new Error("images-too-large");
+    prepared.push(image);
+  }
   const totalBytes = prepared.reduce((sum, image) => sum + image.blob.size, 0);
   if (totalBytes > MAX_TOTAL_PREPARED_BYTES) throw new Error("images-too-large");
   return Promise.all(prepared.map(async (image) => ({

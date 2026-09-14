@@ -1,3 +1,4 @@
+import {routePath} from "../site/shared/routes.mjs";
 import {readFile, readdir, writeFile} from "node:fs/promises";
 import path from "node:path";
 import {parse, attr, all, byClass, byId, setAttr, remove, fragment, prepend, outerHtml, applyReplacements} from "./html-tree.mjs";
@@ -5,10 +6,10 @@ import {footerNavigation} from "./shell-navigation.mjs";
 import {escapeHtml} from "../site/features/machinery/presentation.mjs";
 
 const ABOUT = {
-  es: ["Nosotros", "Conocer OpsLaundry", "/es/nosotros/"],
-  en: ["About us", "About OpsLaundry", "/en/about-us/"],
-  it: ["Chi siamo", "Scopri OpsLaundry", "/it/chi-siamo/"],
-  el: ["Ποιοι είμαστε", "Γνώρισε την OpsLaundry", "/el/poioi-eimaste/"],
+  es: ["Nosotros", "Conocer OpsLaundry", routePath("es", "about")],
+  en: ["About us", "About OpsLaundry", routePath("en", "about")],
+  it: ["Chi siamo", "Scopri OpsLaundry", routePath("it", "about")],
+  el: ["Ποιοι είμαστε", "Γνώρισε την OpsLaundry", routePath("el", "about")],
 };
 
 export function renderShell(html, pathname) {
