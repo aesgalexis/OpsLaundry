@@ -70,8 +70,8 @@ jobs:
         uses: actions/cache/restore@v5
         with:
           path: .cache/machinery-snapshot.json
-          key: public-machinery-v1-${{ github.run_id }}-${{ github.run_attempt }}
-          restore-keys: public-machinery-v1-
+          key: public-machinery-v2-${{ github.run_id }}-${{ github.run_attempt }}
+          restore-keys: public-machinery-v2-
 
       - name: Build
         run: npm run build:with-stats
@@ -83,7 +83,7 @@ jobs:
         uses: actions/cache/save@v5
         with:
           path: .cache/machinery-snapshot.json
-          key: public-machinery-v1-${{ github.run_id }}-${{ github.run_attempt }}
+          key: public-machinery-v2-${{ github.run_id }}-${{ github.run_attempt }}
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v5

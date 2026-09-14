@@ -1,4 +1,5 @@
 export {submitLaundrySpareRequest} from "./spare-parts/requests";
+export {syncLaundryPublicMachine} from "./machinery/public-sync";
 export {
   submitLaundryMachine,
   listLaundryMachineSubmissions,

@@ -6,7 +6,7 @@ import {SITE, LOCALES, escapeHtml, normalizeKey, publicImageUrl, capacity, forma
 import {machineMetadata, serializeSchema} from "../site/features/machinery/seo.mjs";
 import {loadSnapshot, saveSnapshot, publicMachines} from "./machinery-snapshot.mjs";
 
-const COLLECTION = "agregador_maquinaria_LS";
+const COLLECTION = "laundry_public_machines";
 const PAGE_SIZE = 20;
 const PREFIX_ORDER = ["P", "T", "L", "S", "C", "R", "M"];
 
@@ -38,6 +38,14 @@ const loadRuntimeConfig = async (root) => {
 };
 
 export const fetchMachines = async ({projectId, apiKey, accessToken = process.env.FIREBASE_BUILD_ACCESS_TOKEN}) => {
+  const base = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(projectId)}/databases/(default)/documents`;
+  const statusUrl = new URL(`${base}/laundry_public_machinery_status/current`);
+  if (apiKey) statusUrl.searchParams.set("key", apiKey);
+  const readiness = await fetch(statusUrl, {signal: AbortSignal.timeout(12000),
+    headers: accessToken ? {Authorization: `Bearer ${accessToken}`} : {}});
+  if (!readiness.ok) throw new Error(`Public machinery not ready (${readiness.status})`);
+  const status = decodeDocument(await readiness.json());
+  if (status.ready !== true || status.schemaVersion !== 1) throw new Error("Public machinery migration incomplete");
   const machines = [];
   let pageToken = "";
   do {

@@ -43,7 +43,7 @@ body.spares-page .spares-shell {
 .spares-progress {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(var(--form-step-count, 4), 1fr);
   gap: 0;
   margin: 0 0 1.25rem;
   padding: 0;
@@ -53,8 +53,8 @@ body.spares-page .spares-shell {
 .spares-progress::before {
   position: absolute;
   top: 1rem;
-  right: 12.5%;
-  left: 12.5%;
+  right: calc(50% / var(--form-step-count, 4));
+  left: calc(50% / var(--form-step-count, 4));
   height: 1px;
   background: var(--border-subtle);
   content: "";

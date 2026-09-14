@@ -5,8 +5,8 @@ import {onDocumentCreated} from "firebase-functions/v2/firestore";
 import {admin, db} from "../core/firebase";
 import {resendApiKey} from "../email/resend";
 import {sendLaundryEmail} from "../email/delivery";
-import {renderLaundryEmailBrandHeader, REQUEST_DESTINATION, VERIFIED_SENDER} from "../email/branding";
-import {escapeHtml} from "../spare-parts/validation";
+import {REQUEST_DESTINATION, VERIFIED_SENDER} from "../email/branding";
+import {renderMachineSubmissionEmails} from "./emails";
 import {enforceSpareRequestRateLimit} from "../spare-parts/rate-limit";
 import {normalizeMachineSubmission} from "./submission-policy";
 
@@ -64,26 +64,16 @@ export const notifyLaundryMachineSubmission = onDocumentCreated({
   const data = event.data?.data();
   if (!data) return;
   const id = event.params.submissionId;
-  const link = `https://opslaundry.com/requests/?request=${encodeURIComponent(id)}`;
-  const summary = Object.entries(data.draft).map(([k, v]) => `${k}: ${v}`).join("\n");
-  const text = `Nueva propuesta ${id}\n${data.contact.name}\n${data.contact.email}\n${data.contact.phone}\n${data.contact.company}\n\n${summary}\n\nRevisar: ${link}`;
+  const {internal, confirmation} = renderMachineSubmissionEmails(id, {
+    contact: data.contact, draft: data.draft, language: data.language,
+    imageCount: Array.isArray(data.images) ? data.images.length : 0,
+  });
   const common = {from: VERIFIED_SENDER, tags: [{name: "category", value: "machine-submission"}]};
   await sendLaundryEmail({
-    ...common, to: [REQUEST_DESTINATION], reply_to: data.contact.email,
-    subject: `Máquina pendiente: ${data.draft.marca} ${data.draft.modelo}`,
-    text, html: `${renderLaundryEmailBrandHeader()}<pre>${escapeHtml(text)}</pre><p><a href="${link}">Revisar solicitud</a></p>`,
+    ...common, ...internal, to: [REQUEST_DESTINATION], reply_to: data.contact.email,
   }, `machine-internal-${id}`, "Machine submission");
-  const confirmations: Record<string, string> = {
-    es: "Hemos recibido tu máquina. Está pendiente de valoración; todavía no está publicada.",
-    en: "We have received your machine. It is awaiting review and is not yet published.",
-    it: "Abbiamo ricevuto la tua macchina. È in attesa di valutazione e non è ancora pubblicata.",
-    el: "Λάβαμε το μηχάνημά σας. Αναμένει αξιολόγηση και δεν έχει δημοσιευτεί ακόμη.",
-  };
-  const message = `${confirmations[data.language] || confirmations.es}\n${id}`;
   await sendLaundryEmail({
-    ...common, to: [data.contact.email], reply_to: REQUEST_DESTINATION,
-    subject: "OpsLaundry · " + id.slice(0, 8),
-    text: message, html: `${renderLaundryEmailBrandHeader()}<p>${escapeHtml(message)}</p>`,
+    ...common, ...confirmation, to: [data.contact.email], reply_to: REQUEST_DESTINATION,
   }, `machine-confirm-${id}`, "Machine submission confirmation");
   await event.data?.ref.update({notificationSentAt: admin.firestore.FieldValue.serverTimestamp()});
 });

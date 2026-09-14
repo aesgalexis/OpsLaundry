@@ -7,9 +7,16 @@ versionan secretos, cuentas de servicio, exportaciones productivas ni `dist/`.
 
 ## Contratos de datos
 
+La separación de maquinaria está implementada localmente; su secuencia de
+activación y verificaciones está en `public-machinery-migration.md`. Hasta
+completarla, las reglas desplegadas mantienen la lectura anterior.
+
 - `agregador_maquinaria_LS`: anuncios de maquinaria de ocasión ofrecida en el
   sitio y contadores del editor. El nombre heredado se conserva porque ya
   identifica datos desplegados.
+- `laundry_public_machines`: proyección pública de anuncios visibles sin campos
+  administrativos; escrita exclusivamente por backend tras la migración.
+- `laundry_public_machinery_status`: marcador público de preparación del build.
 - `laundry_public_catalog`: fabricantes y grupos de modelos para recambios.
 - `laundry_machine_submissions` y los objetos privados
   `laundry-submissions/{submissionId}/...`: propuestas pendientes de revisión.
@@ -45,8 +52,9 @@ La preparación local del 13/09 permite pasar al build un token OAuth temporal
 mediante `FIREBASE_BUILD_ACCESS_TOKEN`, exclusivamente en el entorno del
 proceso. No genera identidad ni activa enforcement. El artefacto rechaza
 credenciales de build y tokens debug en la configuración pública. La colección
-de maquinaria todavía permite lecturas completas en las reglas versionadas:
-ver la migración de datos públicos/administrativos en `site-review-2026-09-13.md`.
+de maquinaria permite lecturas completas en las reglas desplegadas comprobadas
+el 14/09; las reglas locales ya restringen la colección administrativa.
+Ver el orden de activación en `public-machinery-migration.md`.
 
 `RESEND_API_KEY` vive en Secret Manager de Functions. El remitente y los
 destinos vigentes se explican en `email.md`.

@@ -1,4 +1,5 @@
 import { subscribeMachines } from "/features/machinery/public-repository.js";
+import {subscribeMachineAccess} from "./access-subscription.mjs";
 import {escapeHtml, normalizeKey, translate, formatPrice as presentPrice,
   capacity as getCapacityValue, buildExtras as presentExtras, contactHref} from "./presentation.mjs";
 
@@ -269,30 +270,31 @@ if (copies.length) {
     copies.forEach((copy) => renderTableState(copy, META[lang].loading));
   }
 
-  subscribeMachines(
-    (machines) => {
+  const access = subscribeMachineAccess({
+    subscribePublic: subscribeMachines,
+    loadAdmin: async () => (await import("/features/machinery/admin-repository.js")).subscribeAdminMachines,
+    onData: (machines) => {
       currentMachines = machines;
       machineryLoaded = true;
       copies.forEach((copy) => renderMachinesForCopy(copy, machines));
     },
-    () => {
+    onError: () => {
       machineryLoaded = true;
-      if (!hasPrerenderedRows || requestedMachineId) {
+      if (isMachineAdmin || !hasPrerenderedRows || requestedMachineId) {
         copies.forEach((copy) => renderTableState(copy, META[lang].error));
       }
-    }
-  );
-
-  document.addEventListener("ls:machine-admin-change", (event) => {
-    const nextAdmin = event.detail?.isAdmin === true;
-    if (nextAdmin === isMachineAdmin) return;
-    isMachineAdmin = nextAdmin;
-    copies.forEach((copy) => renderMachinesForCopy(copy, currentMachines));
+    },
+    onReset: (nextAdmin) => {
+      isMachineAdmin = nextAdmin;
+      currentMachines = [];
+      copies.forEach((copy) => renderTableState(copy, META[lang].loading));
+    },
   });
 
   import("/shared/auth/admin-access.js").then(({observeMachineAdmin, isAdminUser}) => {
     let loaded = false;
     observeMachineAdmin((user) => {
+      access.setAdmin(isAdminUser(user));
       if (!isAdminUser(user) || loaded) return;
       loaded = true;
       const stylesheet = document.createElement("link");

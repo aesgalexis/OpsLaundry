@@ -28,6 +28,12 @@ ruta que reciben los visitantes sin dispersar el JavaScript por idioma.
 
 ## Maquinaria de ocasión
 
+La separación local usa `laundry_public_machines` para visitantes y build, y
+reserva `agregador_maquinaria_LS` al editor autenticado. La sincronización del
+backend aplica una lista explícita de campos públicos. Su activación por fases
+está pendiente según `public-machinery-migration.md`; no desplegar las reglas
+finales antes de adaptar el sitio publicado.
+
 El listado y las fichas solo muestran máquinas ofrecidas en la sección pública
 de maquinaria de ocasión. `features/machinery/list.js` importa estáticamente el
 repositorio de lectura pública. El acceso administrativo, Storage y el editor

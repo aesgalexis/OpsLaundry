@@ -1,5 +1,11 @@
 # Build y publicación
 
+Antes de la próxima publicación, completar las fases iniciales de
+`public-machinery-migration.md`: nueva Function, reglas transitorias y carga
+verificada de la proyección pública. El build ya usa la nueva colección y
+bloquea la publicación si falta su marcador. Las reglas privadas definitivas
+se despliegan únicamente después de publicar y verificar el nuevo lector.
+
 `npm run build` genera `dist/` a partir de `site/`, empaqueta el CSS y añade
 snapshots públicos de maquinaria de ocasión. La salida conserva las URLs de las
 páginas y el archivo `CNAME` declara `opslaundry.com`.

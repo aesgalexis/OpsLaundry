@@ -3,8 +3,43 @@ import {test} from "node:test";
 import {readFile} from "node:fs/promises";
 import {subscribeWhileVisible} from "../site/shared/page-subscription.mjs";
 import {fetchMachines} from "./generate-machinery-pages.mjs";
+import {subscribeMachineAccess} from "../site/features/machinery/access-subscription.mjs";
 
 const importBrowserModule = async (file) => import(`data:text/javascript;base64,${Buffer.from(await readFile(file)).toString("base64")}`);
+
+test("logout clears administrative data and discards delayed callbacks and module loads", async () => {
+  const callbacks = [];
+  let view = [];
+  let active = 0;
+  let resolveAdmin;
+  const subscribe = (data) => {
+    callbacks.push(data); active++;
+    let stopped = false;
+    return () => { if (!stopped) { active--; stopped = true; } };
+  };
+  const access = subscribeMachineAccess({subscribePublic: subscribe,
+    loadAdmin: () => new Promise((resolve) => { resolveAdmin = resolve; }),
+    onData: (data) => { view = data; }, onReset: () => { view = []; },
+    onError: (error) => { throw error; }});
+  callbacks[0](["public"]);
+  const pending = access.setAdmin(true);
+  assert.deepEqual(view, []);
+  await access.setAdmin(false);
+  resolveAdmin(subscribe); await pending;
+  assert.equal(callbacks.length, 2);
+  callbacks[0](["obsolete"]);
+  assert.deepEqual(view, []);
+  const login = access.setAdmin(true);
+  resolveAdmin(subscribe); await login;
+  callbacks[2](["hidden-machine"]);
+  assert.deepEqual(view, ["hidden-machine"]);
+  await access.setAdmin(false);
+  callbacks[2](["late-private-result"]);
+  assert.deepEqual(view, []);
+  assert.equal(active, 1);
+  access.dispose();
+  assert.equal(active, 0);
+});
 
 test("contact ignores concurrent submissions and permits a manual retry after failure", async () => {
   const {initContactForm} = await importBrowserModule("site/features/contact/form-controller.js");
@@ -72,11 +107,25 @@ test("build OAuth token stays in headers across pagination", async () => {
     calls++;
     assert.equal(options.headers.Authorization, "Bearer test-build-token");
     assert.ok(!String(url).includes("test-build-token"));
-    if (calls === 2) assert.equal(url.searchParams.get("pageToken"), "next");
-    return {ok: true, json: async () => calls === 1 ? {nextPageToken: "next"} : {}};
+    if (calls === 1) return {ok: true, json: async () => ({fields: {
+      ready: {booleanValue: true}, schemaVersion: {integerValue: "1"},
+    }})};
+    assert.ok(String(url).includes("/laundry_public_machines"));
+    if (calls === 3) assert.equal(url.searchParams.get("pageToken"), "next");
+    return {ok: true, json: async () => calls === 2 ? {nextPageToken: "next"} : {}};
   };
   try {
     assert.deepEqual(await fetchMachines({projectId: "test", accessToken: "test-build-token"}), []);
-    assert.equal(calls, 2);
+    assert.equal(calls, 3);
+  } finally { globalThis.fetch = original; }
+});
+
+test("build refuses an uninitialized public collection", async () => {
+  const original = globalThis.fetch;
+  try {
+    globalThis.fetch = async () => ({ok: false, status: 404});
+    await assert.rejects(fetchMachines({projectId: "test"}), /not ready/);
+    globalThis.fetch = async () => ({ok: true, json: async () => ({fields: {}})});
+    await assert.rejects(fetchMachines({projectId: "test"}), /migration incomplete/);
   } finally { globalThis.fetch = original; }
 });

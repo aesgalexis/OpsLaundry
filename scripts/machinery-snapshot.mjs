@@ -37,7 +37,7 @@ export async function loadSnapshot(file, projectId, now = Date.now()) {
   if (!file) return null;
   try {
     const cache = JSON.parse(await readFile(file, "utf8"));
-    if (cache.version !== 1 || cache.projectId !== projectId ||
+    if (cache.version !== 2 || cache.projectId !== projectId ||
       !Number.isFinite(cache.fetchedAt) || cache.fetchedAt > now || now - cache.fetchedAt > MAX_SNAPSHOT_AGE ||
       cache.checksum !== checksum(cache.machines)) return null;
     const machines = publicMachines(cache.machines);
@@ -50,7 +50,7 @@ export async function saveSnapshot(file, projectId, machines, fetchedAt) {
   const publicData = publicMachines(machines);
   await mkdir(path.dirname(file), {recursive: true});
   const temporary = `${file}.tmp`;
-  await writeFile(temporary, JSON.stringify({version: 1, projectId, fetchedAt,
+  await writeFile(temporary, JSON.stringify({version: 2, projectId, fetchedAt,
     checksum: checksum(publicData), machines: publicData}), "utf8");
   await rename(temporary, file);
 }

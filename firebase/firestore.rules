@@ -19,9 +19,19 @@ service cloud.firestore {
     }
 
     match /agregador_maquinaria_LS/{machineId} {
-      allow read: if true;
+      allow read: if isLaundryServicesAdmin();
       allow create, update: if isLaundryServicesAdmin();
       allow delete: if false;
+    }
+
+    match /laundry_public_machines/{machineId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /laundry_public_machinery_status/{statusId} {
+      allow read: if true;
+      allow write: if false;
     }
 
     match /maquinaria_counters/{prefix} {

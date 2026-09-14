@@ -107,6 +107,8 @@ test("snapshot validates project, age and integrity, and rejects unsafe or dupli
     assert.equal(await loadSnapshot(cacheFile, "test-project", NOW - 1), null);
     assert.equal(await loadSnapshot(cacheFile, "test-project", NOW + MAX_SNAPSHOT_AGE + 1), null);
     const data = JSON.parse(await readFile(cacheFile, "utf8"));
+    await writeFile(cacheFile, JSON.stringify({...data, version: 1}));
+    assert.equal(await loadSnapshot(cacheFile, "test-project", NOW), null, "pre-migration caches are rejected");
     data.machines[0].precioAmount = 1;
     await writeFile(cacheFile, JSON.stringify(data));
     assert.equal(await loadSnapshot(cacheFile, "test-project", NOW), null);

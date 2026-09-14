@@ -53,7 +53,7 @@ Object.entries(expectedCopy).forEach(([language, expected]) => {
   });
   assert.match(confirmation.html, new RegExp(`<html lang="${language}">`));
   assert.match(confirmation.html, expected);
-  assert.match(confirmation.html, /logo-unatomo-round-v1\.0\.png/);
+  assert.doesNotMatch(confirmation.html, /unatomo\.com/);
   assert.match(confirmation.html, /opslaundry-wordmark-email\.png/);
   assert.doesNotMatch(confirmation.html, /Ana <script>/);
   assert.match(confirmation.html, /Ana &lt;script&gt;/);
@@ -98,7 +98,7 @@ assert.throws(
 const internal = renderLaundrySpareEmail({...baseRequest, language: "es"});
 assert.doesNotMatch(internal.html, /Medida <script>/);
 assert.match(internal.html, /Medida &lt;script&gt;/);
-assert.match(internal.html, /logo-unatomo-round-v1\.0\.png/);
+assert.doesNotMatch(internal.html, /unatomo\.com/);
 assert.match(internal.html, /opslaundry-wordmark-email\.png/);
 
 const testDeliveryWorkflow = async () => {

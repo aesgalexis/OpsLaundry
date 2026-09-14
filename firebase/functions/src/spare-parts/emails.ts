@@ -58,7 +58,7 @@ export const renderLaundrySpareEmail = (request: SpareRequest) => {
       `border-radius:14px;padding:28px">${renderLaundryEmailBrandHeader()}` +
       "<p style=\"margin:20px 0 6px;" +
       "color:#64748b\">" +
-      `Solicitud ${reference}</p><h1 style="margin:0 0 22px;font-size:24px;` +
+      `Solicitud ${reference}</p><h1 style="margin:0 0 22px;font-size:20px;font-weight:600;line-height:1.35;` +
       "color:#0f172a\">Nueva solicitud de recambio</h1>" +
       `<table style="width:100%;border-collapse:collapse">${rows}</table>` +
       `${description}<p style="margin:24px 0 0;color:#64748b;font-size:13px">` +
@@ -182,7 +182,7 @@ export const renderLaundrySpareConfirmation = (
 <tr><td style="padding:28px 36px 12px">${renderLaundryEmailBrandHeader()}</td></tr>
 <tr><td style="padding:12px 36px 36px">
 <p style="margin:0 0 8px;color:${LAUNDRY_BLUE};font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase">${copy.referenceLabel} ${reference}</p>
-<h1 style="margin:0 0 22px;font-size:28px;line-height:1.2;color:#17201d">${copy.title}</h1>
+<h1 style="margin:0 0 22px;font-size:20px;font-weight:600;line-height:1.35;color:#17201d">${copy.title}</h1>
 <p style="margin:0 0 16px;font-size:16px;line-height:1.6">${greeting}</p>
 <p style="margin:0 0 16px;font-size:16px;line-height:1.6">${copy.firstParagraph}</p>
 <p style="margin:0 0 20px;font-size:16px;line-height:1.6">${copy.secondParagraph}</p>

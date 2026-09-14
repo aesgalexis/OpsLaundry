@@ -32,8 +32,14 @@ export const resolveAdminUser = async (user, forceRefresh = false) => {
 
 export const isAdminUser = (user) => adminClaimCache.get(user?.uid || "") === true;
 
-export const observeMachineAdmin = (callback) =>
-  onAuthStateChanged(auth, async (user) => {
+export const observeMachineAdmin = (callback) => {
+  let revision = 0;
+  const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    const current = ++revision;
+    // Clear administrative views immediately while checking a new session.
+    callback(null);
     if (user) await resolveAdminUser(user);
-    callback(user);
+    if (current === revision) callback(user);
   });
+  return () => { revision++; unsubscribe(); };
+};

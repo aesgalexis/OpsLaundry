@@ -24,4 +24,5 @@ const cleanDirectoryRoutesPlugin = {
   },
 };
 
-export default {root: "site", build: {outDir: "../dist"}, plugins: [cleanDirectoryRoutesPlugin]};
+export default {root: "site", build: {outDir: "../dist"},
+  plugins: [cleanDirectoryRoutesPlugin]};

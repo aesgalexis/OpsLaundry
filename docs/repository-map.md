@@ -32,6 +32,7 @@ publicación del propietario; los cambios locales no se publican solos.
 - `architecture.md`: rutas, límites entre código público y administración.
 - `styles.md`: entrada CSS, cascada y clases estructurales.
 - `firebase.md`: datos, seguridad y contratos desplegados.
+- `public-machinery-migration.md`: separación de datos de maquinaria y activación por fases.
 - `email.md`: plantillas, remitente y destinos.
 - `development.md`: comandos locales y verificación.
 - `deployment.md`: build y publicación.

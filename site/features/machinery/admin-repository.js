@@ -7,6 +7,7 @@ import {
   serverTimestamp,
   setDoc,
   updateDoc,
+  onSnapshot,
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 import {
   deleteObject,
@@ -15,8 +16,17 @@ import {
   uploadBytes,
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-storage.js";
 import { db, isAdminUser, storage } from "/shared/auth/admin-access.js";
+import {subscribeWhileVisible} from "/shared/page-subscription.mjs";
+import {sortMachines} from "./public-repository.js";
 
 const MACHINES_COLLECTION = "agregador_maquinaria_LS";
+export const subscribeAdminMachines = (onData, onError) =>
+  subscribeWhileVisible(() => onSnapshot(collection(db, MACHINES_COLLECTION),
+    (snapshot) => onData(sortMachines(snapshot.docs.map((item) => ({
+      ...item.data(), docId: item.id, id: item.id,
+      imagenes: (Array.isArray(item.data().imagenes) ? item.data().imagenes : [])
+        .map((image) => typeof image === "string" ? {url: image, path: "", name: ""} : image),
+    })))), onError));
 const COUNTERS_COLLECTION = "maquinaria_counters";
 const MAX_IMAGE_BYTES = 12 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = new Set(["image/jpeg", "image/png", "image/webp"]);

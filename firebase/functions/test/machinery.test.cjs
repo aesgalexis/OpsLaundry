@@ -1,6 +1,7 @@
 const assert = require("node:assert/strict");
 const {test} = require("node:test");
 const {normalizeMachineSubmission, publicMachine} = require("../lib/machinery/submission-policy");
+const {renderMachineSubmissionEmails} = require("../lib/machinery/emails");
 const records = new Map();
 const objects = new Map();
 let failCopy = false;
@@ -44,6 +45,26 @@ const payload = {
   images: [{name: "test.jpg", type: "image/jpeg", content: Buffer.from([255, 216, 255, 0]).toString("base64")}],
 };
 const owner = {uid: "admin-test", token: {laundryServicesAdmin: true}};
+test("transactional frames localize confirmations, escape data and keep review links private", () => {
+  for (const language of ["es", "en", "it", "el", "unknown"]) {
+    const {internal, confirmation} = renderMachineSubmissionEmails("test-reference-123456", {
+      language, contact: {name: "<script>Alexis</script>\u2014Test", email: "test@example.com", phone: "test", company: ""},
+      draft: {marca: "<Brand>", modelo: "Model\u2014Test", precio: "0", envioIncluido: false}, imageCount: 1,
+    });
+    for (const email of [internal, confirmation]) {
+      assert.ok(email.html.includes("max-width:600px"));
+      assert.ok(!email.html.includes("<script>"));
+      assert.ok(!email.html.includes("<pre>"));
+      assert.ok(![email.html, email.text, email.subject].join("").includes("\u2014"));
+      assert.ok(email.html.includes("&lt;Brand&gt;"));
+    }
+    assert.ok(internal.text.includes("Envío incluido: No"));
+    assert.ok(internal.text.includes("Precio (EUR, sin impuestos): 0"));
+    assert.ok(internal.html.includes("/requests/?request="));
+    assert.ok(!confirmation.html.includes("/requests/"));
+    assert.ok(confirmation.html.includes(`lang="${language === "unknown" ? "es" : language}"`));
+  }
+});
 test("validation strips public/privileged fields and rejects invalid data", () => {
   const normalized = normalizeMachineSubmission({...payload, visible: true, createdBy: "attacker"});
   assert.equal(normalized.draft.visible, undefined);
@@ -95,9 +116,9 @@ test("notification uses fixed destination, escaped content and private review li
   const data = records.get("laundry_machine_submissions/" + payload.submissionId);
   await notifyLaundryMachineSubmission.run({params: {submissionId: payload.submissionId},
     data: {data: () => ({...data, contact: {...data.contact, name: "<script>"}}), ref: {update: async () => {}}}});
-  assert.deepEqual(emails[0].payload.to, ["info@unatomo.com"]);
+  assert.deepEqual(emails[0].payload.to, ["info@opslaundry.com"]);
   assert.ok(emails[0].payload.html.includes("&lt;script&gt;"));
-  assert.match(emails[0].payload.html, /logo-unatomo-round-v1\.0\.png/);
+  assert.doesNotMatch(emails[0].payload.html, /unatomo\.com/);
   assert.match(emails[1].payload.html, /opslaundry-wordmark-email\.png/);
   assert.ok(emails[0].payload.text.includes("/requests/?request="));
   assert.equal(emails[1].payload.to[0], "test@example.com");

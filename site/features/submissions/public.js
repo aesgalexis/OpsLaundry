@@ -2,6 +2,7 @@ import {functions} from "/shared/firebase/functions.js";
 import {httpsCallable} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-functions.js";
 import {prepareImages} from "/shared/forms/image-upload.js";
 import {setupMachineFields} from "./fields.js";
+import {setupSubmissionSteps} from "./steps.mjs";
 
 const form = document.querySelector("#machine-submission");
 setupMachineFields(form);
@@ -16,13 +17,25 @@ const send = httpsCallable(functions, "submitLaundryMachine");
 let submissionId = crypto.randomUUID();
 let attemptedPayload = null;
 let urls = [];
+const validImages = () => {
+  const files = [...input.files];
+  return files.length >= 1 && files.length <= 4 && files.every((file) =>
+    file.size <= 8 * 1024 * 1024 && ["image/jpeg", "image/png", "image/webp"].includes(file.type));
+};
+const steps = setupSubmissionSteps(form, {
+  validateImages: () => {
+    if (validImages()) return true;
+    status.textContent = copy.images;
+    return false;
+  },
+  clearStatus: () => { status.textContent = ""; },
+});
 const updateImages = () => {
   urls.forEach(URL.revokeObjectURL);
   urls = [];
   document.querySelector("#image-preview").replaceChildren();
   const files = [...input.files];
-  if (files.length < 1 || files.length > 4 || files.some((f) =>
-    f.size > 8 * 1024 * 1024 || !["image/jpeg", "image/png", "image/webp"].includes(f.type))) {
+  if (!validImages()) {
     input.value = "";
     upload?.classList.remove("has-files");
     if (uploadAction) uploadAction.textContent = defaultUploadAction;
@@ -33,11 +46,14 @@ const updateImages = () => {
   if (uploadAction) uploadAction.textContent = files.map((file) => file.name).join(", ");
   status.textContent = "";
   files.forEach((file) => {
+    const preview = document.createElement("figure");
+    preview.className = "image-preview";
     const img = document.createElement("img");
     img.src = URL.createObjectURL(file);
     img.alt = file.name;
     urls.push(img.src);
-    document.querySelector("#image-preview").append(img);
+    preview.append(img);
+    document.querySelector("#image-preview").append(preview);
   });
 };
 input.addEventListener("change", updateImages);
@@ -67,8 +83,9 @@ let submitting = false;
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
   if (submitting) return;
-  if (!form.reportValidity()) return;
+  if (!steps.validateSubmit()) return;
   submitting = true;
+  steps.setBusy(true);
   button.disabled = true;
   status.textContent = copy.sending;
   try {
@@ -84,10 +101,13 @@ form.addEventListener("submit", async (event) => {
     const result = await send({...data, submissionId});
     if (!result.data.accepted) throw new Error("not-accepted");
     status.textContent = copy.success + " " + result.data.requestId;
+    form.classList.add("is-sent");
+    form.setAttribute("aria-busy", "false");
     form.querySelectorAll("input, select, textarea, button").forEach((el) => { el.disabled = true; });
   } catch {
     status.textContent = copy.error;
     submitting = false;
+    steps.setBusy(false);
     button.disabled = false;
   }
 });

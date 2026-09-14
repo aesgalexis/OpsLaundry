@@ -4,7 +4,7 @@
     "lint": "eslint --ext .js,.ts .",
     "build": "node scripts/clean-build.cjs && tsc",
     "test": "npm run lint && npm run test:spare-parts && npm run test:machinery",
-    "test:machinery": "npm run build && node test/machinery.test.cjs",
+    "test:machinery": "npm run build && node --test test/machinery.test.cjs test/public-projection.test.cjs",
     "test:spare-parts": "npm run build && node test/spare-parts.test.cjs",
     "build:watch": "tsc --watch",
     "serve": "npm run build && firebase emulators:start --only functions",

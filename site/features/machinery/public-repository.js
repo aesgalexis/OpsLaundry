@@ -7,7 +7,7 @@ import {
 import { db } from "/shared/firebase/public-db.js";
 import {subscribeWhileVisible} from "/shared/page-subscription.mjs";
 
-const MACHINES_COLLECTION = "agregador_maquinaria_LS";
+const MACHINES_COLLECTION = "laundry_public_machines";
 const PREFIX_ORDER = ["P", "T", "L", "S", "C", "R", "M"];
 
 const extractSequence = (id) => {
@@ -53,9 +53,6 @@ const mapMachine = (item) => {
         typeof image === "string" ? { url: image, path: "", name: "" } : image)
       : [],
     visible: data.visible !== false,
-    createdAt: data.createdAt || null,
-    updatedAt: data.updatedAt || null,
-    createdBy: data.createdBy || "",
   };
 };
 
